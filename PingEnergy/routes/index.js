@@ -10,9 +10,10 @@ router.get('/', function(req, res) {
   res.render('index', { title: 'Ping Energy' });
 });
 
-router.get('/api/master', cache('1 minute'), function(req, res, next) {
-    console.log("Request New Data");
-    request('http://egauge-master.wheatoncollege.edu/cgi-bin/egauge?tot', function (error, response, body) {
+router.get('/api/:building', cache('1 minute'), function(req, res, next) {
+    var building = req.params.building;
+    console.log("\nRequest New Data For Building: "+building);
+    request('http://egauge-'+building+'.wheatoncollege.edu/cgi-bin/egauge?tot', function (error, response, body) {
         console.log(body);
         res.send("Check Your Console.");
     });
