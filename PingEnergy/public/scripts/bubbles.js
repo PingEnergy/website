@@ -1,8 +1,8 @@
 $(document).ready(function() {
 
     var svg = d3.select("#bubbles").append("svg")
-        .attr("width", 550)
-        .attr("height", 456)
+        .attr("width", 800)
+        .attr("height", 400)
         .style("background-color", "green");
 
 
