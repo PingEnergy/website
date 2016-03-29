@@ -1,4 +1,11 @@
 extends layout
 
 block content
-  #bubbles
+  table.centerBlock
+    tr
+      td
+        #bubbles
+      td
+        ol
+          each val in buildings
+            li=val

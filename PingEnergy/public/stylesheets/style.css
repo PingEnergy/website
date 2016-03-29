@@ -6,3 +6,8 @@ body {
 a {
   color: #00B7FF;
 }
+
+.centerBlock {
+    border: 1px solid black;
+    width: 100%;
+}

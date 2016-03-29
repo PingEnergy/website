@@ -7,11 +7,11 @@ var cache = apicache.middleware;
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Ping Energy' });
+  res.render('index', { title: 'Ping Energy', buildings: ["Chapin", "Stanton", "Everett", "Meadows"]});
 });
 
 router.get('/historical', function(req, res) {
-	res.render('historical', {title: 'Ping Energy' });
+    res.render('historical', {title: 'Ping Energy' });
 });
 
 router.get('/api/:building', cache('1 minute'), function(req, res, next) {
