@@ -6,7 +6,7 @@ linegraph = {
   test: function(argument) {
     console.log("test");
   }
-}
+};
 
 
 $(document).ready(function() {
@@ -18,8 +18,6 @@ $(document).ready(function() {
     dataType: 'xml',
     async: false,
     success: function(data){
-        temp = {"total": $(data).select("data").find("ts").text(), "Name": '', "Usage": 0};
-        usages.push(temp);
         $(data).select("data").find("r").each(function(index) {
             temp = {};
             temp["Index"] = index;
@@ -27,7 +25,11 @@ $(document).ready(function() {
             temp["Usage"] = $(this).find("v").text();
             usages.push(temp);
         });
+
+        temp = {"Name": 'Average', "Usage": $(data).select("data").find("ts").text(), "Index": usages.length};
+        usages.push(temp);
         linegraph.data = usages;
+
         getGraph();
     },
     error: function(data){
@@ -110,15 +112,15 @@ $(document).ready(function() {
         w = 600 - margin.l - margin.r,
         h = 350 - margin.t - margin.b,
         x = d3.scale.linear().range([0, w]).domain([0, nums]).nice(),
-        y = d3.scale.linear().range([h - 60, 0]).domain([yDomain[0] * 1.05, yDomain[1] * 1.05]).nice(),
+        y = d3.scale.linear().range([h - 60, 0]).domain([yDomain[0] * 5/1000000000, yDomain[1] * 1.05/1000000000]).nice();
         // r = d3.scale.linear().range([5, 20]).domain(rDomain).nice(),
         //colors that will reflect geographical regions
-        color = d3.scale.category10();
+        // color = d3.scale.category10();
 
     var svg = d3.select("body").append("svg")
         .attr("width", w + margin.l + margin.r)
-        .attr("height", h + margin.t + margin.b)
-        .classed("svg-content-responsive", true);
+        .attr("height", h + margin.t + margin.b);
+        // .classed("svg-content-responsive", true);
 
     // set axes, as well as details on their ticks
     var xAxis = d3.svg.axis()
@@ -145,89 +147,91 @@ $(document).ready(function() {
         .attr("class", "circles")
         .attr({
             cx: function(d) { console.log(d);return x(+d.Index); },
-            cy: function(d) { return y(+d.Usage); },
+            cy: function(d) { return y(+d.Usage/1000000000); },
             // r: function(d) { return r(+d[options.optionR]); },
-            r: 8,
+            r: 3,
             id: function(d) { return d.Name; }
-        });
+        })
         // .style("fill", function(d) { return color(d[options.optionC]); });
+        .style("fill", "red");
 
 
     // var information = {};
 
     // what to do when we mouse over a bubble
-    // var mouseOn = function() { 
-    //     var circle = d3.select(this);
+    var mouseOn = function() { 
+        var circle = d3.select(this);
 
-    //     // transition to increase size/opacity of bubble
-    //     circle.transition()
-    //         .duration(800).style("opacity", 1)
-    //         .attr("r", 16).ease("elastic");
+        // transition to increase size/opacity of bubble
+        circle.transition()
+            .duration(800).style("opacity", 1)
+            .attr("r", 5).ease("elastic");
 
-    //     // append lines to bubbles that will be used to show the precise data points.
-    //     // translate their location based on margins
-    //     svg.append("g")
-    //         .attr("class", "guide")
-    //         .append("line")
-    //         .attr("x1", circle.attr("cx"))
-    //         .attr("x2", circle.attr("cx"))
-    //         .attr("y1", +circle.attr("cy") + 26)
-    //         .attr("y2", h - margin.t - margin.b)
-    //         .attr("transform", "translate(40,20)")
-    //         .style("stroke", circle.style("fill"))
-    //         .transition().delay(200).duration(400)
-    //         .styleTween("opacity", function() { return d3.interpolate(0, .5); })
+        // append lines to bubbles that will be used to show the precise data points.
+        // translate their location based on margins
+        svg.append("g")
+            .attr("class", "guide")
+            .append("line")
+            .attr("x1", circle.attr("cx"))
+            .attr("x2", circle.attr("cx"))
+            .attr("y1", +circle.attr("cy") + 26)
+            .attr("y2", h - margin.t - margin.b)
+            .attr("transform", "translate(40,20)")
+            .style("stroke", circle.style("fill"))
+            .transition().delay(200).duration(400)
+            .styleTween("opacity", function() { return d3.interpolate(0, 0.5); })
 
-    //     svg.append("g")
-    //         .attr("class", "guide")
-    //         .append("line")
-    //         .attr("x1", +circle.attr("cx") - 16)
-    //         .attr("x2", 0)
-    //         .attr("y1", circle.attr("cy"))
-    //         .attr("y2", circle.attr("cy"))
-    //         .attr("transform", "translate(40,30)")
-    //         .style("stroke", circle.style("fill"))
-    //         .transition().delay(200).duration(400)
-    //         .styleTween("opacity", function() { return d3.interpolate(0, .5); });
+        svg.append("g")
+            .attr("class", "guide")
+            .append("line")
+            .attr("x1", +circle.attr("cx") - 16)
+            .attr("x2", 0)
+            .attr("y1", circle.attr("cy"))
+            .attr("y2", circle.attr("cy"))
+            .attr("transform", "translate(40,30)")
+            .style("stroke", circle.style("fill"))
+            .transition().delay(200).duration(400)
+            .styleTween("opacity", function() { return d3.interpolate(0, 0.5); });
 
-    //     // function to move mouseover item to front of SVG stage, in case
-    //     // another bubble overlaps it
-    //     d3.selection.prototype.moveToFront = function() { 
-    //         return this.each(function() { 
-    //             this.parentNode.appendChild(this);
-    //         }); 
-    //     };
+        // function to move mouseover item to front of SVG stage, in case
+        // another bubble overlaps it
+        d3.selection.prototype.moveToFront = function() {
+            return this.each(function() {
+                this.parentNode.appendChild(this);
+            });
+        };
 
-    //     // $("#info").html(information[this.id]);
-    // };
+        // $("#info").html(information[this.id]);
+    };
 
 
     // what happens when we leave a bubble?
-    // var mouseOff = function() {
-    //     var circle = d3.select(this);
+    var mouseOff = function() {
+        var circle = d3.select(this);
 
-    //     // go back to original size and opacity
-    //     circle.transition()
-    //         .duration(800).style("opacity", .5)
-    //         .attr("r", function(d) { return r(+d[options.optionR]); }).ease("elastic");
+        // go back to original size and opacity
+        circle.transition()
+            .duration(800).style("opacity", 0.5)
+            // .attr("r", function(d) { return r(+d[options.optionR]); }).ease("elastic");
+            .attr("r", 3);
 
-    //     // fade out guide lines, then remove them
-    //     d3.selectAll(".guide").transition().duration(100)
-    //         .styleTween("opacity", function() { return d3.interpolate(.5, 0); })
-    //         .remove()
-    //     // $("#info").html("");
-    // };
+        // fade out guide lines, then remove them
+        d3.selectAll(".guide").transition().duration(100)
+            .styleTween("opacity", function() { return d3.interpolate(0.5, 0); })
+            .remove();
+        // $("#info").html("");
+    };
 
     // run the mouseon/out functions
-    // circles.on("mouseover", mouseOn);
-    // circles.on("mouseout", mouseOff);
+    circles.on("mouseover", mouseOn);
+    circles.on("mouseout", mouseOff);
 
     // tooltips (using jQuery plugin tipsy)
-    // circles.append("title").text(function(d) {
-    //     console.log(d);
-    //     information[d.Name] = d.Name+"<br>Team: "+d.Team+"<br>Height: "+d.Height+"<br>Weight: "+d.Weight+"<br>Batting Average: "+d.Average+"<br>Home Runs: "+d.Homeruns+"<br>On-base Percentage: "+d.OBP;
-    //     return d.Name; 
-    // })
+    circles.append("title").text(function(d) {
+        console.log(d);
+        // information[d.Name] = d.Name+"<br>Team: "+d.Team+"<br>Height: "+d.Height+"<br>Weight: "+d.Weight+"<br>Batting Average: "+d.Average+"<br>Home Runs: "+d.Homeruns+"<br>On-base Percentage: "+d.OBP;
+        return d.Name;
+    });
 
     // $(".circles").tipsy({ gravity: 's', });
     // colorSet = []
@@ -290,11 +294,11 @@ $(document).ready(function() {
     svg.append("text")
         .attr("class", "y label")
         .attr("text-anchor", "end")
-        .attr("x", -20)
-        .attr("y", 45)
+        .attr("x", 0)
+        .attr("y", 0)
         .attr("dy", ".75em")
         .attr("transform", "rotate(-90)")
-        .text("Energy Usage");
+        .text("Energy Usage (Billion Wattage)");
     // }
 
   }
