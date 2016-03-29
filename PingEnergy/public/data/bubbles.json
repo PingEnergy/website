@@ -1,0 +1,91 @@
+{
+    "name": "flare",
+    "children": [
+        {
+        "name": "1",
+            "children": [
+                {"name": "Beard", "size": 9000}
+            ]
+        },
+        {
+            "name": "2",
+            "children": [ {"name": "Chapin", "size": 6000} ]
+        },
+        {
+            "name": "3",
+            "children": [ {"name": "Clark", "size": 5500} ]
+        },
+        {
+        "name": "4",
+            "children": [
+                {"name": "Cragin", "size": 5000}
+            ]
+        },
+        {
+        "name": "5",
+            "children": [
+                {"name": "Everett", "size": 4000}
+            ]
+        },
+        {
+        "name": "6",
+            "children": [
+                {"name": "Gebbie", "size": 3500}
+            ]
+        },
+        {
+        "name": "7",
+            "children": [
+                {"name": "Keefe", "size": 3000}
+            ]
+        },
+        {
+        "name": "8",
+            "children": [
+                {"name": "Kilham", "size": 2500}
+            ]
+        },
+        {
+        "name": "9",
+            "children": [
+                {"name": "Larcom", "size": 2000}
+            ]
+        },
+        {
+        "name": "10",
+            "children": [
+                {"name": "McIntire", "size": 1750}
+            ]
+        },
+        {
+        "name": "11",
+            "children": [
+                {"name": "Meadows", "size": 1500}
+            ]
+        },
+        {
+        "name": "12",
+            "children": [
+                {"name": "Metcalf", "size": 1250}
+            ]
+        },
+        {
+        "name": "13",
+            "children": [
+                {"name": "Stanton", "size": 1000}
+            ]
+        },
+        {
+        "name": "14",
+            "children": [
+                {"name": "White", "size": 750}
+            ]
+        },
+        {
+        "name": "15",
+            "children": [
+                {"name": "Young", "size": 500}
+            ]
+        }
+    ]
+}
