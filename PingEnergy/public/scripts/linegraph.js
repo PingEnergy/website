@@ -18,16 +18,25 @@ $(document).ready(function() {
     dataType: 'xml',
     async: false,
     success: function(data){
-        $(data).select("data").find("r").each(function(index) {
+        $(data).select("data").find("r").each(function() {
             temp = {};
-            temp["Index"] = index;
             temp["Name"] = $(this).attr("n");
             temp["Usage"] = $(this).find("v").text();
             usages.push(temp);
         });
 
-        temp = {"Name": 'Average', "Usage": $(data).select("data").find("ts").text(), "Index": usages.length};
+        temp = {"Name": 'Average', "Usage": $(data).select("data").find("ts").text()};
         usages.push(temp);
+
+        usages.sort(function(a, b) {
+          console.log(a.Name, b.Name, a.Usage > b.Usage)
+            return a.Usage > b.Usage;
+        });
+
+        $.each(usages, function(index){
+          $(this)[0].Index = index;
+        });
+
         linegraph.data = usages;
 
         getGraph();
