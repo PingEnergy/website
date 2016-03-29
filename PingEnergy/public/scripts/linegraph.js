@@ -1,46 +1,47 @@
 linegraph = {
   display: function(){
-    console.log("haha");
+    console.log(linegraph.data);
   },
 
-  test: function(argument) {
-    console.log("test");
+  sortData: function() {
+    linegraph.data.sort(function(a, b) {
+      // console.log(a.Name, b.Name, a.Usage > b.Usage);
+        return a.Usage > b.Usage;
+    });
+  },
+
+  addIndex: function(){
+    // console.log(linegraph.data);
+    $.each(linegraph.data, function(index){
+      $(this)[0].Index = index;
+    });
   }
 };
 
 
 $(document).ready(function() {
 
-  var usages = [];
-
   var data = $.ajax({
     url: '/api/master',
     dataType: 'xml',
     async: false,
     success: function(data){
-        $(data).select("data").find("r").each(function() {
-            temp = {};
-            temp["Name"] = $(this).attr("n");
-            temp["Usage"] = $(this).find("v").text();
-            usages.push(temp);
-        });
+      var usages = [];
+      $(data).select("data").find("r").each(function() {
+          temp = {};
+          temp["Name"] = $(this).attr("n");
+          temp["Usage"] = $(this).find("v").text();
+          usages.push(temp);
+      });
 
-        temp = {"Name": 'Average', "Usage": $(data).select("data").find("ts").text()};
-        usages.push(temp);
+      temp = {"Name": 'Average', "Usage": $(data).select("data").find("ts").text()};
+      usages.push(temp);
 
-        usages.sort(function(a, b) {
-          console.log(a.Name, b.Name, a.Usage > b.Usage)
-            return a.Usage > b.Usage;
-        });
-
-        $.each(usages, function(index){
-          $(this)[0].Index = index;
-        });
-
-        linegraph.data = usages;
-
-        getGraph();
+      linegraph.data = usages;
+      
+      getGraph();
     },
+
     error: function(data){
         console.log('Failed to load the input file.');
     }
@@ -48,6 +49,8 @@ $(document).ready(function() {
 
 
   function getGraph(){
+    linegraph.sortData();
+    linegraph.addIndex();
     // var margin = {top: 20, right: 20, bottom: 30, left: 50},
     // width = 960 - margin.left - margin.right,
     // height = 500 - margin.top - margin.bottom;
@@ -105,7 +108,7 @@ $(document).ready(function() {
     //     return d.Name;
     // });
 
-    yDomain = d3.extent(usages, function(d) {
+    yDomain = d3.extent(linegraph.data, function(d) {
         return d.Usage;
     });
 
@@ -115,11 +118,11 @@ $(document).ready(function() {
 
     console.log(yDomain[0],yDomain[1]);
 
-    var nums = usages.length;
+    var nums = linegraph.data.length;
     // set the stage
-    var margin = {t:30, r:20, b:20, l:40 },
-        w = 600 - margin.l - margin.r,
-        h = 350 - margin.t - margin.b,
+    var margin = {t:20, r:20, b:30, l:50 },
+        w = 960 - margin.l - margin.r,
+        h = 500 - margin.t - margin.b,
         x = d3.scale.linear().range([0, w]).domain([0, nums]).nice(),
         y = d3.scale.linear().range([h - 60, 0]).domain([yDomain[0] * 5/1000000000, yDomain[1] * 1.05/1000000000]).nice();
         // r = d3.scale.linear().range([5, 20]).domain(rDomain).nice(),
@@ -146,16 +149,20 @@ $(document).ready(function() {
         .tickSize(6, 3, 0)
         .orient("left");
 
+    var line = d3.svg.line()
+        .x(function(d) { return x(d.Index); })
+        .y(function(d) { return y(d.Usage/1000000000); });
+
     // group that will contain all of the plots
     var groups = svg.append("g").attr("transform", "translate(" + margin.l + "," + margin.t + ")");
 
     // style the circles, set their locations based on data
-    var circles = groups.selectAll("circle.baseball")
-        .data(usages)
+    var circles = groups.selectAll("circle.building")
+        .data(linegraph.data)
         .enter().append("circle")
         .attr("class", "circles")
         .attr({
-            cx: function(d) { console.log(d);return x(+d.Index); },
+            cx: function(d) { return x(+d.Index); },
             cy: function(d) { return y(+d.Usage/1000000000); },
             // r: function(d) { return r(+d[options.optionR]); },
             r: 3,
@@ -237,7 +244,6 @@ $(document).ready(function() {
 
     // tooltips (using jQuery plugin tipsy)
     circles.append("title").text(function(d) {
-        console.log(d);
         // information[d.Name] = d.Name+"<br>Team: "+d.Team+"<br>Height: "+d.Height+"<br>Weight: "+d.Weight+"<br>Batting Average: "+d.Average+"<br>Home Runs: "+d.Homeruns+"<br>On-base Percentage: "+d.OBP;
         return d.Name;
     });
@@ -282,6 +288,9 @@ $(document).ready(function() {
     //     .attr("y", h+10)
     //     .text("Color: "+options.optionC);
 
+
+
+
     // draw axes and axis labels
     svg.append("g")
         .attr("class", "x axis")
@@ -308,7 +317,11 @@ $(document).ready(function() {
         .attr("dy", ".75em")
         .attr("transform", "rotate(-90)")
         .text("Energy Usage (Billion Wattage)");
-    // }
+
+    svg.append("path")
+        .datum(linegraph.data)
+        .attr("class", "line")
+        .attr("d", line);
 
   }
 

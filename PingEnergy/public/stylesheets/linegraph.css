@@ -3,7 +3,13 @@
     fill: none;
     stroke: #000;
     shape-rendering: crispEdges;
-    opacity: 1;
+    /*opacity: 1;*/
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
 }
 
 .axis text { font-size:10px; }
