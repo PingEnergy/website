@@ -1,66 +1,55 @@
 $(document).ready(function() {
 
-    var margin = {top: 20, right: 20, bottom: 30, left: 50},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    var color = d3.scale.ordinal().range(["#ffffbe", "#e0fba7", "#d9f0a3", "#addd8e", "#78c679", "#41ab5d", "#238443", "#006837"]);
 
-    var formatDate = d3.time.format("%d-%b-%y");
+    var diameter = 800,
+        format = d3.format(",d")
 
-    var x = d3.time.scale()
-        .range([0, width]);
+    var bubble = d3.layout.pack()
+        .sort(null)
+        .size([diameter, 400])
+        .padding(1.5);
 
-    var y = d3.scale.linear()
-        .range([height, 0]);
+    var svg = d3.select("#bubbles").append("svg")
+        .attr("width", diameter)
+        .attr("height", 400)
+        .attr("class", "bubble");
 
-    var xAxis = d3.svg.axis()
-        .scale(x)
-        .orient("bottom");
-
-    var yAxis = d3.svg.axis()
-        .scale(y)
-        .orient("left");
-
-    var line = d3.svg.line()
-        .x(function(d) { return x(d.date); })
-        .y(function(d) { return y(d.close); });
-
-    var svg = d3.select("body").append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-    d3.tsv("data.tsv", type, function(error, data) {
+    d3.json("/data/bubbles.json", function(error, root) {
       if (error) throw error;
 
-      x.domain(d3.extent(data, function(d) { return d.date; }));
-      y.domain(d3.extent(data, function(d) { return d.close; }));
+      var node = svg.selectAll(".node")
+          .data(bubble.nodes(classes(root))
+          .filter(function(d) { return !d.children; }))
+        .enter().append("g")
+          .attr("class", "node")
+          .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
-      svg.append("g")
-          .attr("class", "x axis")
-          .attr("transform", "translate(0," + height + ")")
-          .call(xAxis);
+      node.append("title")
+          .text(function(d) { return d.className + ": " + format(d.value); });
 
-      svg.append("g")
-          .attr("class", "y axis")
-          .call(yAxis)
-        .append("text")
-          .attr("transform", "rotate(-90)")
-          .attr("y", 6)
-          .attr("dy", ".71em")
-          .style("text-anchor", "end")
-          .text("Price ($)");
+      node.append("circle")
+          .attr("r", function(d) { return d.r; })
+          .style("fill", function(d) { return color(d.packageName); });
 
-      svg.append("path")
-          .datum(data)
-          .attr("class", "line")
-          .attr("d", line);
+      node.append("text")
+          .attr("dy", ".3em")
+          .style("text-anchor", "middle")
+          .text(function(d) { return d.className.substring(0, d.r / 3); });
     });
 
-    function type(d) {
-      d.date = formatDate.parse(d.date);
-      d.close = +d.close;
-      return d;
+    function classes(root) {
+      var classes = [];
+
+      function recurse(name, node) {
+        if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
+        else classes.push({packageName: name, className: node.name, value: node.size});
+      }
+
+      recurse(null, root);
+      return {children: classes};
     }
+
+    d3.select(self.frameElement).style("height", diameter + "px");
 
 });
