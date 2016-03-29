@@ -18,11 +18,9 @@ router.get('/api/:building', cache('1 minute'), function(req, res, next) {
     var building = req.params.building;
     console.log("\nRequest New Data For Building: "+building);
     request('http://egauge-'+building+'.wheatoncollege.edu/cgi-bin/egauge?tot', function (error, response, body) {
-        console.log(body);
-        res.send("Check Your Console.");
+        res.send(body);
     });
 });
-
 
 
 module.exports = router;
