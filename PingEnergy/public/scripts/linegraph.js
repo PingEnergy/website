@@ -124,7 +124,7 @@ $(document).ready(function() {
         w = 960 - margin.l - margin.r,
         h = 500 - margin.t - margin.b,
         x = d3.scale.linear().range([0, w]).domain([0, nums]).nice(),
-        y = d3.scale.linear().range([h - 60, 0]).domain([yDomain[0] * 5/1000000000, yDomain[1] * 1.05/1000000000]).nice();
+        y = d3.scale.linear().range([h - 60, 0]).domain([yDomain[0] * 5/1000000000, yDomain[1] * 6/1000000000]).nice();
         // r = d3.scale.linear().range([5, 20]).domain(rDomain).nice(),
         //colors that will reflect geographical regions
         // color = d3.scale.category10();
@@ -150,7 +150,7 @@ $(document).ready(function() {
         .orient("left");
 
     var line = d3.svg.line()
-        .x(function(d) { return x(d.Index); })
+        .x(function(d) { return x(+d.Index); })
         .y(function(d) { return y(d.Usage/1000000000); });
 
     // group that will contain all of the plots
