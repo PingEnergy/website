@@ -1,8 +1,46 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	/*padding: 20px;*/
+	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	height: 400px;
+	width: 100%;
+	color: black;
+	overflow: hidden;
+	/*background-size:  auto;*/
+    background-repeat: no-repeat;
+	background-image: url("./../image/background.jpg");
+	background-size: 100% auto;
+}
+#banner{
+	margin: auto; 
+	background-color: Ivory;
+	opacity: 0.6;
+	width: 90%;
+	height: 20%;
+	border-radius: 20px;
+}
+#logo{
+	position: relative;
+	height: 60px;
+	width: 6%;
+	float: left;
+	left: 33%;
+	top: -10px;
+	z-index: 1;
+}
+#container{
+	margin: auto; 
+	background-color: Ivory;
+	opacity: 0.6;
+	width: 90%;
+	top: 50px;
+	position: relative;
 }
 
+h1{
+	font-size: 40px;
+	text-align: center;
+	z-index: 2;
+}
 a {
-  color: #00B7FF;
+	color: #00B7FF;
 }

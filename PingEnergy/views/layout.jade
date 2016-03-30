@@ -1,12 +1,19 @@
 doctype html
 html
-  head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+	head
+		title= title
+		link(rel='stylesheet', href='/stylesheets/style.css')
+		script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
+		script(src='/scripts/d3.v3.min.js')
+		script(src="/scripts/bubbles.js")
     
-  body
-    h1= title
-    block content
-    script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
-    script(src='/scripts/d3.v3.min.js')
-    script(src="/scripts/bubbles.js")
+	body
+		
+		<div id="banner">
+		<img src="/image/logo.png" id="logo">
+		h1= title
+		</div>
+		<div id="container">
+		block content
+		</div>
+		
