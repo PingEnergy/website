@@ -3,9 +3,12 @@ extends layout
 block content
   table.centerBlock
     tr
+      td 
+        //- button#force Toggle Static
+    tr
       td
         #bubbles
-      td
-        ol
-          each val in buildings
-            li=val
+      td#bubblesList
+          ol
+            each val in buildings
+              li=val
