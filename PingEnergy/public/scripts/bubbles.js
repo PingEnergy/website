@@ -6,45 +6,45 @@ var buildings = { "name": "buildings",
     "children": [
         {"name": "1st",
             "children": [
-                {"name": "Beard", "size": 10000, "active": false}
+                {"name": "Beard", "size": 10000, "active": false, "money": "$53.47"}
             ]
         },
         {"name": "2nd",
             "children": [
-                {"name": "Chapin", "size": 8500, "active": false}
+                {"name": "Chapin", "size": 8500, "active": false, "money": "$53.47"}
             ]
         },
         {"name": "3rd",
             "children": [
-                {"name": "Clark", "size": 6000, "active": false}
+                {"name": "Clark", "size": 6000, "active": false, "money": "$53.47"}
             ]
         },
         {"name": "2ndgroup",
             "children": [
-                {"name": "Cragin", "size": 6500, "active": false},
-                {"name": "Everett", "size": 6250, "active": false},
-                {"name": "Gebbie", "size": 5500, "active": false}
+                {"name": "Cragin", "size": 6500, "active": false, "money": "$53.47"},
+                {"name": "Everett", "size": 6250, "active": false, "money": "$53.47"},
+                {"name": "Gebbie", "size": 5500, "active": false, "money": "$53.47"}
             ]
         },
         {"name": "3rdgroup",
             "children": [
-                {"name": "Keefe", "size": 5000, "active": false},
-                {"name": "Kilham", "size": 4500, "active": false},
-                {"name": "Larcom", "size": 3800, "active": false}
+                {"name": "Keefe", "size": 5000, "active": false, "money": "$53.47"},
+                {"name": "Kilham", "size": 4500, "active": false, "money": "$53.47"},
+                {"name": "Larcom", "size": 3800, "active": false, "money": "$53.47"}
             ]
         },
         {"name": "4thgroup",
             "children": [
-                {"name": "McIntire", "size": 3750, "active": false},
-                {"name": "Meadows", "size": 3500, "active": false},
-                {"name": "Metcalf", "size": 3250, "active": false}
+                {"name": "McIntire", "size": 3750, "active": false, "money": "$53.47"},
+                {"name": "Meadows", "size": 3500, "active": false, "money": "$53.47"},
+                {"name": "Metcalf", "size": 3250, "active": false, "money": "$53.47"}
             ]
         },
         {"name": "5thgroup",
             "children": [
-                {"name": "Stanton", "size": 3000, "active": false},
-                {"name": "White", "size": 2750, "active": false},
-                {"name": "Young", "size": 2500, "active": false}
+                {"name": "Stanton", "size": 3000, "active": false, "money": "$53.47"},
+                {"name": "White", "size": 2750, "active": false, "money": "$53.47"},
+                {"name": "Young", "size": 2500, "active": false, "money": "$53.47"}
             ]
         }
     ]
@@ -422,9 +422,17 @@ function generateChart3() {
         .style("stroke-width", 1);
 
     node.append("text")
-        .attr("dy", ".3em")
+        .attr("dy", ".6em")
         .style("text-anchor", "middle")
-        .text(function(d) { return d.className.substring(0, d.r / 3); });
+        .text(function(d) { return d.className.substring(0, d.r / 3); })
+        .attr("font-weight", "bold")
+        .attr("transform", "translate(0, -10)");
+
+    node.append("text")
+        .attr("dy", ".3em")
+        .style("text-achor", "middle")
+        .text(function(d) { return d.money })
+        .attr("transform", "translate(-25, 15)");
 
     node.on("click", function(d) {
         console.log(classes(buildings));
@@ -475,6 +483,7 @@ function generateChart3() {
             .style("stroke-width", 1);
 
         node.append("text")
+            .classed("nodeTitle", true)
             .attr("dy", ".3em")
             .style("text-anchor", "middle")
             .text(function(d) { return d.className.substring(0, d.r / 3); });
@@ -490,7 +499,7 @@ function generateChart3() {
 
         function recurse(name, node) {
             if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
-            else classes.push({packageName: name, className: node.name, value: node.size, active: node.active});
+            else classes.push({packageName: name, className: node.name, value: node.size, active: node.active, money: node.money});
         }
 
         recurse(null, root);
