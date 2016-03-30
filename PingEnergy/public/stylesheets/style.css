@@ -42,5 +42,21 @@ h1{
 	z-index: 2;
 }
 a {
+<<<<<<< HEAD
 	color: #00B7FF;
 }
+=======
+  color: #00B7FF;
+}
+
+.centerBlock {
+    border: 1px solid black;
+    width: 100%;
+}
+
+#bubblesList {
+    padding-left: 5%;
+    padding-right: 5%;
+    font-size: 1.5em;
+}
+>>>>>>> 0c0e27d7cac76ad6059bd345c8bd6a997b3b01e2
