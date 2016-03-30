@@ -1,4 +1,15 @@
 extends layout
 
 block content
-  #bubbles
+  script(src="/scripts/bubbles.js")
+  table.centerBlock
+    tr
+      td 
+        //- button#force Toggle Static
+    tr
+      td
+        #bubbles
+      td#bubblesList
+          ol
+            each val in buildings
+              li=val
