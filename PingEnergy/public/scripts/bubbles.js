@@ -60,7 +60,7 @@ function generateChart() {
 
     var bubble = d3.layout.pack()
         .sort(function comparator(a, b) {
-                return b.value - a.value;
+            return b.value - a.value;
         })
         .size([diameter, height])
         .padding(1.5);
@@ -77,7 +77,9 @@ function generateChart() {
         .gravity(0.02)
         .alpha(.3)
         .friction(.9)
-        .charge(-90)
+        .charge(function(d) {
+            return -1.9 * d.r;
+        })
         .nodes(nodes)
         .size([diameter, height])
         .on("tick", function() {
