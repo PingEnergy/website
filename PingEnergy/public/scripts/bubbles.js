@@ -1,18 +1,5 @@
 $(document).ready(function() {
     generateChart();
-
-    $("#force").on("click", function() {
-        if ($(this).text() == "Toggle Static") {
-            console.log("static");
-            $(this).text("Toggle Animated");
-            $(".bubble").force.stop();
-        }
-        else {
-            console.log("not static!");
-            $(this).text("Toggle Static");
-            $(".bubble").force.start();
-        }
-    })
 });
 
 function generateChart() {
@@ -72,7 +59,9 @@ function generateChart() {
         format = d3.format(",d");
 
     var bubble = d3.layout.pack()
-        .sort(null)
+        .sort(function comparator(a, b) {
+                return b.value - a.value;
+        })
         .size([diameter, height])
         .padding(1.5);
 
@@ -88,7 +77,7 @@ function generateChart() {
         .gravity(0.02)
         .alpha(.3)
         .friction(.9)
-        .charge(-80)
+        .charge(-90)
         .nodes(nodes)
         .size([diameter, height])
         .on("tick", function() {
@@ -101,14 +90,6 @@ function generateChart() {
                 redoNodes();
             }
         });
-
-    function redoNodes() {
-        if (svg.select(".mainNode").style("visibility") == "hidden") {
-            svg.select(".mainNode")
-                .style("visibility", "visible")
-                .style("fill-opacity", 0).transition().duration(500).style("fill-opacity", 1);
-        }
-    }
 
     var node = svg.selectAll(".node")
         .data(nodes)
@@ -129,7 +110,9 @@ function generateChart() {
             return d.r;
         })
         .classed("nodecircle", true)
-        .style("fill", function(d) { return color(d.packageName); });
+        .style("fill", function(d) { return color(d.packageName); })
+        .style("stroke", "black")
+        .style("stroke-width", 1);
 
     node.append("text")
         .attr("dy", ".3em")
@@ -147,22 +130,51 @@ function generateChart() {
         }
     });
 
-    var mainNode = svg.append("circle")
-        .attr("r", 150)
+    var mainNode = svg.append("g")
         .classed("mainNode", true)
-        .style("fill", "green")
-        .attr("transform", "translate(400, 225)")
         .style("visibility", "hidden")
         .on("click", function() {
             svg.selectAll(".node")
                 .style("visibility", "visible");
 
             svg.select(".mainNode").style("visibility", "hidden");
-
-            svg.selectAll(".active").classed("active", false);
+            svg.select(".active")
+                .classed("active", false);
 
             force.start();
-        });
+        })
+        .attr("transform", "translate(400, 225)");
+
+    mainNode.append("circle")
+        .attr("r", 150)
+        .classed("mainCircle", true);
+
+    mainNode.append("text")
+        .attr("text-anchor", "middle")
+        .text("Ooh a bubble! In the future valuable");
+
+    mainNode.append("text")
+        .attr("text-anchor", "middle")
+        .attr("dy", 20)
+        .text("information will be present here!");
+
+    function redoNodes() {
+        if (svg.selectAll(".mainNode").attr("text")) {
+            svg.selectAll(".mainNode").attr("text").remove();
+        }
+
+        if (svg.select(".mainNode").style("visibility") == "hidden") {
+            svg.select(".mainNode")
+                .style("visibility", "visible");
+
+            svg.select(".mainCircle")
+                .style("fill", function() {
+                    return d3.select(".active").style("fill");
+                })
+                .style("stroke", "black")
+                .style("stroke-width", 1);
+        }
+    }
 
     force.start();
 
@@ -177,34 +189,6 @@ function generateChart() {
         recurse(null, root);
         return {children: classes};
     }
-
-    // var button = svg.append("g")
-    //     .attr("transform", "translate(0,0)")
-    //     .on("click", function() {
-    //         if (bttntext.text() == "static toggle") {
-    //             console.log("static!");
-    //             bttntext.text("animate toggle");
-    //             force.stop();
-    //         }
-    //         else {
-    //             console.log("not static!");
-    //             bttntext.text("static toggle");
-    //             force.start();
-    //         }
-    //     });
-    //
-    // var bttnrect = button.append("rect")
-    //     .attr("x", 0)
-    //     .attr("y", 0)
-    //     .attr("width", 100)
-    //     .attr("height", 50)
-    //     .attr("style", "outline: thin solid black;")
-    //     .attr("fill", "white");
-    //
-    // var bttntext = button.append("text")
-    //     .attr("x", 5)
-    //     .attr("y", 23)
-    //     .text("static toggle");
 
     d3.select(self.frameElement).style("height", height + "px");
 }
