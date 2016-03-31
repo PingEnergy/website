@@ -77,9 +77,9 @@ a {
     width: 100%;
 }
 
-#bubblesList {
+.rankList {
     padding-left: -20%;
-    padding-right: 5s%;
+    padding-right: 5%;
     font-size: 1.5em;
 }
 

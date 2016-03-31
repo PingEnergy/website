@@ -86,7 +86,7 @@ var line = d3.svg.line()
     .x(function(d) { return x(d.date); })
     .y(function(d) { return y(d.temperature); });
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#linegraph").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
@@ -109,6 +109,7 @@ d3.tsv("scripts/data.tsv", function(error, data) {
       })
     };
   });
+  linegraph.data = cities;
 
   x.domain(d3.extent(data, function(d) { return d.date; }));
 
@@ -130,7 +131,7 @@ d3.tsv("scripts/data.tsv", function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Temperature (ºF)");
+      .text("Total Wattages (mkW)");
 
   var city = svg.selectAll(".city")
       .data(cities)
