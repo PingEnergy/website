@@ -21,6 +21,18 @@ linegraph = {
 
 
 $(document).ready(function() {
+  RdYlGn = {
+3: ["#fc8d59","#ffffbf","#91cf60"],
+4: ["#d7191c","#fdae61","#a6d96a","#1a9641"],
+// 5: ["#d7191c","#fdae61","#ffffbf","#a6d96a","#1a9641"],
+5: ["#f00","#f66","#900","#1a9641", "#000"],
+6: ["#d73027","#fc8d59","#fee08b","#d9ef8b","#91cf60","#1a9850"],
+7: ["#d73027","#fc8d59","#fee08b","#ffffbf","#d9ef8b","#91cf60","#1a9850"],
+8: ["#d73027","#f46d43","#fdae61","#fee08b","#d9ef8b","#a6d96a","#66bd63","#1a9850"],
+9: ["#d73027","#f46d43","#fdae61","#fee08b","#ffffbf","#d9ef8b","#a6d96a","#66bd63","#1a9850"],
+10: ["#a50026","#d73027","#f46d43","#fdae61","#fee08b","#d9ef8b","#a6d96a","#66bd63","#1a9850","#006837"],
+11: ["#a50026","#d73027","#f46d43","#fdae61","#fee08b","#ffffbf","#d9ef8b","#a6d96a","#66bd63","#1a9850","#006837"]
+};
 
   // var data = $.ajax({
   //   url: '/api/master',
@@ -71,7 +83,8 @@ var x = d3.time.scale()
 var y = d3.scale.linear()
     .range([height, 0]);
 
-var color = d3.scale.category10();
+var color = d3.scale.ordinal()
+    .range(RdYlGn[5]);
 
 var xAxis = d3.svg.axis()
     .scale(x)
@@ -88,8 +101,8 @@ var line = d3.svg.line()
 
 var svg = d3.select("#linegraph").append("svg")
     .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
+    .attr("height", height + margin.top + margin.bottom).append("g")
+    .attr("class", "RdYlGn")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 d3.tsv("scripts/data.tsv", function(error, data) {

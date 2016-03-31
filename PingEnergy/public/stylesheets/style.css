@@ -127,3 +127,31 @@ a {
 .footer-button:hover, .footer-button:visited:hover{
     color: #11900d;
 }
+
+#historical{
+	margin-left: 10%;
+	padding-top: 4%;
+}
+
+#information{
+	
+}
+
+.day {
+	/*fill: #fff;*/
+	stroke: #ccc;
+  }
+  
+  .month {
+	fill: none;
+	stroke: #000;
+	stroke-width: 2px;
+  }
+  
+  .day1 {fill: #66c166;}
+  .day2 {fill: #99d699;}
+  .day3 {fill: #cceacc;}
+  .day4 {fill: #ffcccc;}
+  .day5 {fill: #ff9999;}
+  .day6 {fill: #ff6666;}
+  .future {fill: #333333;}
