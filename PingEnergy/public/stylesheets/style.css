@@ -134,7 +134,21 @@ a {
 }
 
 #information{
-	
+	border: solid 1px black;
+	text-align: left;
+	height: 110px;
+	margin-top: -4%;
+	margin-left: 100px;
+	margin-right: 100px;
+}
+
+#words{
+	border: solid 1px black;
+	text-align: left;
+	width: 50%;
+	height: 90%;
+	margin-left: 25%;
+	margin-top: .4%;
 }
 
 .day {
@@ -147,6 +161,7 @@ a {
 	stroke: #000;
 	stroke-width: 2px;
   }
+  
   
   .day1 {fill: #66c166;}
   .day2 {fill: #99d699;}
