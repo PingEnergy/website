@@ -64,9 +64,9 @@ $(document).ready(function(){
         }
     }
    
-    var width = 960,
-      height = 136,
-      cellSize = 17; // cell size
+    var width = 1300,
+      height = 180,
+      cellSize = 24; // cell size
       
     var percent = d3.format(".2%"),
       format = d3.time.format("%m-%d-%Y")
@@ -81,7 +81,7 @@ $(document).ready(function(){
     svg.append("text")
       .attr("transform", "translate(12," + cellSize * 3.5 +")rotate(-90)")
       .style("text-anchor", "middle")
-      .text("2016");   
+      .text("2016");
     
     var rect = svg.selectAll(".day")
         .data(function(d) { return d3.time.days(new Date(2016, 0, 1), new Date(2016 + 1, 0, 1)); })
@@ -152,9 +152,6 @@ $(document).ready(function(){
         div.innerHTML = div.innerHTML + str;
 
     }
-    
-    
-    
 
 });
 
