@@ -137,8 +137,9 @@ a {
 	border: solid 1px black;
 	text-align: left;
 	height: 110px;
+	width: 700px;
 	margin-top: 2%;
-	margin-left: 100px;
+	margin-left: 200px;
 	margin-right: 100px;
 }
 
