@@ -42,12 +42,17 @@ $(document).ready(function(){
         }
         else {
             if (i%7 == 1 || i%7 == 0) {
-                min = 150
-                max = 220
+                min = 180
+                max = 280
                 dayData.push(Math.round(Math.random() * (max - min) + min));
             }
             else if (i%7 == 4 || i%7 == 5) {
-                min = 160
+                min = 140
+                max = 250
+                dayData.push(Math.round(Math.random() * (max - min) + min));
+            }
+            else if (i%7 == 6) {
+                min = 150
                 max = 250
                 dayData.push(Math.round(Math.random() * (max - min) + min));
             }
