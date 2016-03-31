@@ -139,13 +139,6 @@ $(document).ready(function(){
       .enter().append("path")
         .attr("class", "month")
         .attr("d", monthPath);
-        
-    var svg2 = d3.select("#information").append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    
-    
      
     function monthPath(t0) {
       var t1 = new Date(t0.getFullYear(), t0.getMonth() + 1, 0),
@@ -158,11 +151,18 @@ $(document).ready(function(){
           + "H" + (w0 + 1) * cellSize + "Z";
     }
     
+    var svg2 = d3.select("#information").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        
     function lowerBox(date) {
+        d3.select("#information").selectAll("text").remove();
         var rect2 = svg2.append("text")
             .attr("transform", "translate(" + (560) + "," + (12) + ")")
             .style("text-anchor", "middle")
             .text(date);
+
     }
     
     
