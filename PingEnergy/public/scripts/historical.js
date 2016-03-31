@@ -28,35 +28,31 @@ $(document).ready(function(){
     for (var i = 0; i < 90; i++) {
         if (i < 27) {
             
-            if (i%1 == 0 || i%7 ==0) {
-                min = 18
-                max = 45
+            if (i%7 == 1 || i%7 == 0) {
+                min = 10;
+                max = 29;
                 dayData.push(Math.round(Math.random() * (max - min) + min));
             }
-            else if (i%6 == 0 || i%5 ==0) {
-                min = 30
-                max = 50
-                dayData.push(Math.round(Math.random() * (max - min) + min));
-            }
-            else if (i%4 == 0 || i%3 ==0) {
-                min = 20
-                max = 30
-                dayData.push(Math.round(Math.random() * (max - min) + min));
-            }
+
             else {
-                min = 20
-                max = 30
+                min = 33
+                max = 55
                 dayData.push(Math.round(Math.random() * (max - min) + min));
             }
         }
         else {
-            if (i%1 == 0 || i%7 ==0) {
-                min = 150
-                max = 220
+            if (i%7 == 1 || i%7 == 0) {
+                min = 180
+                max = 280
                 dayData.push(Math.round(Math.random() * (max - min) + min));
             }
-            else if (i%6 == 0 || i%5 ==0) {
-                min = 160
+            else if (i%7 == 4 || i%7 == 5) {
+                min = 140
+                max = 250
+                dayData.push(Math.round(Math.random() * (max - min) + min));
+            }
+            else if (i%7 == 6) {
+                min = 150
                 max = 250
                 dayData.push(Math.round(Math.random() * (max - min) + min));
             }
@@ -106,16 +102,16 @@ $(document).ready(function(){
   
     for (x = 0; x < 90; x++) { 
         if (dayData[x] <= 30) {
-            d3.select(allRects[x]).attr("fill", "#d1ecd1");
-        }
-        else if (dayData[x] > 30 && dayData[x] <= 50) {
             d3.select(allRects[x]).attr("fill", "#66c166");
         }
-        else if (dayData[x] > 50 && dayData[x] <= 75) {
+        else if (dayData[x] > 30 && dayData[x] <= 50) {
             d3.select(allRects[x]).attr("fill", "#99d699");
         }
-        else if (dayData[x]> 75 && dayData[x] <= 135) {
+        else if (dayData[x] > 50 && dayData[x] <= 75) {
             d3.select(allRects[x]).attr("fill", "#cceacc");
+        }
+        else if (dayData[x]> 75 && dayData[x] <= 135) {
+            d3.select(allRects[x]).attr("fill", "#e0f2e0");
         }
         else if ( dayData[x]> 135 && dayData[x] <= 195) {
             d3.select(allRects[x]).attr("fill", "#ffcccc");
