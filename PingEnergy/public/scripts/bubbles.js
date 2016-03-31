@@ -55,8 +55,8 @@ function generateChart() {
 
     var color = d3.scale.ordinal().range(["#006d2c", "#238b45", "#41ab5d", "#74c476", "#a1d99b", "#c7e9c0", "#e5f5e0", "#f7fcf5"]);
 
-    var diameter = 800,
-        height = 450,
+    var diameter = 650,
+        height = 500,
         format = d3.format(",d");
 
     var bubble = d3.layout.pack()
@@ -247,4 +247,9 @@ function generateChart() {
 
     d3.select(self.frameElement).style("height", height + "px");
 
+    var sum = 0;
+    for (var i=2; i<31; i+=2) {
+        sum += 2.88*i;
+    }
+    console.log(sum);
 }
