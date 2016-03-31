@@ -134,6 +134,13 @@ function generateChart() {
         bubblesTwo(toSend);
     });
 
+    node.on("mouseover", function() {
+        $("#bubbles").css("cursor", "pointer");
+    })
+    node.on("mouseout", function() {
+        $("#bubbles").css("cursor", "default");
+    });
+
     force.start();
 
     function bubblesTwo(sentBuildings) {
@@ -167,6 +174,13 @@ function generateChart() {
             .style("fill", function(d) { return color(d.packageName); })
             .style("stroke", "black")
             .style("stroke-width", 1);
+
+        node.on("mouseover", function() {
+            $("#bubbles").css("cursor", "pointer");
+        })
+        node.on("mouseout", function() {
+            $("#bubbles").css("cursor", "default");
+        });
 
         //add building name to all nodes
         node.filter(function(d) { return d.active != true; })
@@ -217,8 +231,6 @@ function generateChart() {
             .on("click", function() {
                 generateChart();
             });
-
-
     }
 
     function classes(root) {
