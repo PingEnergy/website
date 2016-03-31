@@ -1,74 +1,74 @@
 body {
-	/*padding: 20px;*/
-	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-	height: 400px;
-	width: 100%;
-	color: black;
-	overflow: hidden;
-	/*background-size:  auto;*/
+    /*padding: 20px;*/
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    height: 400px;
+    width: 100%;
+    color: black;
+    overflow: hidden;
+    /*background-size:  auto;*/
     background-repeat: no-repeat;
-	background-image: url("./../image/background.jpg");
-	background-size: 100% auto;
+    background-image: url("./../image/background.jpg");
+    background-size: 100% auto;
 }
 #banner{
-	margin: auto; 
-	padding-top: 3px;
-	padding-bottom: 3px;
-	background-color: rgba(255,255,240, 0.7);
-	/*opacity: 0.8;*/
-	width: 90%;
-	height: 35%;
-	border-radius: 20px;
-	text-align: center;
+    margin: auto;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    background-color: rgba(255,255,240, 0.7);
+    /*opacity: 0.8;*/
+    width: 90%;
+    height: 35%;
+    border-radius: 20px;
+    text-align: center;
 }
 #logo{
-	position: relative;
-	height: 60px;
-	width: 6%;
-	float: left;
-	left: 37%;
-	top: 10px;
-	z-index: 1;
+    position: relative;
+    height: 60px;
+    width: 6%;
+    float: left;
+    left: 37%;
+    top: 10px;
+    z-index: 1;
 }
 .banner-button{
-	border-color: Black;
-	border-radius: 10px;
-	border: 1px solid;
-	padding: 10px;
-	margin: 5px;
-	text-decoration: none;
-	color: black;
-	background-color: rgba(229, 245, 224,0.4);
+    border-color: Black;
+    border-radius: 10px;
+    border: 1px solid;
+    padding: 10px;
+    margin: 5px;
+    text-decoration: none;
+    color: black;
+    background-color: rgba(229, 245, 224,0.4);
 }
 .banner-button:hover, .banner-button:visited:hover{
-	border-color:#11900d;
-	color: #11900d;
-	/*color: white;*/
+    border-color:#11900d;
+    color: #11900d;
+    /*color: white;*/
 }
 .banner-button:visited{
 
 }
 #container{
-	margin: auto; 
-	background-color: rgba(255,255,240, 0.7);
-	/*opacity: 0.8;*/
-	width: 90%;
-	top: 10px;
-	position: relative;
-	border-radius: 20px;
+    margin: auto;
+    background-color: rgba(255,255,240, 0.7);
+    /*opacity: 0.8;*/
+    width: 90%;
+    top: 10px;
+    position: relative;
+    border-radius: 20px;
 }
 
 h1{
-	font-size: 40px;
-	text-align: center;
-	z-index: 2;
+    font-size: 40px;
+    text-align: center;
+    z-index: 2;
 }
 
 a {
-	position: relative;
-	z-index: 20;
-	font-size: 20px;
-	/*color: #00B7FF;*/
+    position: relative;
+    z-index: 20;
+    font-size: 20px;
+    /*color: #00B7FF;*/
 }
 
 
@@ -81,4 +81,10 @@ a {
     padding-left: -20%;
     padding-right: 5%;
     font-size: 1.5em;
+}
+
+#moneyRaised {
+    width: 30%;
+    padding-right: 5%;
+    text-align: center;
 }
