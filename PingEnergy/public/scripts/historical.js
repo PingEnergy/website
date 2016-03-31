@@ -26,7 +26,7 @@ $(document).ready(function(){
     var dayData = [];
     var min, max;
     for (var i = 0; i < 90; i++) {
-        if (i < 32) {
+        if (i < 27) {
             
             if (i%1 == 0 || i%7 ==0) {
                 min = 18
@@ -56,7 +56,7 @@ $(document).ready(function(){
                 dayData.push(Math.round(Math.random() * (max - min) + min));
             }
             else if (i%6 == 0 || i%5 ==0) {
-                min = 120
+                min = 160
                 max = 250
                 dayData.push(Math.round(Math.random() * (max - min) + min));
             }
@@ -157,6 +157,7 @@ $(document).ready(function(){
         var str = ("Date: " + date + "<br>" + "Total Energy Used : 1089 MWh" + "<br>" + "Trees to offset: 7" + "<br>" + "Best Building: Stanton" + "<br>" + "Worst Building: Keefe");
 
         d3.select("#words").selectAll("text").remove();
+        $('#words').empty();
 
         var div = document.getElementById("words");
         div.innerHTML = div.innerHTML + str;
