@@ -55,8 +55,8 @@ function generateChart() {
 
     var color = d3.scale.ordinal().range(["#006d2c", "#238b45", "#41ab5d", "#74c476", "#a1d99b", "#c7e9c0", "#e5f5e0", "#f7fcf5"]);
 
-    var diameter = 800,
-        height = 450,
+    var diameter = 650,
+        height = 500,
         format = d3.format(",d");
 
     var bubble = d3.layout.pack()
@@ -134,6 +134,13 @@ function generateChart() {
         bubblesTwo(toSend);
     });
 
+    node.on("mouseover", function() {
+        $("#bubbles").css("cursor", "pointer");
+    })
+    node.on("mouseout", function() {
+        $("#bubbles").css("cursor", "default");
+    });
+
     force.start();
 
     function bubblesTwo(sentBuildings) {
@@ -167,6 +174,13 @@ function generateChart() {
             .style("fill", function(d) { return color(d.packageName); })
             .style("stroke", "black")
             .style("stroke-width", 1);
+
+        node.on("mouseover", function() {
+            $("#bubbles").css("cursor", "pointer");
+        })
+        node.on("mouseout", function() {
+            $("#bubbles").css("cursor", "default");
+        });
 
         //add building name to all nodes
         node.filter(function(d) { return d.active != true; })
@@ -217,8 +231,6 @@ function generateChart() {
             .on("click", function() {
                 generateChart();
             });
-
-
     }
 
     function classes(root) {
@@ -235,4 +247,9 @@ function generateChart() {
 
     d3.select(self.frameElement).style("height", height + "px");
 
+    var sum = 0;
+    for (var i=2; i<31; i+=2) {
+        sum += 2.88*i;
+    }
+    console.log(sum);
 }
