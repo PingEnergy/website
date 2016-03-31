@@ -145,13 +145,6 @@ $(document).ready(function(){
           + "H" + (w1 + 1) * cellSize + "V" + 0
           + "H" + (w0 + 1) * cellSize + "Z";
     }
-      
-    var svg2 = d3.select("#information").append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .attr("stroke", "black")
-        .attr("stroke-width", "1px")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         
     function lowerBox(date) {
         var str = ("Date: " + date + "<br>" + "Total Energy Used : 1089 MWh" + "<br>" + "Trees to offset: 7" + "<br>" + "Best Building: Stanton" + "<br>" + "Worst Building: Keefe");
