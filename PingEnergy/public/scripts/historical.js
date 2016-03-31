@@ -28,31 +28,35 @@ $(document).ready(function(){
     for (var i = 0; i < 90; i++) {
         if (i < 27) {
             
-            if (i%7 == 1 || i%7 == 0) {
-                min = 10;
-                max = 29;
+            if (i%1 == 0 || i%7 ==0) {
+                min = 18
+                max = 45
                 dayData.push(Math.round(Math.random() * (max - min) + min));
             }
-
+            else if (i%6 == 0 || i%5 ==0) {
+                min = 30
+                max = 50
+                dayData.push(Math.round(Math.random() * (max - min) + min));
+            }
+            else if (i%4 == 0 || i%3 ==0) {
+                min = 20
+                max = 30
+                dayData.push(Math.round(Math.random() * (max - min) + min));
+            }
             else {
-                min = 33
-                max = 55
+                min = 20
+                max = 30
                 dayData.push(Math.round(Math.random() * (max - min) + min));
             }
         }
         else {
-            if (i%7 == 1 || i%7 == 0) {
-                min = 180
-                max = 280
-                dayData.push(Math.round(Math.random() * (max - min) + min));
-            }
-            else if (i%7 == 4 || i%7 == 5) {
-                min = 140
-                max = 250
-                dayData.push(Math.round(Math.random() * (max - min) + min));
-            }
-            else if (i%7 == 6) {
+            if (i%1 == 0 || i%7 ==0) {
                 min = 150
+                max = 220
+                dayData.push(Math.round(Math.random() * (max - min) + min));
+            }
+            else if (i%6 == 0 || i%5 ==0) {
+                min = 160
                 max = 250
                 dayData.push(Math.round(Math.random() * (max - min) + min));
             }
@@ -102,16 +106,16 @@ $(document).ready(function(){
   
     for (x = 0; x < 90; x++) { 
         if (dayData[x] <= 30) {
-            d3.select(allRects[x]).attr("fill", "#66c166");
+            d3.select(allRects[x]).attr("fill", "#d1ecd1");
         }
         else if (dayData[x] > 30 && dayData[x] <= 50) {
-            d3.select(allRects[x]).attr("fill", "#99d699");
+            d3.select(allRects[x]).attr("fill", "#66c166");
         }
         else if (dayData[x] > 50 && dayData[x] <= 75) {
-            d3.select(allRects[x]).attr("fill", "#cceacc");
+            d3.select(allRects[x]).attr("fill", "#99d699");
         }
         else if (dayData[x]> 75 && dayData[x] <= 135) {
-            d3.select(allRects[x]).attr("fill", "#e0f2e0");
+            d3.select(allRects[x]).attr("fill", "#cceacc");
         }
         else if ( dayData[x]> 135 && dayData[x] <= 195) {
             d3.select(allRects[x]).attr("fill", "#ffcccc");
@@ -141,6 +145,13 @@ $(document).ready(function(){
           + "H" + (w1 + 1) * cellSize + "V" + 0
           + "H" + (w0 + 1) * cellSize + "Z";
     }
+      
+    var svg2 = d3.select("#information").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .attr("stroke", "black")
+        .attr("stroke-width", "1px")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         
     function lowerBox(date) {
         var str = ("Date: " + date + "<br>" + "Total Energy Used : 1089 MWh" + "<br>" + "Trees to offset: 7" + "<br>" + "Best Building: Stanton" + "<br>" + "Worst Building: Keefe");

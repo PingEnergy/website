@@ -2,16 +2,19 @@ extends layout
 
 block content
   script(src="/scripts/bubbles.js")
+  h2#bubbleTitle Dorm Energy Savings Contest
   table.centerBlock
     tr
       td
         #bubbles
       td#moneyRaised
-        h2 Total Money Raised Since September 1st:
-        h2 $691.20
+        .moneyBox
+          h2 Total Money Raised Since September 1st:
+          h2 $691.20
         br
-        h3
+        h3.contestLink How do I earn money? 
+        h3.contestLink Click here for contest details
       td.rankList
-          ol
-            each val in buildings
-              li=val
+        ol
+          each val in buildings
+            li=val
