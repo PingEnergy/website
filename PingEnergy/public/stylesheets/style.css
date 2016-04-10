@@ -141,15 +141,15 @@ svg{
 }
 
 #information{
-	margin:auto;
-	border: solid 1px black;
-	border-radius: 20px;
-	text-align: left;
-	height: 135px;
-	width: 700px;
-	margin-top: 3.5%;
-	margin-bottom: 2.8%;
-	font-size: 1.5em;
+    margin:auto;
+    border: solid 1px black;
+    border-radius: 20px;
+    text-align: left;
+    height: 135px;
+    width: 700px;
+    margin-top: 3.5%;
+    margin-bottom: 2.8%;
+    font-size: 1.5em;
 }
 
 #words{
@@ -197,4 +197,8 @@ svg{
 .moneyBox {
     border: solid 1px black;
     border-radius: 20px;
+}
+
+#earnMoney {
+    text-align: justify;
 }
