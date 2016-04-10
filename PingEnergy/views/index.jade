@@ -1,6 +1,8 @@
 extends layout
 
 block content
+  script(type='text/javascript').
+      var buildings = !{data};
   script(src="/scripts/bubbles.js")
   h2#bubbleTitle Dorm Energy Savings Contest
   table.centerBlock
@@ -16,5 +18,5 @@ block content
         h3.contestLink Click here for contest details
       td.rankList
         ol
-          each val in buildings
+          each val in listBuildings
             li=val
