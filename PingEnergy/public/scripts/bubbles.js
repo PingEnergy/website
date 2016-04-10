@@ -74,7 +74,7 @@ function generateChart() {
         .attr("dy", "1.2em")
         .style("text-anchor", "middle")
         .style("font-size", ".9em")
-        .text(function(d) { return d.money });
+        .text(function(d) { return "$" + d.money });
 
     node.on("click", function(d) {
         var toSend = classes(buildings);
@@ -169,7 +169,7 @@ function generateChart() {
         .append("text")
             .attr("dy", "1em")
             .style("text-anchor", "middle")
-            .text(function(d) { return "Money raised: " + d.money });
+            .text(function(d) { return "Money raised: $" + d.money });
 
         //main node energy usage per bed
         node.filter(function(d) { return d.active == true; })

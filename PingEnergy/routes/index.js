@@ -7,14 +7,15 @@ var express = require('express'),
 var router = express.Router();
 var cache = apicache.middleware;
 
-buildings = [{"Beard": 60.3}, {"Chapin": 58.2}, {"Clark": 43.5}, {"Cragin": 38}, {"Everett": 37}, {"Gebbie": 34}, {"Keefe": 30}, {"Kilham": 21}, {"Larcom": 19}, {"McIntire": 18.76}, {"Meadows": 18}, {"Metcalf": 17.9}, {"Stanton": 17.8}, {"White": 15}, {"Young": 2}];
+//This should be generated and passed from data call of some kind??
+buildings = [{"Beard": 60.3}, {"Chapin": 58.2}, {"Clark": 43.5}, {"Cragin": 38}, {"Everett": 37}, {"Gebbie": 34}, {"Keefe": 30}, {"Kilham": 29.3}, {"Larcom": 26}, {"McIntire": 25.6}, {"Meadows": 24.3}, {"Metcalf": 24}, {"Stanton": 23.4}, {"White": 22}, {"Young": 20}];
 
 //assuming buildings come with buildings IN ORDER from most to least ENERGY SAVED
 function createBuildingObject(buildings) {
     //constants
     var jsb = { "name": "buildings", "children" : []};
     var groupNames = ["1st", "2nd", "3rd", "2ndgroup", "2ndgroup", "2ndgroup", "3rdgroup", "3rdgroup", "3rdgroup", "4thgroup", "4thgroup", "4thgroup", "5thgroup", "5thgroup", "5thgroup"];
-    var sizeScale = 1500;
+    var sizeScale = 4000;
     var moneyScale = .14;
     var carbonScale = .6379;
 
