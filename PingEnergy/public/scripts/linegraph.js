@@ -26,7 +26,6 @@ $(document).ready(function() {
       .orient("left");
 
   var line = d3.svg.line()
-      // .interpolate("basis")
       .x(function(d) { return x(d.date); })
       .y(function(d) { return y(d.temperature); });
 
@@ -106,7 +105,8 @@ $(document).ready(function() {
               cy: function(d) { return y(d.Chapin); },
               r: 5,
               cdate: function(d) { return d.date; },
-              csage: function(d) { return d.Chapin; }
+              cusage: function(d) { return d.Chapin; },
+              id: function(d) { return d.date; }
           })
           .style("fill", "red");
           // .style("fill", "transparent");
@@ -115,51 +115,30 @@ $(document).ready(function() {
     circles.on("mouseout", mouseOff);
 
     // tooltips (using jQuery plugin tipsy)
-    circles.append("title").text(function(d) {
-      // console.log(d);
-        // information[d.Name] = d.Name+"<br>Team: "+d.Team+"<br>Height: "+d.Height+"<br>Weight: "+d.Weight+"<br>Batting Average: "+d.Average+"<br>Home Runs: "+d.Homeruns+"<br>On-base Percentage: "+d.OBP;
-        return d.Name;
+    $(".circles").tipsy({
+      gravity: 's',
+      html: true,
+        title: function() {
+          console.log(this.cdate);
+          return d3.select(this).attr("cdate") + '<br>Energy Usage: ' + d3.select(this).attr("cusage") + ' (mkW)';
+        }
     });
-
-    // $(".circles").tipsy({ gravity: 's', });
-    // colorSet = []
-    // var colorArray = [];
-    // $.each(usages, function (key, value) {
-    //     if(jQuery.inArray(value[options.optionC],colorSet) == -1){
-    //         colorSet.push(value[options.optionC]);
-    //         colorArray.push({tempColor: value[options.optionC]});
-    //     }
-    // });
-    // colorArray.sort(function(a, b) { return d3.ascending(a.tempColor, b.tempColor); })
-
-    // the legend color guide
-    // var legend = svg.selectAll("rect")
-    //     .data(colorArray)
-    //     .enter().append("rect")
-    //     .attr({
-    //         x: function(d, i) { return (160 + i*30); },
-    //         y: h,
-    //         width: 25,
-    //         height: 12
-    //     })
-    //     .style("fill", function(d) { return color(d.tempColor); });
-
+    
     // legend labels    
-    // svg.selectAll("text")
-    //     .data(colorArray)
-    //     .enter().append("text")
-    //     .attr({
-    //         x: function(d, i) { return (160 + i*30); },
-    //         y: h + 24,
-    //     })
-    //     .text(function(d) { return d.tempColor; });
+    svg.selectAll("text")
+        .data(data)
+        .enter().append("text")
+        .attr({
+            x: function(d, i) { return (160 + i*30); },
+            y: height + 24,
+        })
+        .text(function(d) { return d.Chapin; });
 
-    // svg.append("text")
-    //     .attr("class", "color label")
-    //     .attr("text-anchor", "end")
-    //     .attr("x", w/4)
-    //     .attr("y", h+10)
-    //     .text("Color: "+options.optionC);
+    svg.append("text")
+        .attr("class", "color label")
+        .attr("text-anchor", "end")
+        .attr("x", width/4)
+        .attr("y", height+10);
 
     // x-axis
     svg.append("g")
