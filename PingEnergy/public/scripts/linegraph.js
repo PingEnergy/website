@@ -61,7 +61,40 @@ $(document).ready(function() {
     ]);
 
     var mouseOn = function() {
-      alert("hello");
+      var circle = d3.select(this);
+
+      // Horizontal line
+      svg.append("g")
+          .attr("class", "guide")
+          .append("line")
+          .attr("x1", circle.attr("cx"))
+          .attr("x2", circle.attr("cx"))
+          .attr("y1", +circle.attr("cy"))
+          .attr("y2", height)
+          .style("stroke", circle.style("fill"))
+          .transition().delay(200).duration(400)
+          .styleTween("opacity", function() { return d3.interpolate(0, 0.5); });
+
+      // Vertical line
+      svg.append("g")
+          .attr("class", "guide")
+          .append("line")
+          .attr("x1", circle.attr("cx"))
+          .attr("x2", 0)
+          .attr("y1", circle.attr("cy"))
+          .attr("y2", circle.attr("cy"))
+          .style("stroke", circle.style("fill"))
+          .transition().delay(200).duration(400)
+          .styleTween("opacity", function() { return d3.interpolate(0, 0.5); });
+    };
+
+    var mouseOff = function() {
+      var circle = d3.select(this);
+
+      // fade out guide lines, then remove them
+      d3.selectAll(".guide").transition().duration(100)
+          .styleTween("opacity", function() { return d3.interpolate(0.5, 0); })
+          .remove();
     };
 
     var circles = svg.append("g").selectAll(".circles")
@@ -69,16 +102,64 @@ $(document).ready(function() {
           .enter().append("circle")
           .attr("class", "circles")
           .attr({
-              cdate: function(d) { return d.date; },
-              cusage: function(d) { return d.Chapin; },
               cx: function(d) { return x(d.date); },
               cy: function(d) { return y(d.Chapin); },
-              r: 2
+              r: 5,
+              cdate: function(d) { return d.date; },
+              csage: function(d) { return d.Chapin; }
           })
           .style("fill", "red");
           // .style("fill", "transparent");
 
     circles.on("mouseover", mouseOn);
+    circles.on("mouseout", mouseOff);
+
+    // tooltips (using jQuery plugin tipsy)
+    circles.append("title").text(function(d) {
+      // console.log(d);
+        // information[d.Name] = d.Name+"<br>Team: "+d.Team+"<br>Height: "+d.Height+"<br>Weight: "+d.Weight+"<br>Batting Average: "+d.Average+"<br>Home Runs: "+d.Homeruns+"<br>On-base Percentage: "+d.OBP;
+        return d.Name;
+    });
+
+    // $(".circles").tipsy({ gravity: 's', });
+    // colorSet = []
+    // var colorArray = [];
+    // $.each(usages, function (key, value) {
+    //     if(jQuery.inArray(value[options.optionC],colorSet) == -1){
+    //         colorSet.push(value[options.optionC]);
+    //         colorArray.push({tempColor: value[options.optionC]});
+    //     }
+    // });
+    // colorArray.sort(function(a, b) { return d3.ascending(a.tempColor, b.tempColor); })
+
+    // the legend color guide
+    // var legend = svg.selectAll("rect")
+    //     .data(colorArray)
+    //     .enter().append("rect")
+    //     .attr({
+    //         x: function(d, i) { return (160 + i*30); },
+    //         y: h,
+    //         width: 25,
+    //         height: 12
+    //     })
+    //     .style("fill", function(d) { return color(d.tempColor); });
+
+    // legend labels    
+    // svg.selectAll("text")
+    //     .data(colorArray)
+    //     .enter().append("text")
+    //     .attr({
+    //         x: function(d, i) { return (160 + i*30); },
+    //         y: h + 24,
+    //     })
+    //     .text(function(d) { return d.tempColor; });
+
+    // svg.append("text")
+    //     .attr("class", "color label")
+    //     .attr("text-anchor", "end")
+    //     .attr("x", w/4)
+    //     .attr("y", h+10)
+    //     .text("Color: "+options.optionC);
 
     // x-axis
     svg.append("g")
@@ -89,9 +170,7 @@ $(document).ready(function() {
     // y-axis
     svg.append("g")
         .attr("class", "y axis")
-        .attr("transform", "rotate(-90)")
         .call(yAxis)
-
         .append("text")
         .attr("dy", ".71em")
         .style("text-anchor", "end")
