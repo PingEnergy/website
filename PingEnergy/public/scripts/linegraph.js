@@ -40,6 +40,7 @@ $(document).ready(function() {
     color.domain(d3.keys(data[0]).filter(function(key) { return key !== "date"; }));
 
     data.forEach(function(d) {
+      console.log(d);
       d.date = parseDate(d.date);
     });
 
@@ -97,19 +98,69 @@ $(document).ready(function() {
     };
 
     var circles = svg.append("g").selectAll(".circles")
-          .data(data)
-          .enter().append("circle")
-          .attr("class", "circles")
-          .attr({
-              cx: function(d) { return x(d.date); },
-              cy: function(d) { return y(d.Chapin); },
-              r: 5,
-              cdate: function(d) { return d.date; },
-              cusage: function(d) { return d.Chapin; },
-              id: function(d) { return d.date; }
-          })
-          .style("fill", "red");
-          // .style("fill", "transparent");
+      .data(data)
+      .enter().append("circle")
+      .attr("class", "circles")
+      .attr({
+          cx: function(d) { return x(d.date); },
+          cy: function(d) { return y(d.Stanton); },
+          r: 5,
+          cdate: function(d) { return d.date; },
+          cusage: function(d) { return d.Stanton; }
+      })
+      .style("fill", "transparent");
+
+    circles = svg.append("g").selectAll(".circles")
+      .data(data)
+      .enter().append("circle")
+      .attr("class", "circles")
+      .attr({
+          cx: function(d) { return x(d.date); },
+          cy: function(d) { return y(d.Chapin); },
+          r: 5,
+          cdate: function(d) { return d.date; },
+          cusage: function(d) { return d.Chapin; }
+      })
+      .style("fill", "transparent");
+
+    circles = svg.append("g").selectAll(".circles")
+      .data(data)
+      .enter().append("circle")
+      .attr("class", "circles")
+      .attr({
+          cx: function(d) { return x(d.date); },
+          cy: function(d) { return y(d.Beard); },
+          r: 5,
+          cdate: function(d) { return d.date; },
+          cusage: function(d) { return d.Beard; }
+      })
+      .style("fill", "transparent");
+
+    circles = svg.append("g").selectAll(".circles")
+      .data(data)
+      .enter().append("circle")
+      .attr("class", "circles")
+      .attr({
+          cx: function(d) { return x(d.date); },
+          cy: function(d) { return y(d.Everett); },
+          r: 5,
+          cdate: function(d) { return d.date; },
+          cusage: function(d) { return d.Everett; }
+      })
+      .style("fill", "transparent");
+
+    circles = svg.append("g").selectAll(".circles")
+      .data(data)
+      .enter().append("circle")
+      .attr("class", "circles")
+      .attr({
+          cx: function(d) { return x(d.date); },
+          cy: function(d) { return y(d.Average); },
+          r: 5,
+          cdate: function(d) { return d.date; },
+          cusage: function(d) { return d.Average; }
+      })
+      .style("fill", "transparent");
 
     circles.on("mouseover", mouseOn);
     circles.on("mouseout", mouseOff);
@@ -123,22 +174,6 @@ $(document).ready(function() {
           return d3.select(this).attr("cdate") + '<br>Energy Usage: ' + d3.select(this).attr("cusage") + ' (mkW)';
         }
     });
-    
-    // legend labels    
-    svg.selectAll("text")
-        .data(data)
-        .enter().append("text")
-        .attr({
-            x: function(d, i) { return (160 + i*30); },
-            y: height + 24,
-        })
-        .text(function(d) { return d.Chapin; });
-
-    svg.append("text")
-        .attr("class", "color label")
-        .attr("text-anchor", "end")
-        .attr("x", width/4)
-        .attr("y", height+10);
 
     // x-axis
     svg.append("g")
