@@ -1,17 +1,23 @@
 extends layout
 
 block content
+  script(type='text/javascript').
+      var buildings = !{data};
   script(src="/scripts/bubbles.js")
+  h2#bubbleTitle Dorm Energy Savings Contest
   table.centerBlock
     tr
       td
         #bubbles
       td#moneyRaised
-        h2 Total Money Raised Since September 1st:
-        h2 $691.20
+        .moneyBox
+          h2 Total Money Raised Since September 1st:
+          h2 $#{moneySum}
         br
-        h3
+        h3.contestLink How do I earn money? 
+        p Earn money by saving energy in your building! For every kilowatt hour saved, Wheaton College saves $0.14, and that savings is being passed back to you! At the end of the semester, the building that has saved the most money will choose a place to reallocate all the funds back to Wheaton. New karaoke equipment? Flower beds? Free Emerson coffee event? You decide! 
       td.rankList
-          ol
-            each val in buildings
-              li=val
+        ol
+          each val in listBuildings
+            li=val
+  

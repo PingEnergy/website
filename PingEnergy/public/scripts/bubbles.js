@@ -2,54 +2,6 @@ $(document).ready(function() {
     generateChart();
 });
 
-var buildings = { "name": "buildings",
-    "children": [
-        {"name": "1st",
-            "children": [
-                {"name": "Beard", "size": 10000, "active": false, "money": "$86.40"}
-            ]
-        },
-        {"name": "2nd",
-            "children": [
-                {"name": "Chapin", "size": 8500, "active": false, "money": "$80.64"}
-            ]
-        },
-        {"name": "3rd",
-            "children": [
-                {"name": "Clark", "size": 6000, "active": false, "money": "$74.88"}
-            ]
-        },
-        {"name": "2ndgroup",
-            "children": [
-                {"name": "Cragin", "size": 6500, "active": false, "money": "$69.12"},
-                {"name": "Everett", "size": 6250, "active": false, "money": "$63.36"},
-                {"name": "Gebbie", "size": 5500, "active": false, "money": "$57.60"}
-            ]
-        },
-        {"name": "3rdgroup",
-            "children": [
-                {"name": "Keefe", "size": 5000, "active": false, "money": "$51.84"},
-                {"name": "Kilham", "size": 4500, "active": false, "money": "$46.08"},
-                {"name": "Larcom", "size": 3800, "active": false, "money": "$40.32"}
-            ]
-        },
-        {"name": "4thgroup",
-            "children": [
-                {"name": "McIntire", "size": 3750, "active": false, "money": "$34.56"},
-                {"name": "Meadows", "size": 3500, "active": false, "money": "$28.80"},
-                {"name": "Metcalf", "size": 3250, "active": false, "money": "$23.04"}
-            ]
-        },
-        {"name": "5thgroup",
-            "children": [
-                {"name": "Stanton", "size": 3000, "active": false, "money": "$17.28"},
-                {"name": "White", "size": 2750, "active": false, "money": "$11.52"},
-                {"name": "Young", "size": 2500, "active": false, "money": "$5.76"}
-            ]
-        }
-    ]
-};
-
 function generateChart() {
     $("#bubbles").empty();
 
@@ -122,7 +74,7 @@ function generateChart() {
         .attr("dy", "1.2em")
         .style("text-anchor", "middle")
         .style("font-size", ".9em")
-        .text(function(d) { return d.money });
+        .text(function(d) { return "$" + d.money });
 
     node.on("click", function(d) {
         var toSend = classes(buildings);
@@ -217,7 +169,7 @@ function generateChart() {
         .append("text")
             .attr("dy", "1em")
             .style("text-anchor", "middle")
-            .text(function(d) { return "Money raised: " + d.money });
+            .text(function(d) { return "Money raised: $" + d.money });
 
         //main node energy usage per bed
         node.filter(function(d) { return d.active == true; })
@@ -246,10 +198,4 @@ function generateChart() {
     }
 
     d3.select(self.frameElement).style("height", height + "px");
-
-    var sum = 0;
-    for (var i=2; i<31; i+=2) {
-        sum += 2.88*i;
-    }
-    console.log(sum);
 }
