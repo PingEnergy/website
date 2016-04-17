@@ -98,7 +98,7 @@ function generateChart() {
     function bubblesTwo(sentBuildings) {
         for (building in sentBuildings["children"]) {
             if (sentBuildings["children"][building]["active"] == true) {
-                sentBuildings["children"][building]["value"] = 3000;
+                sentBuildings["children"][building]["value"] = 30000;
             }
             else {
                 sentBuildings["children"][building]["value"] = (sentBuildings["children"][building]["value"]/25);
@@ -185,6 +185,7 @@ function generateChart() {
             });
     }
 
+    //transform data to right object
     function classes(root) {
         var classes = [];
 
