@@ -16,6 +16,7 @@
     "request": "^2.69.0",
     "serve-favicon": "~2.1.3",
     "apicache": "0.0.12",
-    "mathjs": "3.1.4 " 
+    "mathjs": "3.1.4 ",
+    "xml2js" : "0.4.16"
   }
 }
