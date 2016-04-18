@@ -7,6 +7,15 @@ var express = require('express'),
 var router = express.Router();
 var cache = apicache.middleware;
 
+router.get('/dbtest', function(req, res) {
+    var db = req.db;
+    var collection = db.get('DormEnergyUsage');
+    collection.find({},{},function(e,docs){
+        console.log(docs);
+        res.render('dbtest', {});
+    });
+});
+
 //This should be generated and passed from data call of some kind??
 buildings = [{"Beard": 64.3}, {"Chapin": 58.2}, {"Clark": 43.5}, {"Cragin": 38}, {"Everett": 37}, {"Gebbie": 34}, {"Keefe": 30}, {"Kilham": 29.3}, {"Larcom": 28}, {"McIntire": 25.6}, {"Meadows": 24.3}, {"Metcalf": 24}, {"Stanton": 23.4}, {"White": 22}, {"Young": 20}];
 
@@ -64,7 +73,7 @@ var listBuildings = createBuildingList(buildings);
 var moneySum = sumMoney(buildings);
 
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Ping Energy', moneySum: moneySum, listBuildings: listBuildings, data: JSON.stringify(jsbObject)}); 
+  res.render('index', { title: 'Ping Energy', moneySum: moneySum, listBuildings: listBuildings, data: JSON.stringify(jsbObject)});
 });
 
 //
