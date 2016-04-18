@@ -37,4 +37,13 @@ router.get('/:building', cache('1 minute'), function(req, res, next) {
 
 });
 
+router.get('/dbtest', function(req, res) {
+    var db = req.db;
+    var collection = db.get('DormEnergyUsage');
+    collection.find({},{},function(e,docs){
+        console.log(docs);
+        res.render('dbtest', {});
+    });
+});
+
 module.exports = router;
