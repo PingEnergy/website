@@ -28,21 +28,12 @@ $(document).ready(function(){
     for (var i = 0; i < 90; i++) {
         if (i < 27) {
             
-            if (i%1 == 0 || i%7 ==0) {
+            if (i%7 == 1 || i%7 ==0) {
                 min = 18
                 max = 45
                 dayData.push(Math.round(Math.random() * (max - min) + min));
             }
-            else if (i%6 == 0 || i%5 ==0) {
-                min = 30
-                max = 50
-                dayData.push(Math.round(Math.random() * (max - min) + min));
-            }
-            else if (i%4 == 0 || i%3 ==0) {
-                min = 20
-                max = 30
-                dayData.push(Math.round(Math.random() * (max - min) + min));
-            }
+
             else {
                 min = 20
                 max = 30
@@ -68,14 +59,14 @@ $(document).ready(function(){
         }
     }
    
-    var width = 1300,
-      height = 180,
-      cellSize = 24; // cell size
+    var width = 1000,
+      height = 150,
+      cellSize = 18; // cell size
       
     var percent = d3.format(".2%"),
       format = d3.time.format("%m-%d-%Y")
       
-    var margin = {top: 20, right: 15, bottom: 20, left: 10};
+    var margin = {top: 20, right: 20, bottom: 20, left: 20};
       
     var svg = d3.select("#historical").append("svg")
         .attr("width", width + margin.left + margin.right)
@@ -86,6 +77,7 @@ $(document).ready(function(){
       .attr("transform", "translate(12," + cellSize * 3.5 +")rotate(-90)")
       .style("text-anchor", "middle")
       .text("2016");
+      
     
     var rect = svg.selectAll(".day")
         .data(function(d) { return d3.time.days(new Date(2016, 0, 1), new Date(2016 + 1, 0, 1)); })
@@ -128,12 +120,20 @@ $(document).ready(function(){
         }
     
 
-    }   
+    }
+    
+    var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     svg.selectAll(".month")
         .data(function(d) { return d3.time.months(new Date(2016, 0, 1), new Date(2016+1, 0, 1)); })
       .enter().append("path")
         .attr("class", "month")
         .attr("d", monthPath);
+    //svg.selectAll(".month")
+    //    .append('text')
+    //    .text(function(d));
+    
+    //console.log("KI");
+        
      
     function monthPath(t0) {
       var t1 = new Date(t0.getFullYear(), t0.getMonth() + 1, 0),
