@@ -11,6 +11,7 @@ var users = require('./routes/users');
 var linegraph = require('./routes/linegraph');
 var historical = require('./routes/historical');
 var data = require('./routes/data');
+var contact = require('./routes/contact');
 var api = require('./routes/api');
 
 var app = express();
@@ -32,6 +33,7 @@ app.use('/users', users);
 app.use('/linegraph', linegraph);
 app.use('/historical', historical);
 app.use('/api', api);
+app.use('/contact', contact);
 app.use('/data', data);
 
 // catch 404 and forward to error handler
