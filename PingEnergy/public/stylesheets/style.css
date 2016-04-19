@@ -55,7 +55,7 @@ body {
     margin: auto;
     background-color: rgba(255,255,240,0.7);
     width: 80%;
-    height: 50%;
+    height: 100%;
     position: relative;
     border-radius: 20px;
     margin-top: 2%;
@@ -105,11 +105,11 @@ a {
 
 #footer{
     text-align: center;
-    margin-top: 1%;
-    
-    padding-top: 3%;
-    padding-bottom: 0.5%;
-    margin: auto;
+    margin-top: 2%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 1%;
+    padding-bottom: 1%;
     background-color:rgba(255,255,240, 0.7);
     width: 80%;
     bottom: 0px;
@@ -194,4 +194,33 @@ svg{
 
 #earnMoney {
     text-align: justify;
+}
+
+#data{
+    height: 50%;
+}
+
+#contact{
+    margin-top: 2%;
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-bottom: 30%;
+    
+}
+h4{
+    font-size: larger;
+}
+
+p {
+    font-size: larger;
+}
+
+#bryan{
+    margin-left: 10%;
+    float: left;
+}
+#gousie{
+    margin-right: 10%;
+    margin-left: 10%;
+    float: right;
 }
