@@ -36,7 +36,9 @@ router.get('/:building', cache('1 minute'), function(req, res, next) {
                             "startTime": 1,
                             "endTime": 5,
                             "timeInterval": 60,
-                            "energyUsage": []
+                            "energyUsage": [],
+                            "co2": [],
+                            "treeOffset": []
                         }
 
                 newjson["startTime"] = parseInt(result["group"]["data"][0]["$"]["time_stamp"], 16) * 1000;
@@ -52,31 +54,47 @@ router.get('/:building', cache('1 minute'), function(req, res, next) {
 
                     newTime = newTime.toString();
 
-                    newRow = {};
-                    newRow[newTime] = result["group"]["data"][0]["r"][i]["c"][0];
+                    // newEnergy = {};
+                    // newEnergy[newTime] = result["group"]["data"][0]["r"][i]["c"][0];
 
-                    newjson["energyUsage"].push( newRow );
+                    // newCO2 = {};
+                    // newCO2[newTime] = parseInt(result["group"]["data"][0]["r"][i]["c"][0]) * .6379;
+                    //
+                    newTree = {};
+                    newTree[newTime] = parseInt(result["group"]["data"][0]["r"][i]["c"][0]) * .00159;
+
+                    // newjson["energyUsage"].push( newEnergy );
+                    // newjson["co2"].push( newCO2 );
+                    newjson["treeOffset"].push( newTree );
 
                     newTime = parseInt(newTime) + 60000; //increment 1 minute
                 }
 
-                // console.log(newjson);
+                // 1kwh = .6379 pounds of co2
+                // 2000 pounds of co2 = 5 trees
+                // 400 pounds of co2 = 1 tree
+                // 400 / 1 = .6379 / x ~> .00159 tree per kwh
+
+                // console.log(newjson["co2"]);
+                // console.log(newjson["treeOffset"]);
 
                 // Set our internal DB variable
                 var db = req.db;
 
                 // Set our collection
-                var collection = db.get('DormEnergyUsage');
+                var collection = db.get('DormTreeOffset');
 
                 // Submit to the DB
                 collection.insert(newjson, function (err, doc) {
                     if (err) {
                         // If it failed, return error
                         res.send("There was a problem adding the information to the database.");
+                        console.log(err);
                     }
                     else {
                         // And forward to success page
                         // res.redirect("chapin");
+                        console.log("success!");
                     }
                 });
 
