@@ -200,7 +200,8 @@ $(document).ready(function() {
     city.append("path")
       .attr("class", "line")
       .attr("d", function(d) { return line(d.values); })
-      .style("stroke", function(d) { return color(d.name); });
+      .style("stroke-dasharray", ("3, 3"))
+      .style("stroke", function(d) { console.log(d); return color(d.name); });
 
     // path annotations
     city.append("text")
