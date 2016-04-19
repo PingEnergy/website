@@ -6,32 +6,22 @@ var express = require('express'),
 var router = express.Router();
 var cache = apicache.middleware;
 
-router.get('/:building', cache('1 minute'), function(req, res, next) {
+router.get('/:building', cache('10 minutes'), function(req, res, next) {
     var building = req.params.building;
     console.log("\nRequest New Data For Building: "+building);
 
     request('http://cs.wheatoncollege.edu/~egauge/' + building + '/'  + building + '.xml',
         function (error, response, body) {
-        //     res.send(body);
-
             var parseString = xml2js.parseString;
             var xml = body;
 
             parseString(xml,
             function (err, result) {
-                // // console.dir(result);
-                // // console.dir(result["group"]["data"][0]["$"]);
-                //
-                // var timestamp = result["group"]["data"][0]["$"]["time_stamp"];
-                //
-                // var date = new Date();
-                // date.setTime(parseInt(timestamp, 16) * 1000); //start date of data
-                //
-                // console.dir(result["group"]["data"][0]["r"][0]["c"]); //first minute data
-                //
-                // // console.dir(JSON.stringify(result));
+                // 1kwh = .6379 pounds of co2
+                // 2000 pounds of co2 = 5 trees
+                // 400 pounds of co2 = 1 tree
+                // 400 / 1 = .6379 / x ~> .00159 tree per kwh
 
-                var raw = result;
                 var newjson = {"building": "Chapin",
                             "startTime": 1,
                             "endTime": 5,
@@ -39,50 +29,32 @@ router.get('/:building', cache('1 minute'), function(req, res, next) {
                             "energyUsage": [],
                             "co2": [],
                             "treeOffset": []
-                        }
+                        };
 
                 newjson["startTime"] = parseInt(result["group"]["data"][0]["$"]["time_stamp"], 16) * 1000;
                 newjson["endTime"] = parseInt(result["group"]["data"][0]["$"]["epoch"], 16) * 1000;
-
                 newjson["timeInterval"] = result["group"]["data"][0]["$"]["time_delta"];
 
                 var newTime = newjson["startTime"];
-
-                console.log("newTime: ", newTime);
-
-                for (i in result["group"]["data"][0]["r"]) {
+                for (var i in result["group"]["data"][0]["r"]) {
 
                     newTime = newTime.toString();
 
-                    // newEnergy = {};
-                    // newEnergy[newTime] = result["group"]["data"][0]["r"][i]["c"][0];
+                    newEnergy = {};
+                    newEnergy[newTime] = result["group"]["data"][0]["r"][i]["c"][0];
 
-                    // newCO2 = {};
-                    // newCO2[newTime] = parseInt(result["group"]["data"][0]["r"][i]["c"][0]) * .6379;
-                    //
-                    newTree = {};
-                    newTree[newTime] = parseInt(result["group"]["data"][0]["r"][i]["c"][0]) * .00159;
-
-                    // newjson["energyUsage"].push( newEnergy );
-                    // newjson["co2"].push( newCO2 );
-                    newjson["treeOffset"].push( newTree );
+                    newjson["energyUsage"].push( newEnergy );
 
                     newTime = parseInt(newTime) + 60000; //increment 1 minute
                 }
 
-                // 1kwh = .6379 pounds of co2
-                // 2000 pounds of co2 = 5 trees
-                // 400 pounds of co2 = 1 tree
-                // 400 / 1 = .6379 / x ~> .00159 tree per kwh
-
-                // console.log(newjson["co2"]);
-                // console.log(newjson["treeOffset"]);
+                
 
                 // Set our internal DB variable
                 var db = req.db;
 
                 // Set our collection
-                var collection = db.get('DormTreeOffset');
+                var collection = db.get('DormEnergyUsage');
 
                 // Submit to the DB
                 collection.insert(newjson, function (err, doc) {
@@ -93,15 +65,72 @@ router.get('/:building', cache('1 minute'), function(req, res, next) {
                     }
                     else {
                         // And forward to success page
-                        // res.redirect("chapin");
-                        console.log("success!");
+                        console.log("DormEnergyUsage: success!");
+                    }
+                });
+
+
+                newjson["energyUsage"] = [];
+                newTime = newjson["startTime"];
+                for (i in result["group"]["data"][0]["r"]) {
+                    newTime = newTime.toString();
+
+                    newCO2 = {};
+                    newCO2[newTime] = parseInt(result["group"]["data"][0]["r"][i]["c"][0]) * .6379;
+
+                    newjson["co2"].push( newCO2 );
+
+                    newTime = parseInt(newTime) + 60000; //increment 1 minute
+                }
+
+                // Set our collection
+                collection = db.get('DormCO2Usage');
+
+                // Submit to the DB
+                collection.insert(newjson, function (err, doc) {
+                    if (err) {
+                        // If it failed, return error
+                        console.log(err);
+                    }
+                    else {
+                        // And forward to success page
+                        console.log("DormCO2Usage: success!");
+                    }
+                });
+
+
+                newjson["co2"] = [];
+                newTime = newjson["startTime"];
+
+                for (i in result["group"]["data"][0]["r"]) {
+                    newTime = newTime.toString();
+
+                    newTree = {};
+                    newTree[newTime] = parseInt(result["group"]["data"][0]["r"][i]["c"][0]) * 0.00159;
+
+                    newjson["treeOffset"].push( newTree );
+
+                    newTime = parseInt(newTime) + 60000; //increment 1 minute
+                }
+
+                // Set our collection
+                collection = db.get('DormTreeOffset');
+
+                // Submit to the DB
+                collection.insert(newjson, function (err, doc) {
+                    if (err) {
+                        // If it failed, return error
+                        console.log(err);
+                    }
+                    else {
+                        // And forward to success page
+                        console.log("DormTreeOffset: success!");
                     }
                 });
 
             });
 
         });
-
 });
 
 router.get('/dbtest', function(req, res) {
