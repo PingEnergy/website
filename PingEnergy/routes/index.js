@@ -64,7 +64,7 @@ var listBuildings = createBuildingList(buildings);
 var moneySum = sumMoney(buildings);
 
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Ping Energy', moneySum: moneySum, listBuildings: listBuildings, data: JSON.stringify(jsbObject)}); 
+  res.render('index', { title: 'Ping Energy', moneySum: moneySum, listBuildings: listBuildings, data: JSON.stringify(jsbObject)});
 });
 
 //

@@ -17,13 +17,32 @@ router.get('/:building', cache('1 minute'), function(req, res, next) {
             var parseString = xml2js.parseString;
             var xml = body;
 
-            parseString(xml, function (err, result) {
+            parseString(xml,
+            function (err, result) {
                 console.dir(result);
-                res.json(result);
+                console.dir(result["group"]["data"][0]["$"]);
+
+                var timestamp = result["group"]["data"][0]["$"]["time_stamp"];
+
+                var date = new Date();
+                date.setTime(parseInt(timestamp, 16) * 1000); //start date of data
+
+                console.dir(result["group"]["data"][0]["r"][0]["c"]); //first minute data
+
+                console.dir(JSON.stringify(result));
             });
 
         });
 
+});
+
+router.get('/dbtest', function(req, res) {
+    var db = req.db;
+    var collection = db.get('DormEnergyUsage');
+    collection.find({},{},function(e,docs){
+        console.log(docs);
+        res.render('dbtest', {});
+    });
 });
 
 module.exports = router;
