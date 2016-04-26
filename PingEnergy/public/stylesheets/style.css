@@ -94,15 +94,8 @@ a {
 }
 
 .rankList {
-    margin-right: 70%;
     font-size: 1.5em;
-    float: left;
-}
-
-#moneyRaised {
-    width: 30%;
-    padding-right: 5%;
-    text-align: center;
+    margin-left: 20%;
 }
 
 #footer{
@@ -171,7 +164,6 @@ svg{
     stroke-width: 2px;
   }
 
-
   .day1 {fill: #66c166;}
   .day2 {fill: #99d699;}
   .day3 {fill: #cceacc;}
@@ -193,8 +185,6 @@ svg{
 .moneyBox {
     border: solid 1px black;
     border-radius: 20px;
-}
-
-#earnMoney {
-    text-align: justify;
+    width: 80%;
+    text-align: center;
 }
