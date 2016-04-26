@@ -56,35 +56,32 @@ function sumMoney(buildings) {
     return math.round((moneySum*100))/100;
 }
 
-function populateBuildingsObject(docsStuff) {
-    var buildings = [{"Beard": 64.3}, {"Chapin": 58.2}, {"Clark": 43.5}, {"Cragin": 38}, {"Everett": 37}, {"Gebbie": 34}, {"Keefe": 30}, {"Kilham": 29.3}, {"Larcom": 28}, {"McIntire": 25.6}, {"Meadows": 24.3}, {"Metcalf": 24}, {"Stanton": 23.4}, {"White": 22}, {"Young": 20}];
-
-    return buildings;
-}
+// function populateBuildingsObject(docsStuff) {
+//     var buildings = [{"Beard": 64.3}, {"Chapin": 58.2}, {"Clark": 43.5}, {"Cragin": 38}, {"Everett": 37}, {"Gebbie": 34}, {"Keefe": 30}, {"Kilham": 29.3}, {"Larcom": 28}, {"McIntire": 25.6}, {"Meadows": 24.3}, {"Metcalf": 24}, {"Stanton": 23.4}, {"White": 22}, {"Young": 20}];
+//
+//     console.log(docsStuff);
+//
+//     return buildings;
+// }
 
 router.get('/', function(req, res) {
-    var buildings,
-        jsObject,
-        listBuildings,
-        moneySum;
+    var db = req.db;
+    var collection = db.get('DormEnergyPerDay');
+    collection.find({"data": { $exists: 1 }},{},function(e,docs){
+        console.log(docs[0]);
+        //create buildings in proper format from data
+        // buildings = populateBuildingsObject(docs);
+        // buildings = populateBuildingsObject(docs[0]["money"]);
 
-    // var db = req.db;
-    // var collection = db.get('DormEnergyUsage');
-    // collection.find({},{},function(e,docs){
-    //     // console.log(docs);
-    //     //create buildings in proper format from data
-    //     // buildings = populateBuildingsObject(docs);
-    // });
+        var jsbObject = createBuildingObject(docs[0]["money"]);
+        var listBuildings = createBuildingList(docs[0]["money"]);
+        var moneySum = docs[0]["money_sum"];
 
-    buildings = populateBuildingsObject([]);
+        res.render('index', { title: 'Ping Energy', moneySum: moneySum, listBuildings: listBuildings, data: JSON.stringify(jsbObject)});
+    });
 
 
-    jsbObject = createBuildingObject(buildings);
-    console.log("jsbObject: ", jsbObject);
-    listBuildings = createBuildingList(buildings);
-    moneySum = sumMoney(buildings);
 
-    res.render('index', { title: 'Ping Energy', moneySum: moneySum, listBuildings: listBuildings, data: JSON.stringify(jsbObject)});
 });
 
 //
