@@ -7,9 +7,6 @@ var express = require('express'),
 var router = express.Router();
 var cache = apicache.middleware;
 
-//This should be generated and passed from data call of some kind??
-buildings = [{"Beard": 64.3}, {"Chapin": 58.2}, {"Clark": 43.5}, {"Cragin": 38}, {"Everett": 37}, {"Gebbie": 34}, {"Keefe": 30}, {"Kilham": 29.3}, {"Larcom": 28}, {"McIntire": 25.6}, {"Meadows": 24.3}, {"Metcalf": 24}, {"Stanton": 23.4}, {"White": 22}, {"Young": 20}];
-
 //assuming buildings come with buildings IN ORDER from most to least ENERGY SAVED
 function createBuildingObject(buildings) {
     //constants
@@ -59,12 +56,32 @@ function sumMoney(buildings) {
     return math.round((moneySum*100))/100;
 }
 
-var jsbObject = createBuildingObject(buildings);
-var listBuildings = createBuildingList(buildings);
-var moneySum = sumMoney(buildings);
+// function populateBuildingsObject(docsStuff) {
+//     var buildings = [{"Beard": 64.3}, {"Chapin": 58.2}, {"Clark": 43.5}, {"Cragin": 38}, {"Everett": 37}, {"Gebbie": 34}, {"Keefe": 30}, {"Kilham": 29.3}, {"Larcom": 28}, {"McIntire": 25.6}, {"Meadows": 24.3}, {"Metcalf": 24}, {"Stanton": 23.4}, {"White": 22}, {"Young": 20}];
+//
+//     console.log(docsStuff);
+//
+//     return buildings;
+// }
 
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Ping Energy', moneySum: moneySum, listBuildings: listBuildings, data: JSON.stringify(jsbObject)}); 
+    var db = req.db;
+    var collection = db.get('DormEnergyPerDay');
+    collection.find({"data": { $exists: 1 }},{},function(e,docs){
+        console.log(docs[0]);
+        //create buildings in proper format from data
+        // buildings = populateBuildingsObject(docs);
+        // buildings = populateBuildingsObject(docs[0]["money"]);
+
+        var jsbObject = createBuildingObject(docs[0]["money"]);
+        var listBuildings = createBuildingList(docs[0]["money"]);
+        var moneySum = docs[0]["money_sum"];
+
+        res.render('index', { title: 'Ping Energy', moneySum: moneySum, listBuildings: listBuildings, data: JSON.stringify(jsbObject)});
+    });
+
+
+
 });
 
 //
