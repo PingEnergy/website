@@ -74,7 +74,7 @@ router.get('/', function(req, res) {
     });
 });
 
-updateBubbleValues() {
+function updateBubbleValues() {
 
 }
 
