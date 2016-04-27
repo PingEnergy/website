@@ -58,6 +58,7 @@ $(document).ready(function(){
             }
         }
     }
+
    
     var width = 1000,
       height = 150,
