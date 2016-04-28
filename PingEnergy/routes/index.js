@@ -2,6 +2,7 @@ var express = require('express'),
     apicache = require('apicache'),
     cheerio = require('cheerio'),
     request = require('request'),
+    xml2js = require('xml2js');
     math = require('mathjs');
 
 var router = express.Router();
@@ -63,7 +64,7 @@ router.get('/', function(req, res) {
         console.log(docs[0]);
 
         if (docs[0]["current_date"] != docs[0]["last_update_date"]) {
-            updateBubbleValues();
+            updateBubbleValues(docs, req);
         }
 
         var jsbObject = createBuildingObject(docs[0]["money"]);
@@ -74,8 +75,43 @@ router.get('/', function(req, res) {
     });
 });
 
-function updateBubbleValues() {
+function updateBubbleValues(docs, req) {
+    var db = req.db;
+    var collection = db.get('DormEnergyPerDay');
 
+    var current_date = new Date();
+    current_date.setTime(docs[0]["current_date"]);
+    var last_update_date = new Date();
+    last_update_date.setTime(docs[0]["last_update_date"]);
+
+    console.log("Current date: ", current_date);
+    console.log("Last update date: ", last_update_date);
+
+    request('http://egauge-clark-mcintire-young.wheatoncollege.edu/cgi-bin/egauge-show?d' ,
+    function (error, response, body) {
+        var parseString = xml2js.parseString;
+        var xml = body;
+        parseString(xml,
+        function (err, result) {
+            // energyUsagePerDay
+            newjson = {};
+            newjson["startTime"] = newjson["endTime"]-691200000;
+            newjson["timeInterval"] = result["group"]["data"][0]["$"]["time_delta"];
+            var newTime = newjson["endTime"]-691200000;
+
+            // Submit to the DB
+            // collection.insert({}, function (err, doc) {
+            //     if (err) {
+            //         res.send("There was a problem adding the information to the database.");
+            //         console.log(err);
+            //     }
+            //     else {
+            //         console.log("DormEnergyUsagePerDay: success!");
+            //     }
+            // });
+
+        });
+    });
 }
 
 
