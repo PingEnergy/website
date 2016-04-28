@@ -93,11 +93,13 @@ function updateBubbleValues(docs, req) {
         var xml = body;
         parseString(xml,
         function (err, result) {
-            // energyUsagePerDay
-            newjson = {};
-            newjson["startTime"] = newjson["endTime"]-691200000;
-            newjson["timeInterval"] = result["group"]["data"][0]["$"]["time_delta"];
-            var newTime = newjson["endTime"]-691200000;
+
+            var end_date = (parseInt(result["group"]["data"][0]["$"]["time_stamp"], 16) * 1000)-691200000;
+
+
+
+
+
 
             // Submit to the DB
             // collection.insert({}, function (err, doc) {
@@ -109,7 +111,6 @@ function updateBubbleValues(docs, req) {
             //         console.log("DormEnergyUsagePerDay: success!");
             //     }
             // });
-
         });
     });
 }
