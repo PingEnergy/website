@@ -124,6 +124,20 @@ a {
     margin-bottom: 0%;
     margin-top: 3%;
 }
+#months_label{
+    margin-bottom: -1;
+}
+#links{
+    display: inline;
+
+}
+
+#total{
+    display: inline;
+    margin-left: 65%
+    /*float: right;*/
+    /*margin-right: 5%;*/
+}
 
 
 #historical{
@@ -138,17 +152,16 @@ svg{
 
 #information{
     margin:auto;
-    border: solid 1px black;
     border-radius: 20px;
     text-align: left;
     height: 10%;
     width: 100%;
-    margin-bottom: 2.8%;
+    /*margin-bottom: 2.8%;*/
     font-size: 1.5em;
 }
 
 #words{
-    border: solid 1px black;
+/*    border: solid 1px black;*/
     border-radius: 20px;
     text-align: left;
     width: 50%;
@@ -156,7 +169,10 @@ svg{
     padding-left:2%;
     margin-left: auto;
     margin-right: auto;
+}
 
+#year{
+    margin-left: -3%;
 }
 
 .day {
@@ -219,7 +235,7 @@ p {
     float: left;
 }
 #gousie{
-    margin-top: 3%
+    margin-top: 3%;
     margin-right: 10%;
     margin-left: 10%;
     float: right;
