@@ -85,8 +85,6 @@ router.get('/', function(req, res) {
         var jsbObject = createBuildingObject(docs, moneyCounts);
         var listBuildings = createBuildingList(moneyCounts);
 
-        console.log(jsbObject);
-
         res.render('index', { title: 'Ping Energy', moneySum: moneySum, listBuildings: listBuildings, data: JSON.stringify(jsbObject)});
     });
 });
