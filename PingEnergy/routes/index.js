@@ -62,75 +62,87 @@ router.get('/', function(req, res) {
     var collection = db.get('DormEnergyPerDay');
     collection.find({},{},function(e,docs){
 
-        if (docs[0]["current_date"] != docs[0]["last_update_date"]) {
-            updateBubbleValues(docs, req);
+        var currentDate = new Date();
+        var last_update_date = new Date();
+        last_update_date.setTime(docs[0]["last_update_date"]);
+
+        var returned,
+            moneyCounts,
+            moneySum;
+
+        if (currentDate.toDateString() !== last_update_date.toDateString()) {
+            returned = updateBubbleValues(docs, req, currentDate, last_update_date);
+            moneyCounts = returned[0];
+            moneySum = returned[1];
+        }
+        else {
+            moneyCounts = docs[0]["money"];
+            moneySum = docs[0]["money_sum"];
         }
 
-        var jsbObject = createBuildingObject(docs[0]["money"]);
-        var listBuildings = createBuildingList(docs[0]["money"]);
-        var moneySum = docs[0]["money_sum"];
+        var jsbObject = createBuildingObject(moneyCounts);
+        var listBuildings = createBuildingList(moneyCounts);
 
         res.render('index', { title: 'Ping Energy', moneySum: moneySum, listBuildings: listBuildings, data: JSON.stringify(jsbObject)});
     });
 });
 
-function updateBubbleValues(docs, req) {
+function updateBubbleValues(docs, req, current_date, last_update_date) {
     var db = req.db;
     var collection = db.get('DormEnergyPerDay');
 
-    var current_date = new Date();
-    current_date.setTime(docs[0]["current_date"]);
-    var last_update_date = new Date();
-    last_update_date.setTime(docs[0]["last_update_date"]);
+    var daysBack = Math.floor((current_date - last_update_date)/86400000);
 
-    while (last_update_date.getDate() != current_date.getDate()) {
+    while (last_update_date.toDateString() !== current_date.toDateString()) {
 
-        last_update_date.setTime(last_update_date.getTime() + 86400000); //need to actually set in database
+        last_update_date.setTime(last_update_date.getTime() + 86400000);
 
         var newMoney = docs[0]["money"];
 
         for (var i=1; i<docs.length; i++) {
+            var beginTime = docs[i]["endTime"] - daysBack*86400000;
 
-            // console.log("building: ", docs[i]["building"]);
-            //
-            // var newDayEnergyUsageObj = docs[i]["energyUsage"][docs[i]["energyUsage"].length - 1] //last available date in static data
-            //
-            // var newDayEnergyUsageDate = Object.keys(newDayEnergyUsageObj)[0];
-            // var newDayEnergyUsage = newDayEnergyUsageObj[newDayEnergyUsageDate];
-            //
-            // var newDay = new Date();
-            // newDay.setTime(newDayEnergyUsageDate);
-            // var weekBefore = new Date();
-            // weekBefore.setTime(newDay.getTime() - 14*86400000);
-            //
-            // for (var j=0; j<docs[i]["energyUsage"].length; j++) {
-            //     if (weekBefore.getTime() in docs[i]["energyUsage"][j]) {
-            //         var weekBeforeEnergyUsage = docs[i]["energyUsage"][j][weekBefore.getTime()];
-            //
-            //         var moneyToAdd = ((newDayEnergyUsage - weekBeforeEnergyUsage)/3600000) * .12;
-            //         console.log(moneyToAdd);
-            //
-            //         newMoney[docs[i]["building"]] += moneyToAdd;
-            //     }
-            // }
+            var startDate = beginTime - 86400000;
+            var startEnergy = docs[i]["energyUsage"][beginTime] - docs[i]["energyUsage"][startDate];
 
+            var weekBefore = beginTime - 7*86400000;
+            var weekBeforeOneMoreDay = weekBefore - 86400000;
+            var weekBeforeEnergy = docs[i]["energyUsage"][weekBefore] - docs[i]["energyUsage"][weekBeforeOneMoreDay];
+
+            var twoWeekBefore = beginTime - 14*86400000;
+            var twoWeekBeforeOneMoreDay = twoWeekBefore - 86400000;
+            var twoWeekBeforeEnergy = docs[i]["energyUsage"][twoWeekBefore] - docs[i]["energyUsage"][twoWeekBeforeOneMoreDay];
+
+            var threeWeekBefore = beginTime - 21*86400000;
+            var threeWeekBeforeOneMoreDay = threeWeekBefore - 86400000;
+            var threeWeekBeforeEnergy = docs[i]["energyUsage"][threeWeekBefore] - docs[i]["energyUsage"][threeWeekBeforeOneMoreDay];
+
+            var fourWeekBefore = beginTime - 28*86400000;
+            var fourWeekBeforeOneMoreDay = fourWeekBefore - 86400000;
+            var fourWeekBeforeEnergy = docs[i]["energyUsage"][fourWeekBefore] - docs[i]["energyUsage"][fourWeekBeforeOneMoreDay];
+
+            var difference = (((weekBeforeEnergy + twoWeekBeforeEnergy + threeWeekBeforeEnergy + fourWeekBeforeEnergy)/4) - startEnergy)/docs[i]["beds"];
+
+            if (difference > 0) {
+                var currentMoney = newMoney[docs[i]["building"]];
+                newMoney[docs[i]["building"]] = currentMoney + (difference * 1000);
+            }
         }
 
-        console.log(newMoney);
-
-
+        daysBack -= 1;
     }
 
     // Submit to the DB
-    // collection.insert({}, function (err, doc) {
-    //     if (err) {
-    //         res.send("There was a problem adding the information to the database.");
-    //         console.log(err);
-    //     }
-    //     else {
-    //         console.log("DormEnergyUsagePerDay: success!");
-    //     }
-    // });
+    var id = docs[0]["_id"];
+    var newMoneySum = 0;
+
+    for (var mon in newMoney) {
+        newMoneySum += parseFloat(newMoney[mon]);
+    }
+
+    collection.update({"_id": id}, {$set: {"last_update_date": current_date.getTime(), "money": newMoney, "money_sum": newMoneySum}});
+
+    return [newMoney, newMoneySum];
 }
 
 

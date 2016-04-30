@@ -7,9 +7,9 @@ var router = express.Router();
 var cache = apicache.middleware;
 
 router.get('/:building', cache('10 minutes'), function(req, res, next) {
-    // var building = req.params.building;
-    //
-    // request('http://egauge-meadows-ew-4th-floor.wheatoncollege.edu/cgi-bin/egauge-show?d&t&n=100' ,
+    var building = req.params.building;
+
+    // request('http://egauge-clark-mcintire-young.wheatoncollege.edu/cgi-bin/egauge-show?d&t&n=100' ,
     //
     //     function (error, response, body) {
     //         var parseString = xml2js.parseString;
@@ -23,7 +23,7 @@ router.get('/:building', cache('10 minutes'), function(req, res, next) {
     //             // 400 pounds of co2 = 1 tree
     //             // 400 / 1 = .6379 / x ~> .00159 tree per kwh
     //
-    //             var newjson = {"building": "Meadows West 4th",
+    //             var newjson = {"building": "Young",
     //                         "startTime": 1,
     //                         "endTime": 5,
     //                         "energyUsage": {}
@@ -31,17 +31,30 @@ router.get('/:building', cache('10 minutes'), function(req, res, next) {
     //
     //             //energyUsagePerDay
     //             newjson["endTime"] = parseInt(result["group"]["data"][0]["$"]["time_stamp"], 16) * 1000;
-    //             newjson["startTime"] = newjson["endTime"]-2592000000; //minus 100 days
-    //             var newTime = newjson["endTime"]-2592000000;
+    //             // newjson["startTime"] = newjson["endTime"]-2592000000; //minus 100 days
+    //             var newTime = newjson["endTime"];
     //
+    //             for (var i = 0; i < 100; i++) {
+    //                 newTime = newTime.toString();
+    //                 newjson["energyUsage"][newTime] = (parseInt(result["group"]["data"][0]["r"][i]["c"][2]))/3600000;
+    //
+    //                 newTime = parseInt(newTime) - 86400000;
+    //             }
+    //
+    //             newjson["startTime"] = newTime + 86400000;
+    //
+    //             console.log(newjson["endTime"]);
     //             console.log(newjson["startTime"]);
     //
-    //             for (var i = 99; i>=0; i--) {
-    //                  newTime = newTime.toString();
-    //                  newjson["energyUsage"][newTime] = result["group"]["data"][0]["r"][i]["c"][0]/3600000;
-    //
-    //                  newTime = parseInt(newTime) + 86400000; //increment 24 hours
-    //             }
+    //             // for (var i = 99; i>=0; i--) {
+    //             //      newTime = newTime.toString();
+    //             //      newjson["energyUsage"][newTime] = result["group"]["data"][0]["r"][i]["c"][0]/3600000;
+    //             //
+    //             //      console.log("Date: ", newTime);
+    //             //      console.log("Energy: ", result["group"]["data"][0]["r"][i]["c"][0]);
+    //             //
+    //             //      newTime = parseInt(newTime) - 86400000; //increment 24 hours
+    //             // }
     //
     //             // Set our internal DB variable
     //             var db = req.db;
