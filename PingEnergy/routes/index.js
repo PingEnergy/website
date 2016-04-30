@@ -22,7 +22,7 @@ function createBuildingObject(docs, moneyCounts) {
         var building = docs[i]["building"];
         var kwh = (moneyCounts[building] * docs[i]["beds"]) / 1000;
 
-        var money = moneyCounts[building];
+        var money = math.round((moneyCounts[building]) * 100)/100;
         var size = math.round((money * sizeScale) * 100)/100;
         var c02 = math.round((kwh * carbonScale) * 100)/100;
 
