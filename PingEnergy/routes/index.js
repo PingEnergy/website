@@ -14,7 +14,6 @@ function createBuildingObject(docs, moneyCounts) {
     var jsb = { "name": "buildings", "children" : []};
     var groupNames = ["1st", "2nd", "3rd", "2ndgroup", "3rdgroup", "4thgroup", "4thgroup", "5thgroup", "5thgroup"];
     var sizeScale = 4000;
-    var moneyScale = .14;
     var carbonScale = .6379;
 
     //loop buildings to create object
@@ -45,8 +44,6 @@ function createBuildingList(moneyCounts) {
         listToSort.push([building, moneyCounts[building]]);
     }
 
-    console.log(listToSort);
-
     listToSort.sort(function(a, b) {return b[1] - a[1]})
 
     var listBuildings = [];
@@ -56,16 +53,6 @@ function createBuildingList(moneyCounts) {
     }
 
     return listBuildings;
-}
-
-function sumMoney(buildings) {
-    var moneySum = 0;
-
-    for (i = 0; i < buildings.length; i++) {
-        moneySum += buildings[i][Object.keys(buildings[i])[0]] * .14;
-    }
-
-    return math.round((moneySum*100))/100;
 }
 
 router.get('/', function(req, res) {
@@ -81,15 +68,19 @@ router.get('/', function(req, res) {
             moneyCounts,
             moneySum;
 
-        if (currentDate.toDateString() !== last_update_date.toDateString()) {
-            returned = updateBubbleValues(docs, req, currentDate, last_update_date);
-            moneyCounts = returned[0];
-            moneySum = returned[1];
-        }
-        else {
-            moneyCounts = docs[0]["money"];
-            moneySum = docs[0]["money_sum"];
-        }
+        //ONLY FOR UPDATED DATA (NON-STATIC)
+        // if (currentDate.toDateString() !== last_update_date.toDateString()) {
+        //     returned = updateBubbleValues(docs, req, currentDate, last_update_date);
+        //     moneyCounts = returned[0];
+        //     moneySum = returned[1];
+        // }
+        // else {
+        //     moneyCounts = docs[0]["money"];
+        //     moneySum = math.round(docs[0]["money_sum"]*100)/100;
+        // }
+
+        moneyCounts = docs[0]["money"];
+        moneySum = math.round(docs[0]["money_sum"]*100)/100;
 
         var jsbObject = createBuildingObject(docs, moneyCounts);
         var listBuildings = createBuildingList(moneyCounts);
