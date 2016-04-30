@@ -30,7 +30,7 @@ function makeSVG(year) {
 }
 
 function draw(year, svg, svg2) {
-    console.log(days);
+
     var color = ["#d1ecd1", "#66c166", "#99d699", "#cceacc", "#ffcccc", "#ff9999", "#ff6666"];
     var totalSum = 0;
     var daySum = 0;
@@ -51,7 +51,19 @@ function draw(year, svg, svg2) {
         .text(year);
     
     var rect = svg.selectAll(".day")
-        .data(function(d) { return d3.time.days(new Date(year, 0, 1), new Date(year + 1, 0, 1)); })
+        .data(function(d) { return(d3.time.days(new Date(year, 0, 1), new Date(year + 1, 0, 1)));
+           /* var old = d3.time.days(new Date(year, 0, 1), new Date(year + 1, 0, 1));
+            var days = [] 
+            for(var i =0; i < old.length; i++) {
+                var month = old[i].getMonth()+1;
+                var day = old[i].getDate();
+                var date = month + '-' + day + '-' + year;
+                days[i] = date;
+            }
+            console.log(days);
+            
+            return days; // returns a Date*/
+        })
       .enter().append("rect")
         .attr("class", "day")
         .attr("width", cellSize)
@@ -63,6 +75,53 @@ function draw(year, svg, svg2) {
         .attr("fill", "white")
         .on("click", function(d) {lowerBox(d);})
         .datum(format);
+               
+    console.log(days["high"]);
+    console.log(days["low"]);
+    
+    var differance = (parseFloat(days["high"]) - parseFloat(days["low"]))/6;
+    console.log(differance);
+    
+        
+    var allRects = d3.selectAll(".day")[0];
+ 
+    //for (x = 0; x < 90; x++) { 
+    //    if (days) {
+    //        d3.select(allRects[x]).attr("fill", "#d1ecd1");
+    //    }
+    //    else if (dayData[x] > 30 && dayData[x] <= 50) {
+    //        d3.select(allRects[x]).attr("fill", "#66c166");
+    //    }
+    //    else if (dayData[x] > 50 && dayData[x] <= 75) {
+    //        d3.select(allRects[x]).attr("fill", "#99d699");
+    //    }
+    //    else if (dayData[x]> 75 && dayData[x] <= 135) {
+    //        d3.select(allRects[x]).attr("fill", "#cceacc");
+    //    }
+    //    else if ( dayData[x]> 135 && dayData[x] <= 195) {
+    //        d3.select(allRects[x]).attr("fill", "#ffcccc");
+    //    }
+    //    else if (dayData[x] > 195 && dayData[x] <= 225) {
+    //        d3.select(allRects[x]).attr("fill", "#ff9999");
+    //    }
+    //    else {
+    //        d3.select(allRects[x]).attr("fill", "#ff6666"); 
+    //    }
+    //
+    //}   
+           
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
 
     svg.selectAll(".month")
         .data(function(d) { return d3.time.months(new Date(year, 0, 1), new Date(year+1, 0, 1)); })
