@@ -12,6 +12,7 @@ router.get('/:building', cache('10 minutes'), function(req, res, next) {
     //energyUsage
     // request('http://cs.wheatoncollege.edu/~egauge/' + building + '/'  + building + '.xml',
     //energyUsagePerDay
+
     // request('http://egauge-beard.wheatoncollege.edu/cgi-bin/egauge-show?d' ,
 
         // function (error, response, body) {
@@ -20,10 +21,21 @@ router.get('/:building', cache('10 minutes'), function(req, res, next) {
         //
             // parseString(xml,
             // function (err, result) {
+
+    request('http://egauge-clark-mcintire-young.wheatoncollege.edu/cgi-bin/egauge-show?d&f&n=100' ,
+
+        function (error, response, body) {
+            var parseString = xml2js.parseString;
+            var xml = body;
+
+            parseString(xml,
+            function (err, result) {
+
                 // 1kwh = .6379 pounds of co2
                 // 2000 pounds of co2 = 5 trees
                 // 400 pounds of co2 = 1 tree
                 // 400 / 1 = .6379 / x ~> .00159 tree per kwh
+
 
                 // var newjson = {"building": "Beard",
                 //             "startTime": 1,
@@ -33,8 +45,15 @@ router.get('/:building', cache('10 minutes'), function(req, res, next) {
                 //             "co2": [],
                 //             "treeOffset": []
                 //         };
-                // energyUsage every minute
 
+                var newjson = {"building": "Clark",
+                            "startTime": 1,
+                            "endTime": 5,
+                            "energyUsage": {}
+                        };
+
+                // energyUsage every minute
+                //
                 // newjson["startTime"] = parseInt(result["group"]["data"][0]["$"]["time_stamp"], 16) * 1000;
                 // newjson["endTime"] = parseInt(result["group"]["data"][0]["$"]["epoch"], 16) * 1000;
                 // newjson["timeInterval"] = result["group"]["data"][0]["$"]["time_delta"];
@@ -50,6 +69,7 @@ router.get('/:building', cache('10 minutes'), function(req, res, next) {
                 //
                 //     newTime = parseInt(newTime) + 60000; //increment 1 minute
                 // }
+
 
 
                 // energyUsagePerDay
@@ -74,7 +94,19 @@ router.get('/:building', cache('10 minutes'), function(req, res, next) {
                 //
                 // }
 
+                //energyUsagePerDay
+                // newjson["endTime"] = parseInt(result["group"]["data"][0]["$"]["time_stamp"], 16) * 1000;
+                // newjson["startTime"] = newjson["endTime"]-2592000000; //minus 100 days
+                // var newTime = newjson["endTime"]-2592000000;
 
+
+                // console.log(newjson["startTime"]);
+                //
+                // for (var i = 99; i>=0; i--){
+                //      newTime = newTime.toString();
+                //      newjson["energyUsage"][newTime] = result["group"]["data"][0]["r"][i]["c"][0];
+                //
+                //      newTime = parseInt(newTime) + 86400000; //increment 24 hours
 
 
 //
@@ -97,6 +129,8 @@ router.get('/:building', cache('10 minutes'), function(req, res, next) {
                 //         console.log("DormEnergyUsagePerDay: success!");
                 //     }
                 // });
+
+
 
 
 //                 newjson["energyUsage"] = [];
@@ -157,18 +191,18 @@ router.get('/:building', cache('10 minutes'), function(req, res, next) {
 //                     }
                 // });
 
-            // });
+            });
 
-        // });
+        });
 });
 
-// router.get('/dbtest', function(req, res) {
-//     var db = req.db;
-//     var collection = db.get('DormEnergyUsagePerDay');
-//     collection.find({},{},function(e,docs){
-//         console.log(docs);
-//         res.render('dbtest', {});
-//     });
-// });
+router.get('/dbtest', function(req, res) {
+    var db = req.db;
+    var collection = db.get('DormEnergyUsagePerDay');
+    collection.find({},{},function(e,docs){
+        console.log(docs);
+        res.render('dbtest', {});
+    });
+});
 
 module.exports = router;
