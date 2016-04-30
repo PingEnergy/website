@@ -38,11 +38,21 @@ function createBuildingObject(docs, moneyCounts) {
     return jsb;
 }
 
-function createBuildingList(docs) {
+function createBuildingList(moneyCounts) {
+    var listToSort = [];
+
+    for (building in moneyCounts) {
+        listToSort.push([building, moneyCounts[building]]);
+    }
+
+    console.log(listToSort);
+
+    listToSort.sort(function(a, b) {return b[1] - a[1]})
+
     var listBuildings = [];
 
-    for (i = 1; i < docs.length; i++) {
-        listBuildings.push(docs[i]["building"]);
+    for (var i = 0; i < listToSort.length; i++) {
+        listBuildings.push(listToSort[i][0]);
     }
 
     return listBuildings;
@@ -82,7 +92,7 @@ router.get('/', function(req, res) {
         }
 
         var jsbObject = createBuildingObject(docs, moneyCounts);
-        var listBuildings = createBuildingList(docs);
+        var listBuildings = createBuildingList(moneyCounts);
 
         console.log(jsbObject);
 
