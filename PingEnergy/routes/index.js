@@ -91,33 +91,33 @@ function updateBubbleValues(docs, req) {
 
         for (var i=1; i<docs.length; i++) {
 
-            console.log("building: ", docs[i]["building"]);
-
-            var newDayEnergyUsageObj = docs[i]["energyUsage"][docs[i]["energyUsage"].length - 1] //last available date in static data
-
-            var newDayEnergyUsageDate = Object.keys(newDayEnergyUsageObj)[0];
-            var newDayEnergyUsage = newDayEnergyUsageObj[newDayEnergyUsageDate];
-
-            var newDay = new Date();
-            newDay.setTime(newDayEnergyUsageDate);
-            var weekBefore = new Date();
-            weekBefore.setTime(newDay.getTime() - 14*86400000);
-
-            for (var j=0; j<docs[i]["energyUsage"].length; j++) {
-                if (weekBefore.getTime() in docs[i]["energyUsage"][j]) {
-                    var weekBeforeEnergyUsage = docs[i]["energyUsage"][j][weekBefore.getTime()];
-
-                    var moneyToAdd = ((newDayEnergyUsage - weekBeforeEnergyUsage)/3600000) * .12;
-                    console.log(moneyToAdd);
-
-                    newMoney[docs[i]["building"]] += moneyToAdd;
-                }
-            }
+            // console.log("building: ", docs[i]["building"]);
+            //
+            // var newDayEnergyUsageObj = docs[i]["energyUsage"][docs[i]["energyUsage"].length - 1] //last available date in static data
+            //
+            // var newDayEnergyUsageDate = Object.keys(newDayEnergyUsageObj)[0];
+            // var newDayEnergyUsage = newDayEnergyUsageObj[newDayEnergyUsageDate];
+            //
+            // var newDay = new Date();
+            // newDay.setTime(newDayEnergyUsageDate);
+            // var weekBefore = new Date();
+            // weekBefore.setTime(newDay.getTime() - 14*86400000);
+            //
+            // for (var j=0; j<docs[i]["energyUsage"].length; j++) {
+            //     if (weekBefore.getTime() in docs[i]["energyUsage"][j]) {
+            //         var weekBeforeEnergyUsage = docs[i]["energyUsage"][j][weekBefore.getTime()];
+            //
+            //         var moneyToAdd = ((newDayEnergyUsage - weekBeforeEnergyUsage)/3600000) * .12;
+            //         console.log(moneyToAdd);
+            //
+            //         newMoney[docs[i]["building"]] += moneyToAdd;
+            //     }
+            // }
 
         }
 
         console.log(newMoney);
-        
+
 
     }
 
