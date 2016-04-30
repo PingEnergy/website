@@ -9,25 +9,26 @@ var router = express.Router();
 var cache = apicache.middleware;
 
 //assuming buildings come with buildings IN ORDER from most to least ENERGY SAVED
-function createBuildingObject(buildings) {
+function createBuildingObject(docs, moneyCounts) {
     //constants
     var jsb = { "name": "buildings", "children" : []};
-    var groupNames = ["1st", "2nd", "3rd", "2ndgroup", "2ndgroup", "2ndgroup", "3rdgroup", "3rdgroup", "3rdgroup", "4thgroup", "4thgroup", "4thgroup", "5thgroup", "5thgroup", "5thgroup"];
+    var groupNames = ["1st", "2nd", "3rd", "2ndgroup", "3rdgroup", "4thgroup", "4thgroup", "5thgroup", "5thgroup"];
     var sizeScale = 4000;
     var moneyScale = .14;
     var carbonScale = .6379;
 
     //loop buildings to create object
-    for (i = 0; i < buildings.length; i++) {
-        var kwh = buildings[i][Object.keys(buildings[i])];
+    for (i = 1; i < docs.length; i++) {
+        var building = docs[i]["building"];
+        var kwh = (moneyCounts[building] * docs[i]["beds"]) / 1000;
 
-        var size = math.round((kwh * sizeScale) * 100)/100;
-        var money = math.round((kwh * moneyScale) * 100)/100;
+        var money = moneyCounts[building];
+        var size = math.round((money * sizeScale) * 100)/100;
         var c02 = math.round((kwh * carbonScale) * 100)/100;
 
         var child = {"name": groupNames[i],
             "children": [
-                {"name": Object.keys(buildings[i])[0], "size": size, "active": false, "money": money, "carbon": c02}
+                {"name": building, "size": size, "active": false, "money": money, "carbon": c02}
             ]
         }
 
@@ -37,11 +38,11 @@ function createBuildingObject(buildings) {
     return jsb;
 }
 
-function createBuildingList(buildings) {
+function createBuildingList(docs) {
     var listBuildings = [];
 
-    for (i = 0; i < buildings.length; i++) {
-        listBuildings.push(Object.keys(buildings[i])[0]);
+    for (i = 1; i < docs.length; i++) {
+        listBuildings.push(docs[i]["building"]);
     }
 
     return listBuildings;
@@ -80,8 +81,10 @@ router.get('/', function(req, res) {
             moneySum = docs[0]["money_sum"];
         }
 
-        var jsbObject = createBuildingObject(moneyCounts);
-        var listBuildings = createBuildingList(moneyCounts);
+        var jsbObject = createBuildingObject(docs, moneyCounts);
+        var listBuildings = createBuildingList(docs);
+
+        console.log(jsbObject);
 
         res.render('index', { title: 'Ping Energy', moneySum: moneySum, listBuildings: listBuildings, data: JSON.stringify(jsbObject)});
     });
