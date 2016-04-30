@@ -13,12 +13,6 @@ function makeSVG(year) {
         format = d3.time.format("%m-%d-%Y")
       
     var margin = {top: 20, right: 20, bottom: 20, left: 20};
-    
-    var yearSvg = d3.select("#historical").append("svg")
-        .attr("id", "yearSVG")
-        .attr("width", cellSize )
-        .attr("height", height + margin.top + margin.bottom)
-        .attr("transform", "translate( 0," + (height - cellSize * 7 - 1) + ")");
       
     var svg = d3.select("#historical").append("svg")
         .attr("width", width + margin.left + margin.right )
@@ -33,10 +27,10 @@ function makeSVG(year) {
         .attr("stroke-width", "1px")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         
-    draw(year, svg, svg2, yearSvg);
+    draw(year, svg, svg2);
 }
 
-function draw(year, svg, svg2, yearSVG) {
+function draw(year, svg, svg2) {
     var color = ["#d1ecd1", "#66c166", "#99d699", "#cceacc", "#ffcccc", "#ff9999", "#ff6666"];
     var totalSum = 0;
     var daySum = 0;
@@ -49,13 +43,6 @@ function draw(year, svg, svg2, yearSVG) {
       format = d3.time.format("%m-%d-%Y")
       
     var margin = {top: 20, right: 20, bottom: 20, left: 20};
-    
-    yearSVG.append("text")
-      .attr("id", "year")
-      .attr("transform", "translate(0," + cellSize * 3.5 +")rotate(-90)")
-      .style("text-anchor", "middle")
-      .text(year);
-      
     
     var rect = svg.selectAll(".day")
         .data(function(d) { return d3.time.days(new Date(year, 0, 1), new Date(year + 1, 0, 1)); })

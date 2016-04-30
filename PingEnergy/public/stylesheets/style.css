@@ -125,7 +125,7 @@ a {
     margin-top: 3%;
 }
 #months_label{
-    margin-bottom: -1;
+    /*margin-bottom: -1;*/
 }
 #links{
     display: inline;
@@ -141,9 +141,11 @@ a {
 
 
 #historical{
-    margin-top: 0%;
+    display: inline;
+    margin-top: auto;
     margin-left: 3%;
     margin-right: 3%;
+    /*float: right;*/
 
 }
 svg{
@@ -171,8 +173,10 @@ svg{
     margin-right: auto;
 }
 
-#year{
-    margin-left: -3%;
+#yearChosen{
+    display: inline;
+    margin: auto;
+    
 }
 
 .day {

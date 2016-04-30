@@ -26,9 +26,9 @@ router.route('/').get(function(req, res) {
         var keylen = Object.keys(docs[0]["energyUsage"]).length;
         console.log(keylen);
         for (var i = 0; i < keylen; i++) {
-            var myDate = new Date((Object.keys(docs[1]["energyUsage"][i])[0])*1);
+            //var myDate = new Date((Object.keys(docs[1]["energyUsage"][i])[0])*1);
            // console.log(myDate);
-            var date = (myDate.getMonth()+1) + '-' + (myDate.getDate()) + '-' + (myDate.getFullYear());
+            //var date = (myDate.getMonth()+1) + '-' + (myDate.getDate()) + '-' + (myDate.getFullYear());
 
 
             // console.log(date);
