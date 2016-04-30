@@ -1,46 +1,77 @@
 var express = require('express');
 var router = express.Router();
 
-function yearSum(docs, keyList) {
-//    console.log(keyList);
-//    var sum=0;
-//    for(var doc =0; doc<9; doc++){
-//        for(var i=0; i < keyList.length; i++)
-//        {
-//            console.log(docs[doc]["energyUsage"][i]);
-//        }
-//    }
-//    
-//    return sum;
+function yearSum(docs) {
+    var sum=0;
+    for(var doc =0; doc < docs.length; doc++){ //for each document in docs
+        //console.log(sum);
+        var keys = [];
+        keys = Object.keys(docs[doc]["energyUsage"]);
+
+        for(var i=0; i < keys.length; i++) // for each key
+        {
+            sum = sum + parseFloat(docs[doc]["energyUsage"][keys[i]]);
+        }
+    }
+   
+    sum = Math.round(sum * 10000) / 10000;
+    return sum;
 }
 
-function days(docs, keyList) {    
+function days(docs) {
+    var keys = [];
+    var dates = [];
+    var days = {};
+    var high = 0;
+    var low = 11111111;
+    for(var k = 0; k < docs.length; k++){
+        keys.push(Object.keys(docs[k]["energyUsage"]));
+    }
+    var one = keys[0];
+
+    for(var d = 0; d < one.length ; d++){
+        var myDate = new Date((one[d])*1);
+        var date = (myDate.getMonth()+1) + '-' + (myDate.getDate()) + '-' + (myDate.getFullYear());
+        dates.push(date)
+    }
+    // DATES GOES FROM OLDEST DATE TO NEWEST DATE!!!!!
+    
+    // for each day we have data for
+    for(var i = 99; i >= 0; i--){
+        var key = dates[i];
+        var value = 0.0;
+        //for each document
+        
+        for(var doc = 0; doc < docs.length-1; doc++){           
+            value = value + parseFloat(docs[doc]["energyUsage"][keys[doc][i]]);
+        }
+        if (value > high) {
+            high = value;
+        
+        }
+        if (value < low) {
+            low = value;
+        }
+        days[key] = value;
+    }
+    
+    days["high"] = high;
+    days["low"] = low;
+    
+    return days;
+    
 }
 
 router.route('/').get(function(req, res) {
     var db = req.db;
     var collection = db.get('DormEnergyPerDay');
-    collection.find({"data": { $exists: 0 }},{},function(e,docs){
+    collection.find({"data": { $exists: 0 }},{},function(e, docs){
         
-        var keys = [];
-        var keylen = Object.keys(docs[0]["energyUsage"]).length;
-        console.log(keylen);
-        for (var i = 0; i < keylen; i++) {
-            //var myDate = new Date((Object.keys(docs[1]["energyUsage"][i]))*1);
-            //console.log(myDate);
-            //var date = (myDate.getMonth()+1) + '-' + (myDate.getDate()) + '-' + (myDate.getFullYear());
-
-
-            // console.log(date);
-            //console.log(Object.keys(docs[0]["energyUsage"][i])[0]);
-            //keys.push(myDate);
-        }
+        var yearTotal = yearSum(docs);
+        var dayTotals = days(docs);
         
-        var yearTotal = yearSum(docs, keys);
-        var dayTotals = days(docs, keys);
-        //.00159 tree per kwh * kwh = trees to offset for that day
 
-        res.render('historical', {title: 'Ping Energy' });
+        res.render('historical', {title: 'Ping Energy', yeartotal: JSON.stringify({"yearTotal":yearTotal}), days: JSON.stringify(dayTotals) });
     });
 });
 

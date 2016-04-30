@@ -1,7 +1,6 @@
 $(document).ready(function(){
     // dayData = {"date_integer": [totalForAllBuildings, CO2, treeOffset}
-    makeSVG(2017);
-    
+    makeSVG(2016);   
 });
 
 function makeSVG(year) {
@@ -31,6 +30,7 @@ function makeSVG(year) {
 }
 
 function draw(year, svg, svg2) {
+    console.log(days);
     var color = ["#d1ecd1", "#66c166", "#99d699", "#cceacc", "#ffcccc", "#ff9999", "#ff6666"];
     var totalSum = 0;
     var daySum = 0;
@@ -84,7 +84,9 @@ function draw(year, svg, svg2) {
     var total = d3.select("#total").append("text")
         .attr("transform", "translate(100, 0)rotate(0)")
         .style("text-anchor", "left")
-        .text("Total Energy Used:");
+        .text("Total Energy Used:  " + totalYear["yearTotal"] + " kWh");
+ 
+ //.00159 tree per kwh * kwh = trees to offset for that day
            
     function lowerBox(date) {
         var str = ("Date: " + date + "<br>" + "Total Energy Used : 1089 MWh" + "<br>" + "Trees to offset: 7" + "<br>" + "CO2 emitted: 888lbs");
@@ -97,12 +99,13 @@ function draw(year, svg, svg2) {
 
     }
     
+    
 }
 
-function clear(year) {
-    d3.select("calendar").remove();
-    d3.select("information").remove()
-    makeSVG(year);
+function clear() {
+    console.log("fuck me sideways");
+    $( "#container" ).empty();
+    makeSVG(2017);
 }
 
 

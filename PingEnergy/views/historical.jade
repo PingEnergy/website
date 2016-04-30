@@ -1,14 +1,16 @@
 extends layout
 
 block content
-  script(src="/scripts/historical.js")
+  script(type='text/javascript').
+    var totalYear = !{yeartotal};
+    var days = !{days};
+  script(type='text/javascript' src="/scripts/historical.js")
   #yearChosen
   #label
     #links
-    button(onclick='clear(2015)') 2015
-    button(onclick='clear(2016)') 2016
-    button(onclick='clear(2017)') 2017
-   
+      button.button(value="2015", onclick='clear()' ) 2015
+      button.button(value="2016", onclick='clear()' ) 2016
+      button(class="button", value="2017", onClick="clear()") 2017
     #total
     #months_labels
       table(style='margin-left: 5%; margin-right: 5%')
