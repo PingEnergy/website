@@ -1,6 +1,6 @@
 $(document).ready(function(){
     // dayData = {"date_integer": [totalForAllBuildings, CO2, treeOffset}
-    makeSVG(2015);
+    makeSVG(2017);
     
 });
 
@@ -44,6 +44,12 @@ function draw(year, svg, svg2) {
       
     var margin = {top: 20, right: 20, bottom: 20, left: 20};
     
+    var total = d3.select("#yearChosen").append("text")
+        .attr("transform", "translate(45, 0)rotate(-90)")
+        .style("text-anchor", "left")
+        .style("font-size","34px")
+        .text(year);
+    
     var rect = svg.selectAll(".day")
         .data(function(d) { return d3.time.days(new Date(year, 0, 1), new Date(year + 1, 0, 1)); })
       .enter().append("rect")
@@ -77,8 +83,6 @@ function draw(year, svg, svg2) {
 
     var total = d3.select("#total").append("text")
         .attr("transform", "translate(100, 0)rotate(0)")
-        //.attr("stroke", "black")
-        //.attr("stroke-width", "1px")
         .style("text-anchor", "left")
         .text("Total Energy Used:");
            
