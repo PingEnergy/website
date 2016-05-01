@@ -30,8 +30,6 @@ function makeSVG(year) {
 }
 
 function draw(year, svg, svg2) {
-
-    var color = ["#d1ecd1", "#66c166", "#99d699", "#cceacc", "#ffcccc", "#ff9999", "#ff6666"];
     var totalSum = 0;
     var daySum = 0;
 
@@ -51,19 +49,7 @@ function draw(year, svg, svg2) {
         .text(year);
     
     var rect = svg.selectAll(".day")
-        .data(function(d) { return(d3.time.days(new Date(year, 0, 1), new Date(year + 1, 0, 1)));
-           /* var old = d3.time.days(new Date(year, 0, 1), new Date(year + 1, 0, 1));
-            var days = [] 
-            for(var i =0; i < old.length; i++) {
-                var month = old[i].getMonth()+1;
-                var day = old[i].getDate();
-                var date = month + '-' + day + '-' + year;
-                days[i] = date;
-            }
-            console.log(days);
-            
-            return days; // returns a Date*/
-        })
+        .data(function(d) { return(d3.time.days(new Date(year, 0, 1), new Date(year + 1, 0, 1)));})
       .enter().append("rect")
         .attr("class", "day")
         .attr("width", cellSize)
@@ -72,56 +58,20 @@ function draw(year, svg, svg2) {
         .attr("y", function(d) { return d.getDay() * cellSize; })
         .attr("stroke", "black")
         .attr("stroke-width", ".5px")
-        .attr("fill", "white")
+        .attr("fill", function(d){
+            var month = d.getMonth()+1;
+            var day = d.getDate();
+            var date = (month + '-' + day + '-' + year);
+            var color = "white";
+            for (x in days) {
+                if (x == date) {
+                    color = colorDay(days[x]);
+                }
+            }
+            return color;
+            })
         .on("click", function(d) {lowerBox(d);})
-        .datum(format);
-               
-    console.log(days["high"]);
-    console.log(days["low"]);
-    
-    var differance = (parseFloat(days["high"]) - parseFloat(days["low"]))/6;
-    console.log(differance);
-    
-        
-    var allRects = d3.selectAll(".day")[0];
- 
-    //for (x = 0; x < 90; x++) { 
-    //    if (days) {
-    //        d3.select(allRects[x]).attr("fill", "#d1ecd1");
-    //    }
-    //    else if (dayData[x] > 30 && dayData[x] <= 50) {
-    //        d3.select(allRects[x]).attr("fill", "#66c166");
-    //    }
-    //    else if (dayData[x] > 50 && dayData[x] <= 75) {
-    //        d3.select(allRects[x]).attr("fill", "#99d699");
-    //    }
-    //    else if (dayData[x]> 75 && dayData[x] <= 135) {
-    //        d3.select(allRects[x]).attr("fill", "#cceacc");
-    //    }
-    //    else if ( dayData[x]> 135 && dayData[x] <= 195) {
-    //        d3.select(allRects[x]).attr("fill", "#ffcccc");
-    //    }
-    //    else if (dayData[x] > 195 && dayData[x] <= 225) {
-    //        d3.select(allRects[x]).attr("fill", "#ff9999");
-    //    }
-    //    else {
-    //        d3.select(allRects[x]).attr("fill", "#ff6666"); 
-    //    }
-    //
-    //}   
-           
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        .datum(format);     
 
     svg.selectAll(".month")
         .data(function(d) { return d3.time.months(new Date(year, 0, 1), new Date(year+1, 0, 1)); })
@@ -147,18 +97,59 @@ function draw(year, svg, svg2) {
  
  //.00159 tree per kwh * kwh = trees to offset for that day
            
-    function lowerBox(date) {
-        var str = ("Date: " + date + "<br>" + "Total Energy Used : 1089 MWh" + "<br>" + "Trees to offset: 7" + "<br>" + "CO2 emitted: 888lbs");
+       
+}
 
-        d3.select("#words").selectAll("text").remove();
-        $('#words').empty();
-
-        var div = document.getElementById("words");
-        div.innerHTML = div.innerHTML + str;
-
+function colorDay(data) {
+    var l = days["low"];
+    var color = ["#3f9b3f", "#66c166", "#99d699", "#cceacc", "#ffcccc", "#ff9999", "#ff6666"];
+    var differance = (parseFloat(days["high"]) - parseFloat(days["low"]))/6;
+    var one = (l + (differance/2));
+    var two = one + differance;
+    var three = two + differance
+    var four = three + differance;
+    var five = four + differance;
+    var six = five + (differance/2);
+    if (data < one ){
+            return color[0];
     }
+    else if (data < two && data > one) {
+        return color[1];
+    }
+    else if (data < three && data > two) {
+        return color[2];
+    }
+    else if (data < four && data > three) {
+        return color[3];
+    }
+    else if (data < five && data > four) {
+        return color[4];
+    }
+    else if (data < six && data > five) {
+        return color[5];
+    }
+    else {
+        return color[6]; 
+    }   
+}
+
+function lowerBox(date) {
+    //console.log(days);
+    for(d in days)
+    {
+        var c = '0' + d;
     
-    
+        if (c == date) {
+            console.log(days[d]);
+        }
+    }
+    var str = ("Date: " + date + "<br>" + "Total Energy Used : 1089 MWh" + "<br>" + "Trees to offset: 7" + "<br>" + "CO2 emitted: 888lbs");
+
+    d3.select("#words").selectAll("text").remove();
+    $('#words').empty();
+
+    var div = document.getElementById("words");
+    div.innerHTML = div.innerHTML + str;
 }
 
 function clear() {
