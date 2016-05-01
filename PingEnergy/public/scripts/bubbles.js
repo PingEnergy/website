@@ -5,7 +5,9 @@ $(document).ready(function() {
 function generateChart() {
     $("#bubbles").empty();
 
-    var color = d3.scale.ordinal().range(["#00441b", "#006d2c", "#238b45", "#41ab5d", "#74c476", "#a1d99b", "#c7e9c0", "#e5f5e0", "#f7fcf5"]);
+    // var color2 = d3.scale.ordinal().range(["#00441b", "#006d2c", "#238b45", "#41ab5d", "#74c476", "#a1d99b", "#c7e9c0", "#e5f5e0", "#f7fcf5"]);
+
+    var color = d3.scale.ordinal().range(["#388938","#46ad46","#54b954","#87ce87","#66c166","#84cd84","99D699", "#cceacc"]);
 
     var diameter = 650,
         height = 500,
@@ -13,6 +15,7 @@ function generateChart() {
 
     var bubble = d3.layout.pack()
         .sort(function comparator(a, b) {
+            console.log("a: ", a, "value: ", a.value, "b: ", b, "value: ", b.value);
             return b.value - a.value;
         })
         .size([diameter, height])

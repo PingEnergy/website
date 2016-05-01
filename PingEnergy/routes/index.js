@@ -12,14 +12,12 @@ var cache = apicache.middleware;
 function createBuildingObject(docs, moneyCounts, listBuildings) {
     //constants
     var jsb = { "name": "buildings", "children" : []};
-    var groupNames = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th"];
+    var groupNames = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
     var sizeScale = 4000;
     var carbonScale = .6379;
     var treeOffset = .00159;
 
     //loop buildings to create object
-    console.log("BUILDINGS: ", listBuildings);
-
     for (var i = 0; i < listBuildings.length; i++) {
         var building = listBuildings[i];
         var beds = 0;
@@ -27,20 +25,19 @@ function createBuildingObject(docs, moneyCounts, listBuildings) {
         for (var j = 1; j < docs.length; j++) {
             if (docs[j]["building"] == building) {
                 beds = docs[j]["beds"];
-                console.log("Building: ", building, "Beds: ", beds);
             }
         }
 
-        var kwh = (moneyCounts[building] * beds) / 1000;
+        var kwh = math.round(((moneyCounts[building] * beds) / 1000) * 100)/100;
 
         var money = math.round((moneyCounts[building]) * 100)/100;
-        var size = math.round((kwh * sizeScale) * 100)/100;
+        var size = math.round((moneyCounts[building] * sizeScale) * 100)/100;
         var c02 = math.round((kwh * carbonScale) * 100)/100;
         var treeOffset = math.round((kwh * treeOffset) * 1000000)/1000000;
 
         var child = {"name": groupNames[i],
             "children": [
-                {"name": building, "size": size, "active": false, "money": money, "carbon": c02, "tree": treeOffset}
+                {"name": building, "size": size, "active": false, "kwh": kwh, "money": money, "carbon": c02, "tree": treeOffset}
             ]
         }
 
