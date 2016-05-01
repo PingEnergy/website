@@ -1,6 +1,21 @@
 $(document).ready(function(){
     // dayData = {"date_integer": [totalForAllBuildings, CO2, treeOffset}
-    makeSVG(2016);   
+    makeSVG(2016);
+    $(".y").on("click", function() {
+        $( "#historical" ).empty();
+        $( "#total" ).empty();
+        $( "#yearChosen" ).empty();
+        $( "#S" ).empty();
+        $( "#M" ).empty();
+        $( "#T" ).empty();
+        $( "#W" ).empty();
+        $( "#R" ).empty();
+        $( "#F" ).empty();
+        $( "#s" ).empty();
+        $( "#information" ).empty();
+        $( "#words" ).empty();
+        makeSVG(parseInt($(this).val()));
+    });
 });
 
 function makeSVG(year) {
@@ -185,10 +200,6 @@ function lowerBox(date) {
     div.innerHTML = div.innerHTML + str;
 }
 
-function clear() {
-    console.log("fuck me sideways");
-    $( "#container" ).empty();
-    makeSVG(2017);
-}
+
 
 
