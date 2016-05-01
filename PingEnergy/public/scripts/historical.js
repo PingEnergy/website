@@ -191,10 +191,8 @@ function lowerBox(date) {
         if (c == date || d == date || c2 == date || d2 == date ){
             str = str +("<br>" + "Total Energy Used : "+ t + " kWh <br>" + "Offset: "+ tr+ " trees <br>" + "CO2 emitted: " + co +" lbs");
             break;
-            //console.log(str);
         }
     }
-    
 
     d3.select("#words").selectAll("text").remove();
     $('#words').empty();
