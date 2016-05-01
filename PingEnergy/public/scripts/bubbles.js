@@ -85,7 +85,6 @@ function generateChart() {
         .attr("font-size", function(d) {
             return convertRange(d.value, extent, [.7, 3]).toString() + "em";
         })
-        // .attr("transform", "translate(0, -10)");
         .attr("transform", function(d) {
             if (d.value == extent[1]) {
                 return "translate(0, -30)";
@@ -196,22 +195,46 @@ function generateChart() {
         .append("text")
             .attr("dy", "-.5em")
             .style("text-anchor", "middle")
-            .style("font-size", "2em")
+            .style("font-size", "3em")
+            .style("font-weight", "bold")
             .text(function(d) { return d.className; })
+            .attr("transform", "translate(0, -30)")
 
         //main node money raised
         node.filter(function(d) { return d.active == true; })
         .append("text")
-            .attr("dy", "1em")
+            .attr("dy", "1.2em")
             .style("text-anchor", "middle")
-            .text(function(d) { return "Money raised: $" + d.money });
+            .text(function(d) { return "Money raised: $" + d.money })
+            .attr("transform", "translate(0, -20)");
 
-        //main node energy usage per bed
+        //main node energy usage
         node.filter(function(d) { return d.active == true; })
         .append("text")
-            .attr("dy", "1em")
+            .attr("dy", "1.2em")
             .style("text-anchor", "middle")
-            .text(function(d) { return ""; });
+            .text(function(d) { return "Total energy saved: " + d.kwh + " kwh"; });
+
+        //main node energy usage PER BED
+        node.filter(function(d) { return d.active == true; })
+        .append("text")
+            .attr("dy", "1.2em")
+            .style("text-anchor", "middle")
+            .text(function(d) { 
+                var energy = Math.round(d.kwh/(((d.kwh/d.money) * 1000)) * 100)/100;
+                if (energy == 0) {
+                    energy = Math.round(d.kwh/(((d.kwh/d.money) * 1000)) * 1000)/1000;
+                }
+                return "Total energy saved per bed: " + energy + " kwh/bed"; })
+            .attr("transform", "translate(0, 20)");
+
+        //C02 saved
+        node.filter(function(d) { return d.active == true; })
+        .append("text")
+            .attr("dy", "1.2em")
+            .style("text-anchor", "middle")
+            .text(function(d) { return "Total C02 emission reduction: " + d.carbon + " pounds"; })
+            .attr("transform", "translate(0, 40)");
 
         //click main node exits to original graph
         node.filter(function(d) { return d.active == true; })
