@@ -28,7 +28,6 @@ function createBuildingObject(docs, moneyCounts, listBuildings) {
         }
 
         var kwh = math.round(((moneyCounts[building] * beds) / 1000) * 100)/100;
-
         var money = math.round((moneyCounts[building]) * 100)/100;
         var size = math.round((moneyCounts[building] * sizeScale) * 100)/100;
         var c02 = math.round((kwh * carbonScale) * 100)/100;
