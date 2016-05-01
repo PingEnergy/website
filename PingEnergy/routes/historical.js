@@ -1,6 +1,19 @@
 var express = require('express');
 var router = express.Router();
 
+function fixData(docs) {
+    for(var i = 0; i < docs.length; i++)
+    {
+        var k = Object.keys(docs[i]["energyUsage"]);
+        for(var j = 0; j < k.length-1 ; j++){
+            docs[i]["energyUsage"][k[j]] = (parseFloat(docs[i]["energyUsage"][k[j]]) - parseFloat(docs[i]["energyUsage"][k[j+1]]));
+        }
+        
+        delete docs[i]["energyUsage"][k[k.length-1]];       
+    }
+
+}
+
 function yearSum(docs) {
     var sum=0;
     for(var doc =0; doc < docs.length; doc++){ //for each document in docs
@@ -67,9 +80,11 @@ router.route('/').get(function(req, res) {
     var collection = db.get('DormEnergyPerDay');
     collection.find({"data": { $exists: 0 }},{},function(e, docs){
         
+        fixData(docs);
+        
         var yearTotal = yearSum(docs);
         var dayTotals = days(docs);
-        
+                                                 
 
         res.render('historical', {title: 'Ping Energy', yeartotal: JSON.stringify({"yearTotal":yearTotal}), days: JSON.stringify(dayTotals) });
     });
