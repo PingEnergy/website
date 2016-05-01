@@ -4,6 +4,7 @@ $(document).ready(function(){
 });
 
 function makeSVG(year) {
+    console.log(days);
     var width = 1000,
         height = 150,
         cellSize = 18; // cell size
@@ -88,10 +89,6 @@ function draw(year, svg, svg2) {
             for (x in days) {
                 if (x == date) {
                     color = colorDay(days[x]);
-                    //if (parseInt(day)< 10) {
-                    //    day = '0'+day;
-                    //    date = (month + '-' + day + '-' + year);
-                    //}
                     lowerBox(date);
                 }
             }
@@ -158,14 +155,26 @@ function colorDay(data) {
 
 function lowerBox(date) {
     var str = "Date: " + date;
+    
     for(d in days)
     {
+        var x = d.split('-');
+        var d2;
+        if (x[1] < 10){
+            x[1] = '0'+x[1];
+            d2 = x[0]+'-'+x[1]+'-'+x[2];
+            //console.log(d);
+        }
+        console.log(d2);
+        
         var c = '0' + d;
+        var c2 = '0' + d2;
         var t = Math.round(days[d] *10000)/10000;
         var tr = Math.round((parseFloat(days[d])*.00159)*10000)/10000;
         var co = Math.round((parseFloat(days[d])*.6379)*10000)/10000;
+        
     
-        if (c == date || d == date) {
+        if (c == date || d == date || c2 == date || d2 == date ){
             
             str = str +("<br>" + "Total Energy Used : "+ t + " kWh <br>" + "Offset: "+ tr+ " trees <br>" + "CO2 emitted: " + co +" lbs");
         }
