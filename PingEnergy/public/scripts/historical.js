@@ -11,13 +11,35 @@ function makeSVG(year) {
     var percent = d3.format(".2%"),
         format = d3.time.format("%m-%d-%Y")
       
-    var margin = {top: 20, right: 20, bottom: 20, left: 20};
+    var margin = {top: 20, right: 20, bottom: 20, left: 38};
+    
+    var S = d3.select("#S").append("text")
+        .attr("transform", "translate(-7, 0)rotate(0)")
+        .text("S");
+    var M = d3.select("#M").append("text")
+        .attr("transform", "translate(-7, 0)rotate(0)")
+        .text("M");
+    var T = d3.select("#T").append("text")
+        .attr("transform", "translate(-7, 0)rotate(0)")
+        .text("T");
+    var W = d3.select("#W").append("text")
+        .attr("transform", "translate(-7, 0)rotate(0)")
+        .text("W");
+    var R = d3.select("#R").append("text")
+        .attr("transform", "translate(-7, 0)rotate(0)")
+        .text("R");
+    var F = d3.select("#F").append("text")
+        .attr("transform", "translate(-7, 0)rotate(0)")
+        .text("F");
+    var s = d3.select("#s").append("text")
+        .attr("transform", "translate(-7, 0)rotate(0)")
+        .text("S"); 
       
     var svg = d3.select("#historical").append("svg")
         .attr("width", width + margin.left + margin.right )
         .attr("height", height + margin.top + margin.bottom)
         .attr("transform", "translate(" + ((width - cellSize * 53) / 2) + "," + (height - cellSize * 7 - 1) + ")");
-        
+    
     var svg2 = d3.select("#information").append("svg")
         .attr("id", "information")
         .attr("width", width + margin.left + margin.right)
@@ -33,7 +55,7 @@ function draw(year, svg, svg2) {
     var totalSum = 0;
     var daySum = 0;
 
-    var width = 1000,
+    var width = 1018,
         height = 150,
         cellSize = 18; // cell size
       
@@ -54,7 +76,7 @@ function draw(year, svg, svg2) {
         .attr("class", "day")
         .attr("width", cellSize)
         .attr("height", cellSize)
-        .attr("x", function(d) { return d3.time.weekOfYear(d) * cellSize; })
+        .attr("x", function(d) { return (d3.time.weekOfYear(d) * cellSize); })
         .attr("y", function(d) { return d.getDay() * cellSize; })
         .attr("stroke", "black")
         .attr("stroke-width", ".5px")
@@ -66,6 +88,10 @@ function draw(year, svg, svg2) {
             for (x in days) {
                 if (x == date) {
                     color = colorDay(days[x]);
+                    //if (parseInt(day)< 10) {
+                    //    day = '0'+day;
+                    //    date = (month + '-' + day + '-' + year);
+                    //}
                     lowerBox(date);
                 }
             }
@@ -94,11 +120,7 @@ function draw(year, svg, svg2) {
     var total = d3.select("#total").append("text")
         .attr("transform", "translate(100, 0)rotate(0)")
         .style("text-anchor", "left")
-        .text("Total Energy Used:  " + totalYear["yearTotal"] + " kWh");
- 
- //.00159 tree per kwh * kwh = trees to offset for that day
-           
-       
+        .text("Total Energy Used:  " + totalYear["yearTotal"] + " kWh");     
 }
 
 function colorDay(data) {
@@ -135,7 +157,6 @@ function colorDay(data) {
 }
 
 function lowerBox(date) {
-    //console.log(days);
     var str = "Date: " + date;
     for(d in days)
     {
@@ -145,8 +166,8 @@ function lowerBox(date) {
         var co = Math.round((parseFloat(days[d])*.6379)*10000)/10000;
     
         if (c == date || d == date) {
+            
             str = str +("<br>" + "Total Energy Used : "+ t + " kWh <br>" + "Offset: "+ tr+ " trees <br>" + "CO2 emitted: " + co +" lbs");
-            console.log(days[d]);
         }
     }
     

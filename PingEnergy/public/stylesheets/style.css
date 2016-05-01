@@ -119,7 +119,7 @@ a {
 
 #label{
     height: 10%;
-    width: 90%;
+    width: 85%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 0%;
@@ -136,15 +136,58 @@ a {
     margin-top: 2%;
 }
 
+#daylabel{
+    display: inline;
+    float: left;
+    width: 8%;
+    text-align: right;
+}
+#S{
+    display: inline;
+    text-align: right;
+    margin-right: 6%;
+}
+
+#M{
+    display: inline;
+    text-align: right;
+    margin-right: 6%;
+}
+#T{
+    display: inline;
+    text-align: right;
+    margin-right: 6%;
+}
+#W{
+    display: inline;
+    text-align: right;
+    margin-right: 6%;
+}
+#R{
+    display: inline;
+    text-align: right;
+    margin-right: 6%;
+}
+#F{
+    display: inline;
+    text-align: right;
+    margin-right: 6%;
+}
+#s{
+    display: inline;
+    text-align: right;
+    margin-right: 6%;
+}
 
 #historical{
     display: inline;
-    margin-top: -2%;
-    margin-left: 8%;
-    margin-right: 5%;
+    float: right;
+    margin-right: 2%;
+    width: 90%
 }
 svg{
-    display: inline-block;
+    display: inline;
+
 }
 
 #information{
