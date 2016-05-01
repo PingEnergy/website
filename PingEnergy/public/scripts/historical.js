@@ -173,6 +173,7 @@ function lowerBox(date) {
     
     for(d in days)
     {
+        console.log(d);
         var x = d.split('-');
         var d2;
         if (x[1] < 10){
@@ -187,8 +188,10 @@ function lowerBox(date) {
         var co = Math.round((parseFloat(days[d])*.6379)*10000)/10000;
         
     
-        if (c == date || d == date || c2 == date || d2 == date ){           
+        if (c == date || d == date || c2 == date || d2 == date ){
             str = str +("<br>" + "Total Energy Used : "+ t + " kWh <br>" + "Offset: "+ tr+ " trees <br>" + "CO2 emitted: " + co +" lbs");
+            break;
+            //console.log(str);
         }
     }
     
