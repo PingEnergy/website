@@ -163,9 +163,7 @@ function lowerBox(date) {
         if (x[1] < 10){
             x[1] = '0'+x[1];
             d2 = x[0]+'-'+x[1]+'-'+x[2];
-            //console.log(d);
         }
-        console.log(d2);
         
         var c = '0' + d;
         var c2 = '0' + d2;
@@ -174,8 +172,7 @@ function lowerBox(date) {
         var co = Math.round((parseFloat(days[d])*.6379)*10000)/10000;
         
     
-        if (c == date || d == date || c2 == date || d2 == date ){
-            
+        if (c == date || d == date || c2 == date || d2 == date ){           
             str = str +("<br>" + "Total Energy Used : "+ t + " kWh <br>" + "Offset: "+ tr+ " trees <br>" + "CO2 emitted: " + co +" lbs");
         }
     }
