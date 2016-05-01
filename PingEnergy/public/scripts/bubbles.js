@@ -5,9 +5,22 @@ $(document).ready(function() {
 function generateChart() {
     $("#bubbles").empty();
 
-    // var color2 = d3.scale.ordinal().range(["#00441b", "#006d2c", "#238b45", "#41ab5d", "#74c476", "#a1d99b", "#c7e9c0", "#e5f5e0", "#f7fcf5"]);
+    var extent = [100000000000,0];
 
-    var color = d3.scale.ordinal().range(["#388938","#46ad46","#54b954","#87ce87","#66c166","#84cd84","99D699", "#cceacc"]);
+    for (var i = 0; i < classes(buildings)["children"].length; i++) {
+        if (classes(buildings)["children"][i]["value"] < extent[0]) {
+            extent[0] = classes(buildings)["children"][i]["value"];
+        }
+        if (classes(buildings)["children"][i]["value"] > extent[1]) {
+            extent[1] = classes(buildings)["children"][i]["value"];
+        }
+    }
+
+    function convertRange( value, r1, r2) {
+        return ( value - r1[0] ) * ( r2[1] - r2[0] ) / ( r1[1] - r1[0] ) + r2[0];
+    }
+
+    var color = d3.scale.ordinal().range(["#388938","#46ad46","#54b954","#66c166","#87ce87","99D699","#c1e6c1", "#dbf0db"]);
 
     var diameter = 650,
         height = 500,
@@ -15,11 +28,10 @@ function generateChart() {
 
     var bubble = d3.layout.pack()
         .sort(function comparator(a, b) {
-            console.log("a: ", a, "value: ", a.value, "b: ", b, "value: ", b.value);
             return b.value - a.value;
         })
         .size([diameter, height])
-        .padding(1.5);
+        .padding(10);
 
     var svg = d3.select("#bubbles").append("svg")
         .attr("width", diameter)
@@ -59,7 +71,8 @@ function generateChart() {
     node.append("circle")
         .attr("r", function(d) { return d.r; })
         .classed("nodecircle", true)
-        .style("fill", function(d) { return color(d.packageName); })
+        .style("fill", function(d) {
+            return color(d.packageName); })
         .style("stroke", "black")
         .style("stroke-width", 1);
 
@@ -69,14 +82,29 @@ function generateChart() {
         .style("text-anchor", "middle")
         .text(function(d) { return d.className.substring(0, d.r / 3); })
         .attr("font-weight", "bold")
-        .attr("font-size", "1.1em")
-        .attr("transform", "translate(0, -10)");
+        .attr("font-size", function(d) {
+            return convertRange(d.value, extent, [.7, 3]).toString() + "em";
+        })
+        // .attr("transform", "translate(0, -10)");
+        .attr("transform", function(d) {
+            if (d.value == extent[1]) {
+                return "translate(0, -30)";
+            }
+            else if (d.value == extent[0]) {
+                return "translate(0, -5)";
+            }
+            else {
+                return "translate(0, -10)";
+            }
+        });
 
     //add money value to all nodes
     node.append("text")
         .attr("dy", "1.2em")
         .style("text-anchor", "middle")
-        .style("font-size", ".9em")
+        .style("font-size", function(d) {
+            return convertRange(d.value, extent, [.5, 2.5]).toString() + "em";
+        })
         .text(function(d) { return "$" + d.money });
 
     node.on("click", function(d) {
@@ -100,12 +128,16 @@ function generateChart() {
 
     function bubblesTwo(sentBuildings) {
         for (building in sentBuildings["children"]) {
+
             if (sentBuildings["children"][building]["active"] == true) {
-                sentBuildings["children"][building]["value"] = 25000;
+                sentBuildings["children"][building]["value"] = 500;
             }
             else {
-                sentBuildings["children"][building]["value"] = (sentBuildings["children"][building]["value"]/5);
+                sentBuildings["children"][building]["value"] = Math.log((sentBuildings["children"][building]["value"]));
             }
+
+            console.log(sentBuildings["children"][building]["value"]);
+
         }
 
         svg.selectAll(".node").remove().transition().duration(5000);
@@ -194,7 +226,7 @@ function generateChart() {
 
         function recurse(name, node) {
             if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
-            else classes.push({packageName: name, className: node.name, value: node.size, active: node.active, money: node.money});
+            else classes.push({packageName: name, className: node.name, carbon: node.carbon, kwh: node.kwh, value: node.size, active: node.active, money: node.money});
         }
 
         recurse(null, root);
