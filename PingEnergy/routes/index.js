@@ -15,7 +15,6 @@ function createBuildingObject(docs, moneyCounts, listBuildings) {
     var groupNames = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
     var sizeScale = 4000;
     var carbonScale = .6379;
-    var treeOffset = .00159;
 
     //loop buildings to create object
     for (var i = 0; i < listBuildings.length; i++) {
@@ -33,11 +32,10 @@ function createBuildingObject(docs, moneyCounts, listBuildings) {
         var money = math.round((moneyCounts[building]) * 100)/100;
         var size = math.round((moneyCounts[building] * sizeScale) * 100)/100;
         var c02 = math.round((kwh * carbonScale) * 100)/100;
-        var treeOffset = math.round((kwh * treeOffset) * 1000000)/1000000;
 
         var child = {"name": groupNames[i],
             "children": [
-                {"name": building, "size": size, "active": false, "kwh": kwh, "money": money, "carbon": c02, "tree": treeOffset}
+                {"name": building, "size": size, "active": false, "kwh": kwh, "money": money, "carbon": c02}
             ]
         }
 
