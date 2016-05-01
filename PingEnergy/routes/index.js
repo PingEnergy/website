@@ -15,6 +15,7 @@ function createBuildingObject(docs, moneyCounts) {
     var groupNames = ["1st", "2nd", "3rd", "2ndgroup", "3rdgroup", "4thgroup", "4thgroup", "5thgroup", "5thgroup"];
     var sizeScale = 4000;
     var carbonScale = .6379;
+    var treeOffset = .00159;
 
     //loop buildings to create object
     for (i = 1; i < docs.length; i++) {
@@ -24,10 +25,11 @@ function createBuildingObject(docs, moneyCounts) {
         var money = math.round((moneyCounts[building]) * 100)/100;
         var size = math.round((money * sizeScale) * 100)/100;
         var c02 = math.round((kwh * carbonScale) * 100)/100;
+        var treeOffset = math.round((kwh * treeOffset) * 100)/100;
 
         var child = {"name": groupNames[i],
             "children": [
-                {"name": building, "size": size, "active": false, "money": money, "carbon": c02}
+                {"name": building, "size": size, "active": false, "money": money, "carbon": c02, "tree": treeOffset}
             ]
         }
 
@@ -84,6 +86,11 @@ router.get('/', function(req, res) {
 
         var jsbObject = createBuildingObject(docs, moneyCounts);
         var listBuildings = createBuildingList(moneyCounts);
+
+        console.log(jsbObject);
+        for (thing in jsbObject["children"]) {
+            console.log(jsbObject["children"][thing]);
+        }
 
         res.render('index', { title: 'Ping Energy', moneySum: moneySum, listBuildings: listBuildings, data: JSON.stringify(jsbObject)});
     });

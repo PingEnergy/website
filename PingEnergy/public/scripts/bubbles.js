@@ -29,9 +29,9 @@ function generateChart() {
     var force = d3.layout.force()
         .gravity(0.02)
         .alpha(.3)
-        .friction(.9)
+        .friction(0.01)
         .charge(function(d) {
-            return -1.9 * d.r;
+            return -500 * d.r;
         })
         .nodes(nodes)
         .size([diameter, height])
@@ -93,15 +93,15 @@ function generateChart() {
         $("#bubbles").css("cursor", "default");
     });
 
-    force.start();
+    // force.start();
 
     function bubblesTwo(sentBuildings) {
         for (building in sentBuildings["children"]) {
             if (sentBuildings["children"][building]["active"] == true) {
-                sentBuildings["children"][building]["value"] = 35000;
+                sentBuildings["children"][building]["value"] = 50000;
             }
             else {
-                sentBuildings["children"][building]["value"] = (sentBuildings["children"][building]["value"]/25);
+                sentBuildings["children"][building]["value"] = (sentBuildings["children"][building]["value"]/20);
             }
         }
 
