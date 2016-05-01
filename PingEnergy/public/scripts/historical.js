@@ -66,6 +66,7 @@ function draw(year, svg, svg2) {
             for (x in days) {
                 if (x == date) {
                     color = colorDay(days[x]);
+                    lowerBox(date);
                 }
             }
             return color;
@@ -135,15 +136,20 @@ function colorDay(data) {
 
 function lowerBox(date) {
     //console.log(days);
+    var str = "Date: " + date;
     for(d in days)
     {
         var c = '0' + d;
+        var t = Math.round(days[d] *10000)/10000;
+        var tr = Math.round((parseFloat(days[d])*.00159)*10000)/10000;
+        var co = Math.round((parseFloat(days[d])*.6379)*10000)/10000;
     
-        if (c == date) {
+        if (c == date || d == date) {
+            str = str +("<br>" + "Total Energy Used : "+ t + " kWh <br>" + "Offset: "+ tr+ " trees <br>" + "CO2 emitted: " + co +" lbs");
             console.log(days[d]);
         }
     }
-    var str = ("Date: " + date + "<br>" + "Total Energy Used : 1089 MWh" + "<br>" + "Trees to offset: 7" + "<br>" + "CO2 emitted: 888lbs");
+    
 
     d3.select("#words").selectAll("text").remove();
     $('#words').empty();
