@@ -9,23 +9,34 @@ var router = express.Router();
 var cache = apicache.middleware;
 
 //assuming buildings come with buildings IN ORDER from most to least ENERGY SAVED
-function createBuildingObject(docs, moneyCounts) {
+function createBuildingObject(docs, moneyCounts, listBuildings) {
     //constants
     var jsb = { "name": "buildings", "children" : []};
-    var groupNames = ["1st", "2nd", "3rd", "2ndgroup", "3rdgroup", "4thgroup", "4thgroup", "5thgroup", "5thgroup"];
+    var groupNames = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th"];
     var sizeScale = 4000;
     var carbonScale = .6379;
     var treeOffset = .00159;
 
     //loop buildings to create object
-    for (i = 1; i < docs.length; i++) {
-        var building = docs[i]["building"];
-        var kwh = (moneyCounts[building] * docs[i]["beds"]) / 1000;
+    console.log("BUILDINGS: ", listBuildings);
+
+    for (var i = 0; i < listBuildings.length; i++) {
+        var building = listBuildings[i];
+        var beds = 0;
+
+        for (var j = 1; j < docs.length; j++) {
+            if (docs[j]["building"] == building) {
+                beds = docs[j]["beds"];
+                console.log("Building: ", building, "Beds: ", beds);
+            }
+        }
+
+        var kwh = (moneyCounts[building] * beds) / 1000;
 
         var money = math.round((moneyCounts[building]) * 100)/100;
-        var size = math.round((money * sizeScale) * 100)/100;
+        var size = math.round((kwh * sizeScale) * 100)/100;
         var c02 = math.round((kwh * carbonScale) * 100)/100;
-        var treeOffset = math.round((kwh * treeOffset) * 100)/100;
+        var treeOffset = math.round((kwh * treeOffset) * 1000000)/1000000;
 
         var child = {"name": groupNames[i],
             "children": [
@@ -84,13 +95,13 @@ router.get('/', function(req, res) {
         moneyCounts = docs[0]["money"];
         moneySum = math.round(docs[0]["money_sum"]*100)/100;
 
-        var jsbObject = createBuildingObject(docs, moneyCounts);
         var listBuildings = createBuildingList(moneyCounts);
+        var jsbObject = createBuildingObject(docs, moneyCounts, listBuildings);
 
-        console.log(jsbObject);
-        for (thing in jsbObject["children"]) {
-            console.log(jsbObject["children"][thing]);
-        }
+        // console.log(jsbObject);
+        // for (thing in jsbObject["children"]) {
+        //     console.log(jsbObject["children"][thing]);
+        // }
 
         res.render('index', { title: 'Ping Energy', moneySum: moneySum, listBuildings: listBuildings, data: JSON.stringify(jsbObject)});
     });

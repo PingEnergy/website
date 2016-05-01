@@ -5,7 +5,7 @@ $(document).ready(function() {
 function generateChart() {
     $("#bubbles").empty();
 
-    var color = d3.scale.ordinal().range(["#006d2c", "#238b45", "#41ab5d", "#74c476", "#a1d99b", "#c7e9c0", "#e5f5e0", "#f7fcf5"]);
+    var color = d3.scale.ordinal().range(["#00441b", "#006d2c", "#238b45", "#41ab5d", "#74c476", "#a1d99b", "#c7e9c0", "#e5f5e0", "#f7fcf5"]);
 
     var diameter = 650,
         height = 500,
@@ -98,10 +98,10 @@ function generateChart() {
     function bubblesTwo(sentBuildings) {
         for (building in sentBuildings["children"]) {
             if (sentBuildings["children"][building]["active"] == true) {
-                sentBuildings["children"][building]["value"] = 50000;
+                sentBuildings["children"][building]["value"] = 25000;
             }
             else {
-                sentBuildings["children"][building]["value"] = (sentBuildings["children"][building]["value"]/20);
+                sentBuildings["children"][building]["value"] = (sentBuildings["children"][building]["value"]/5);
             }
         }
 
