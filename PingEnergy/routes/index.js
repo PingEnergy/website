@@ -8,7 +8,6 @@ var express = require('express'),
 var router = express.Router();
 var cache = apicache.middleware;
 
-//assuming buildings come with buildings IN ORDER from most to least ENERGY SAVED
 function createBuildingObject(docs, moneyCounts, listBuildings) {
     //constants
     var jsb = { "name": "buildings", "children" : []};
