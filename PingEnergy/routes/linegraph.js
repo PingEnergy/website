@@ -55,13 +55,14 @@ router.route('/').get(function(req, res) {
         //alternate way of storing data (how Lexos Rolling Window does it)
         var data2 = [];
         var buildings = [];
+        var day = null;
         for (var i = 1; i < docs.length; i++) {
             var dataLine = [];
             for (day in docs[i]["energyUsage"]) {
                 dataLine.push([day, docs[i]["energyUsage"][day]]);
             }
             data2.push(dataLine);
-            buildings.push(docs[i].building)
+            buildings.push([docs[i].building, day, docs[i]["energyUsage"][day]]);
         }
         for (var j = 0; j < data2.length; j++) {
 
@@ -75,9 +76,8 @@ router.route('/').get(function(req, res) {
         }
 
         console.log(buildings);
-
-        // console.log(data);
         res.render('linegraph', {title: 'Ping Energy' , graphData: JSON.stringify(data), graphData2: JSON.stringify(data2), buildings: JSON.stringify(buildings)});
+        // res.render('linegraph', {title: 'Ping Energy' , graphData: JSON.stringify(data), graphData2: JSON.stringify(data2), data: JSON.stringify(docs.slice(1))});
     });
 });
 
