@@ -9,7 +9,12 @@ block content
     var data2 = !{graphData2};
     var buildings = !{buildings};
   script(src="/scripts/testing.js")
+  
   table.centerBlock
+    tr
+      select
+        each choice, i in choices
+          option(value=i, id="Y-option") #{choice}
     tr
       td
           #linegraph

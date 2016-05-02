@@ -62,28 +62,28 @@ router.route('/').get(function(req, res) {
         var day = null;
         for (var i = 1; i < docs.length; i++) {
             var dataLine = [];
-            sumEnergy = 0;
-            sumDay = 0;
             for (day in docs[i]["energyUsage"]) {
                 dataLine.push([day, docs[i]["energyUsage"][day]]);
-                sumEnergy += docs[i]["energyUsage"][day];
-                sumTime += 1;
             }
             data2.push(dataLine);
             buildings.push(docs[i].building);
-            buildingRanks.push([docs[i].building, sumEnergy, sumTime]);
         }
 
         for (var j = 0; j < data2.length; j++) {
+            sumEnergy = 0;
+            sumDay = 0;
             for (var k=0; k<data2[j].length-1; k++) {
                 data2[j][k][1] = data2[j][k][1] - data2[j][k+1][1];
+                sumEnergy += data2[j][k][1];
+                sumTime += 1;
             }
+            buildingRanks.push([docs[j+1].building, sumEnergy, sumTime]);
         }
         //remove last unusable point
         for (var i = 0; i<data2.length; i++) {
             data2[i].pop();
         }
-        console.log(buildingRanks);
+        // console.log(buildingRanks);
 
         buildingRanks.sort(function(a, b){
             return a[1] < b[1];
@@ -92,8 +92,10 @@ router.route('/').get(function(req, res) {
         for (var i = 0; i < buildingRanks.length; i++){
             buildingSorted.push(buildingRanks[i][0]);
         }
-        console.log(buildingSorted);
-        res.render('linegraph', {title: 'Ping Energy' , graphData: JSON.stringify(data), graphData2: JSON.stringify(data2), buildings: JSON.stringify(buildings), buildingSorted: buildingSorted, buildingRanks: JSON.stringify(buildingRanks)});
+
+        var choices = ["Energy Usage", "CO2 Consumption"];
+        
+        res.render('linegraph', {title: 'Ping Energy' , graphData: JSON.stringify(data), graphData2: JSON.stringify(data2), buildings: JSON.stringify(buildings), buildingSorted: buildingSorted, buildingRanks: JSON.stringify(buildingRanks), choices: choices});
     });
 });
 

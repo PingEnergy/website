@@ -124,12 +124,11 @@ $(document).ready(function() {
       gravity: 's',
       html: true,
         title: function() {
-          // console.log(this.parentNode.nextSibling);
-          // console.log(this.siblings());
           var d = new Date();
           d.setTime(d3.select(this).attr("cTime")).toString();
-          // return d + '<br>Energy Usage: ' + d3.select(this).attr("cEnergy") + ' (mkW)';
-          return 'Building: '+ d3.select(this).attr("buildingName") + '<br>' + d + '<br>Energy Usage: ' + d3.select(this).attr("cEnergy") + ' (mkW)';
+          d = String(d).slice(0, 16);
+          var energyRound = Math.round(d3.select(this).attr("cEnergy") * 100)/100;
+          return 'Building: '+ d3.select(this).attr("buildingName") + '<br>' + d + '<br>Energy Usage: ' + energyRound + ' (kwh)';
         }
     });
 
@@ -176,5 +175,9 @@ $(document).ready(function() {
       $(this).attr('highlight', "true");
       $(this).css("background-color", "yellow");
     }
+  });
+
+  $('#Y-option').on('change', function (e){
+    console.log($(this).attr("value"));
   });
 });
