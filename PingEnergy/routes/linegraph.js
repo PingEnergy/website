@@ -55,18 +55,26 @@ router.route('/').get(function(req, res) {
         //alternate way of storing data (how Lexos Rolling Window does it)
         var data2 = [];
         var buildings = [];
+        var buildingRanks = [];
+        var buildingSorted = [];
+        var sumEnergy = 0;
+        var sumTime = 0;
         var day = null;
         for (var i = 1; i < docs.length; i++) {
             var dataLine = [];
+            sumEnergy = 0;
+            sumDay = 0;
             for (day in docs[i]["energyUsage"]) {
                 dataLine.push([day, docs[i]["energyUsage"][day]]);
+                sumEnergy += docs[i]["energyUsage"][day];
+                sumTime += 1;
             }
             data2.push(dataLine);
-            // buildings.push([docs[i].building, day, docs[i]["energyUsage"][day]]);
             buildings.push(docs[i].building);
+            buildingRanks.push([docs[i].building, sumEnergy, sumTime]);
         }
-        for (var j = 0; j < data2.length; j++) {
 
+        for (var j = 0; j < data2.length; j++) {
             for (var k=0; k<data2[j].length-1; k++) {
                 data2[j][k][1] = data2[j][k][1] - data2[j][k+1][1];
             }
@@ -75,10 +83,17 @@ router.route('/').get(function(req, res) {
         for (var i = 0; i<data2.length; i++) {
             data2[i].pop();
         }
+        console.log(buildingRanks);
 
-        console.log(buildings);
-        res.render('linegraph', {title: 'Ping Energy' , graphData: JSON.stringify(data), graphData2: JSON.stringify(data2), buildings: buildings});
-        // res.render('linegraph', {title: 'Ping Energy' , graphData: JSON.stringify(data), graphData2: JSON.stringify(data2), data: JSON.stringify(docs.slice(1))});
+        buildingRanks.sort(function(a, b){
+            return a[1] < b[1];
+        });
+
+        for (var i = 0; i < buildingRanks.length; i++){
+            buildingSorted.push(buildingRanks[i][0]);
+        }
+        console.log(buildingSorted);
+        res.render('linegraph', {title: 'Ping Energy' , graphData: JSON.stringify(data), graphData2: JSON.stringify(data2), buildings: JSON.stringify(buildings), buildingSorted: buildingSorted, buildingRanks: JSON.stringify(buildingRanks)});
     });
 });
 

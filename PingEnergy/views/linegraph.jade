@@ -7,7 +7,7 @@ block content
   script(type='text/javascript').
     var graphData = !{graphData};
     var data2 = !{graphData2};
-    var buildings = !{JSON.stringify(buildings)};
+    var buildings = !{buildings};
   script(src="/scripts/testing.js")
   table.centerBlock
     tr
@@ -15,11 +15,9 @@ block content
           #linegraph
       td.rankList
           ol
-            each val in buildings
+            each val, index in buildingSorted
               li
-                label
-                  input(type="checkbox", name="buildingName", value=val, checked="checked", class="rankingToggle" )
-                  =val
+                label(name="buildingName", value=val, index=index, class="rankingToggle")=val
               
 
           

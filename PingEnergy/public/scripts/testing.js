@@ -1,5 +1,6 @@
 // http://cs.wheatonma.edu/egauge/dorm/dorm.xml
 $(document).ready(function() {
+
   colorScheme = ["#f00","#f66","#900","#1a9641", "#000"];
 
   var margin = {top: 20, right: 80, bottom: 30, left: 50},
@@ -150,13 +151,30 @@ $(document).ready(function() {
 
 
   var toggleLine = null;
+  $('.rankingToggle').each(function(){
+    toggleLine = $(this).attr("value");
+    if($(this).attr("index") == 0 || $(this).attr("index") == buildings.length-1){
+      $(this).attr('highlight', "true");
+      $(this).css("background-color", "yellow");
+      $("#"+toggleLine).attr({"opacity": 1});
+    }else{
+      $(this).attr('highlight', "false");
+      $(this).css("background-color", "rgba(255,255,240,0)");
+      $("#"+toggleLine).attr({"opacity": 0});
+    }
+  });
+
   $('.rankingToggle').click(function(){
     toggleLine = $(this).attr("value");
 
-    if($(this).is(':checked')) {
-      $("#"+toggleLine).attr({"opacity": 1});
-    }else{
+    if($(this).attr('highlight') == "true") {
       $("#"+toggleLine).attr({"opacity": 0});
+      $(this).attr('highlight', "false");
+      $(this).css("background-color", "rgba(255,255,240,0)");
+    }else{
+      $("#"+toggleLine).attr({"opacity": 1});
+      $(this).attr('highlight', "true");
+      $(this).css("background-color", "yellow");
     }
   });
 });
