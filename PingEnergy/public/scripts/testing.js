@@ -88,8 +88,9 @@ $(document).ready(function() {
         .remove();
   };
 
-  for (var i=0; i < data2.length; i++) {
-    svg.append("g").selectAll(".circles") 
+
+  for (var i = 0; i < data2.length; i++) {
+    svg.append("g").selectAll(".circles")
       .data(data2[i])
       .enter()
       .append("circle")
@@ -97,14 +98,16 @@ $(document).ready(function() {
       .attr({
         cx: function(d) { return x(d[0]); },
         cy: function(d) { return y(d[1]); },
-        r: 1
+        cTime: function(d) { return d[0]; },
+        cEnergy: function(d) { return d[1]; },
+        r: 6
       })
-      .style("fill", function() { return colorScheme[i]; })
+      .style("fill", "transparent")
       .on("mouseover", mouseOn)
       .on("mouseout", mouseOff);
   }
 
-  for (var i=0; i < data2.length; i++) {
+  for (i = 0; i < data2.length; i++) {
     svg.append("svg:path")
       .datum(data2[i])
       .attr("class", "line")
@@ -116,8 +119,10 @@ $(document).ready(function() {
   $(".circles").tipsy({
       gravity: 's',
       html: true,
-        title: function(d) {
-          return parseDate(d[0]) + '<br>Energy Usage: ' + d[1] + ' (kwh)';
+        title: function() {
+          var d = new Date();
+          d.setTime(d3.select(this).attr("cTime")).toString();
+          return 'Building: '+ cBuilding + '<br>' + d + '<br>Energy Usage: ' + d3.select(this).attr("cEnergy") + ' (mkW)';
         }
     });
 
