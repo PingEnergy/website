@@ -1,7 +1,7 @@
 // http://cs.wheatonma.edu/egauge/dorm/dorm.xml
 $(document).ready(function() {
 
-  colorScheme = ["#f00","#f66","#900","#1a9641", "#000"];
+  colorScheme = ["ff0000", "#ff6666",  "#ff9999", "#ffcccc", "#cceacc",  "#99d699", "#66c166", "#3f9b3f"];
 
   var margin = {top: 20, right: 80, bottom: 30, left: 50},
       width = 960 - margin.left - margin.right,
@@ -116,7 +116,10 @@ $(document).ready(function() {
       .attr("id", buildings[i])
       .attr("d", line)
       .attr("opacity", 1)
-      .style("stroke", function() { return colorScheme[i]; })
+      .style("stroke", function() { 
+        // console.log(buildingsSorted.indexOf(buildings[i]));
+        return colorScheme[buildingsSorted.indexOf(buildings[i])];
+      })
       .attr("fill", "none");
   }
 
@@ -175,6 +178,12 @@ $(document).ready(function() {
       $(this).attr('highlight', "true");
       $(this).css("background-color", "yellow");
     }
+  });
+
+  $('.rankingToggle').mouseover(function(){
+    $(this).css("cursor", "pointer");
+  }).mouseout(function(){
+    $(this).css("cursor", "auto");
   });
 
   $('#Y-option').on('change', function (e){

@@ -94,7 +94,7 @@ router.route('/').get(function(req, res) {
         }
 
         var choices = ["Energy Usage", "CO2 Consumption"];
-        
+
         res.render('linegraph', {title: 'Ping Energy' , graphData: JSON.stringify(data), graphData2: JSON.stringify(data2), buildings: JSON.stringify(buildings), buildingSorted: buildingSorted, buildingRanks: JSON.stringify(buildingRanks), choices: choices});
     });
 });

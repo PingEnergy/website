@@ -8,6 +8,7 @@ block content
     var graphData = !{graphData};
     var data2 = !{graphData2};
     var buildings = !{buildings};
+    var buildingsSorted = !{JSON.stringify(buildingSorted)}
   script(src="/scripts/testing.js")
   
   table.centerBlock
@@ -15,6 +16,7 @@ block content
       select
         each choice, i in choices
           option(value=i, id="Y-option") #{choice}
+      input(type='submit',value='Sign Up',data-transition='fade', data-theme='c')  
     tr
       td
           #linegraph
