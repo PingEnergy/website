@@ -62,7 +62,8 @@ router.route('/').get(function(req, res) {
                 dataLine.push([day, docs[i]["energyUsage"][day]]);
             }
             data2.push(dataLine);
-            buildings.push([docs[i].building, day, docs[i]["energyUsage"][day]]);
+            // buildings.push([docs[i].building, day, docs[i]["energyUsage"][day]]);
+            buildings.push(docs[i].building);
         }
         for (var j = 0; j < data2.length; j++) {
 
@@ -76,7 +77,7 @@ router.route('/').get(function(req, res) {
         }
 
         console.log(buildings);
-        res.render('linegraph', {title: 'Ping Energy' , graphData: JSON.stringify(data), graphData2: JSON.stringify(data2), buildings: JSON.stringify(buildings)});
+        res.render('linegraph', {title: 'Ping Energy' , graphData: JSON.stringify(data), graphData2: JSON.stringify(data2), buildings: buildings});
         // res.render('linegraph', {title: 'Ping Energy' , graphData: JSON.stringify(data), graphData2: JSON.stringify(data2), data: JSON.stringify(docs.slice(1))});
     });
 });

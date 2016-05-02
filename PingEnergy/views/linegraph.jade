@@ -7,7 +7,7 @@ block content
   script(type='text/javascript').
     var graphData = !{graphData};
     var data2 = !{graphData2};
-    var buildings = !{buildings};
+    var buildings = !{JSON.stringify(buildings)};
   script(src="/scripts/testing.js")
   table.centerBlock
     tr
@@ -15,10 +15,11 @@ block content
           #linegraph
       td.rankList
           ol
-              li="Everett"
-              li="Stanton"
-              li="Average"
-              li="Beard"
-              li="Chapin"
+            each val in buildings
+              li
+                label
+                  input(type="checkbox", name="buildingName", value=val, checked="checked", class="rankingToggle" )
+                  =val
+              
 
           

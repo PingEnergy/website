@@ -100,7 +100,7 @@ $(document).ready(function() {
         cy: function(d) { return y(d[1]); },
         cTime: function(d) { return d[0]; },
         cEnergy: function(d) { return d[1]; },
-        buildingName: buildings[i][0],
+        buildingName: buildings[i],
         r: 6
       })
       .style("fill", "transparent")
@@ -112,8 +112,9 @@ $(document).ready(function() {
     svg.append("svg:path")
       .datum(data2[i])
       .attr("class", "line")
-      .attr("id", buildings[i][0])
+      .attr("id", buildings[i])
       .attr("d", line)
+      .attr("opacity", 1)
       .style("stroke", function() { return colorScheme[i]; })
       .attr("fill", "none");
   }
@@ -147,4 +148,15 @@ $(document).ready(function() {
     .attr("transform", "rotate(-90)")
     .text("Total Kilowatt Hours (kwh)");
 
+
+  var toggleLine = null;
+  $('.rankingToggle').click(function(){
+    toggleLine = $(this).attr("value");
+
+    if($(this).is(':checked')) {
+      $("#"+toggleLine).attr({"opacity": 1});
+    }else{
+      $("#"+toggleLine).attr({"opacity": 0});
+    }
+  });
 });
