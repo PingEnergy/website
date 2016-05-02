@@ -4,8 +4,10 @@ block content
   link(rel='stylesheet', href='/stylesheets/linegraph.css')
   script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js')
   script(src='/scripts/jquery.tipsy.js')
-
-  script(src="/scripts/linegraph.js")
+  script(type='text/javascript').
+    var graphData = !{graphData};
+    var data2 = !{graphData2};
+  script(src="/scripts/testing.js")
   table.centerBlock
     tr
       td

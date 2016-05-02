@@ -5,7 +5,22 @@ $(document).ready(function() {
 function generateChart() {
     $("#bubbles").empty();
 
-    var color = d3.scale.ordinal().range(["#006d2c", "#238b45", "#41ab5d", "#74c476", "#a1d99b", "#c7e9c0", "#e5f5e0", "#f7fcf5"]);
+    var extent = [100000000000,0];
+
+    for (var i = 0; i < classes(buildings)["children"].length; i++) {
+        if (classes(buildings)["children"][i]["value"] < extent[0]) {
+            extent[0] = classes(buildings)["children"][i]["value"];
+        }
+        if (classes(buildings)["children"][i]["value"] > extent[1]) {
+            extent[1] = classes(buildings)["children"][i]["value"];
+        }
+    }
+
+    function convertRange( value, r1, r2) {
+        return ( value - r1[0] ) * ( r2[1] - r2[0] ) / ( r1[1] - r1[0] ) + r2[0];
+    }
+
+    var color = d3.scale.ordinal().range(["#388938","#46ad46","#54b954","#66c166","#87ce87","99D699","#c1e6c1", "#dbf0db"]);
 
     var diameter = 650,
         height = 500,
@@ -16,7 +31,7 @@ function generateChart() {
             return b.value - a.value;
         })
         .size([diameter, height])
-        .padding(1.5);
+        .padding(10);
 
     var svg = d3.select("#bubbles").append("svg")
         .attr("width", diameter)
@@ -29,9 +44,9 @@ function generateChart() {
     var force = d3.layout.force()
         .gravity(0.02)
         .alpha(.3)
-        .friction(.9)
+        .friction(0.01)
         .charge(function(d) {
-            return -1.9 * d.r;
+            return -500 * d.r;
         })
         .nodes(nodes)
         .size([diameter, height])
@@ -56,7 +71,8 @@ function generateChart() {
     node.append("circle")
         .attr("r", function(d) { return d.r; })
         .classed("nodecircle", true)
-        .style("fill", function(d) { return color(d.packageName); })
+        .style("fill", function(d) {
+            return color(d.packageName); })
         .style("stroke", "black")
         .style("stroke-width", 1);
 
@@ -66,14 +82,28 @@ function generateChart() {
         .style("text-anchor", "middle")
         .text(function(d) { return d.className.substring(0, d.r / 3); })
         .attr("font-weight", "bold")
-        .attr("font-size", "1.1em")
-        .attr("transform", "translate(0, -10)");
+        .attr("font-size", function(d) {
+            return convertRange(d.value, extent, [.7, 3]).toString() + "em";
+        })
+        .attr("transform", function(d) {
+            if (d.value == extent[1]) {
+                return "translate(0, -30)";
+            }
+            else if (d.value == extent[0]) {
+                return "translate(0, -5)";
+            }
+            else {
+                return "translate(0, -10)";
+            }
+        });
 
     //add money value to all nodes
     node.append("text")
         .attr("dy", "1.2em")
         .style("text-anchor", "middle")
-        .style("font-size", ".9em")
+        .style("font-size", function(d) {
+            return convertRange(d.value, extent, [.5, 2.5]).toString() + "em";
+        })
         .text(function(d) { return "$" + d.money });
 
     node.on("click", function(d) {
@@ -93,16 +123,20 @@ function generateChart() {
         $("#bubbles").css("cursor", "default");
     });
 
-    force.start();
+    // force.start();
 
     function bubblesTwo(sentBuildings) {
         for (building in sentBuildings["children"]) {
+
             if (sentBuildings["children"][building]["active"] == true) {
-                sentBuildings["children"][building]["value"] = 35000;
+                sentBuildings["children"][building]["value"] = 500;
             }
             else {
-                sentBuildings["children"][building]["value"] = (sentBuildings["children"][building]["value"]/25);
+                sentBuildings["children"][building]["value"] = Math.log((sentBuildings["children"][building]["value"]));
             }
+
+            console.log(sentBuildings["children"][building]["value"]);
+
         }
 
         svg.selectAll(".node").remove().transition().duration(5000);
@@ -161,22 +195,46 @@ function generateChart() {
         .append("text")
             .attr("dy", "-.5em")
             .style("text-anchor", "middle")
-            .style("font-size", "2em")
+            .style("font-size", "3em")
+            .style("font-weight", "bold")
             .text(function(d) { return d.className; })
+            .attr("transform", "translate(0, -30)")
 
         //main node money raised
         node.filter(function(d) { return d.active == true; })
         .append("text")
-            .attr("dy", "1em")
+            .attr("dy", "1.2em")
             .style("text-anchor", "middle")
-            .text(function(d) { return "Money raised: $" + d.money });
+            .text(function(d) { return "Money raised: $" + d.money })
+            .attr("transform", "translate(0, -20)");
 
-        //main node energy usage per bed
+        //main node energy usage
         node.filter(function(d) { return d.active == true; })
         .append("text")
-            .attr("dy", "1em")
+            .attr("dy", "1.2em")
             .style("text-anchor", "middle")
-            .text(function(d) { return ""; });
+            .text(function(d) { return "Total energy saved: " + d.kwh + " kwh"; });
+
+        //main node energy usage PER BED
+        node.filter(function(d) { return d.active == true; })
+        .append("text")
+            .attr("dy", "1.2em")
+            .style("text-anchor", "middle")
+            .text(function(d) { 
+                var energy = Math.round(d.kwh/(((d.kwh/d.money) * 1000)) * 100)/100;
+                if (energy == 0) {
+                    energy = Math.round(d.kwh/(((d.kwh/d.money) * 1000)) * 1000)/1000;
+                }
+                return "Total energy saved per bed: " + energy + " kwh/bed"; })
+            .attr("transform", "translate(0, 20)");
+
+        //C02 saved
+        node.filter(function(d) { return d.active == true; })
+        .append("text")
+            .attr("dy", "1.2em")
+            .style("text-anchor", "middle")
+            .text(function(d) { return "Total C02 emission reduction: " + d.carbon + " pounds"; })
+            .attr("transform", "translate(0, 40)");
 
         //click main node exits to original graph
         node.filter(function(d) { return d.active == true; })
@@ -191,7 +249,7 @@ function generateChart() {
 
         function recurse(name, node) {
             if (node.children) node.children.forEach(function(child) { recurse(node.name, child); });
-            else classes.push({packageName: name, className: node.name, value: node.size, active: node.active, money: node.money});
+            else classes.push({packageName: name, className: node.name, carbon: node.carbon, kwh: node.kwh, value: node.size, active: node.active, money: node.money});
         }
 
         recurse(null, root);

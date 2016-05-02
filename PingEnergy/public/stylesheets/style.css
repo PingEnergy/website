@@ -93,7 +93,7 @@ a {
 
 .rankList {
     font-size: 1.5em;
-    margin-left: 20%;
+    margin-left: 35%;
 }
 
 #footer{
@@ -120,12 +120,10 @@ a {
 
 #label{
     height: 10%;
-    width: 90%;
+    width: 85%;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 0%;
-    /*margin-top: 3%;*/
-    /*padding-top: 3%;*/
 }
 
 #links{
@@ -139,34 +137,73 @@ a {
     margin-top: 2%;
 }
 
+#daylabel{
+    display: inline;
+    float: left;
+    width: 8%;
+    text-align: right;
+}
+#S{
+    display: inline;
+    text-align: right;
+    margin-right: 6%;
+}
+
+#M{
+    display: inline;
+    text-align: right;
+    margin-right: 6%;
+}
+#T{
+    display: inline;
+    text-align: right;
+    margin-right: 6%;
+}
+#W{
+    display: inline;
+    text-align: right;
+    margin-right: 6%;
+}
+#R{
+    display: inline;
+    text-align: right;
+    margin-right: 6%;
+}
+#F{
+    display: inline;
+    text-align: right;
+    margin-right: 6%;
+}
+#s{
+    display: inline;
+    text-align: right;
+    margin-right: 6%;
+}
 
 #historical{
     display: inline;
-    margin-top: -2%;
-    margin-left: 8%;
-    margin-right: 5%;
+    float: right;
+    margin-right: 2%;
+    width: 90%
 }
 svg{
-    display: inline-block;
+    display: inline;
+
 }
 
 #information{
-    margin:auto;
-    border-radius: 20px;
-    text-align: left;
-    height: 10%;
     width: 100%;
     font-size: 1.5em;
 }
 
 #words{
-    border-radius: 20px;
     text-align: left;
     width: 50%;
     margin-top: .4%;
     padding-left:2%;
-    margin-left: auto;
+    margin-left: 35%;
     margin-right: auto;
+    margin-bottom: -10%;
 }
 
 #yearChosen{
