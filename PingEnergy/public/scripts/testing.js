@@ -157,7 +157,7 @@ $(document).ready(function() {
     toggleLine = $(this).attr("value");
     if($(this).attr("index") == 0 || $(this).attr("index") == buildings.length-1){
       $(this).attr('highlight', "true");
-      $(this).css("background-color", "yellow");
+      $(this).css("background-color", "rgba(193, 230, 193, 0.9)");
       $("#"+toggleLine).attr({"opacity": 1});
     }else{
       $(this).attr('highlight', "false");
@@ -176,7 +176,7 @@ $(document).ready(function() {
     }else{
       $("#"+toggleLine).attr({"opacity": 1});
       $(this).attr('highlight', "true");
-      $(this).css("background-color", "yellow");
+      $(this).css("background-color", "rgba(193, 230, 193, 0.9)");
     }
   });
 
