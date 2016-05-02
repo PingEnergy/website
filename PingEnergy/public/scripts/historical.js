@@ -2,6 +2,10 @@ $(document).ready(function(){
     // dayData = {"date_integer": [totalForAllBuildings, CO2, treeOffset}
     makeSVG(2016);
     $(".y").on("click", function() {
+        if (parseInt($(this).val()) == 2016) {
+            $( "#historical").hide();
+            location.reload();
+        }
         $( "#historical" ).empty();
         $( "#total" ).empty();
         $( "#yearChosen" ).empty();
@@ -19,15 +23,14 @@ $(document).ready(function(){
 });
 
 function makeSVG(year) {
-    console.log(days);
     var width = 1000,
-        height = 150,
+        height = 110,
         cellSize = 18; // cell size
       
     var percent = d3.format(".2%"),
         format = d3.time.format("%m-%d-%Y")
       
-    var margin = {top: 20, right: 20, bottom: 20, left: 38};
+    var margin = {top: 20, right: 20, bottom: 0, left: 45};
     
     var S = d3.select("#S").append("text")
         .attr("transform", "translate(-7, 0)rotate(0)")
@@ -52,6 +55,7 @@ function makeSVG(year) {
         .text("S"); 
       
     var svg = d3.select("#historical").append("svg")
+        .attr("id", "chart")
         .attr("width", width + margin.left + margin.right )
         .attr("height", height + margin.top + margin.bottom)
         .attr("transform", "translate(" + ((width - cellSize * 53) / 2) + "," + (height - cellSize * 7 - 1) + ")");
@@ -64,6 +68,37 @@ function makeSVG(year) {
         .attr("stroke-width", "1px")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
         
+    var color = d3.scale.ordinal()
+    .domain(["lowest energy used", "low energy used", "", " average", " ", "high energy used", "highest energy used"])
+    .range(["#3f9b3f", "#66c166", "#99d699", "#cceacc", "#ffcccc", "#ff9999", "#ff6666"]);
+
+    var legend = d3.select('#chart')
+    .append("g")
+    .selectAll("g")
+    .data(color.domain())
+    .enter()
+    .append('g')
+      .attr('class', 'legend')
+      .attr('transform', function(d, i) {
+        var height = 16;
+        var x = 956;
+        var y = i * height;
+        return 'translate(' + x + ',' + y + ')';
+    });
+
+
+    legend.append('rect')
+        .attr('width', 10)
+        .attr('height', 10)
+        .style('fill', color)
+        .style('stroke', color);
+     
+    legend.append('text')
+        .attr('x',  15)
+        .attr('y', 10)
+        .style("font-size", "xx-small")
+        .text(function(d) { return d; });
+
     draw(year, svg, svg2);
 }
 
@@ -128,10 +163,16 @@ function draw(year, svg, svg2) {
           + "H" + (w1 + 1) * cellSize + "V" + 0
           + "H" + (w0 + 1) * cellSize + "Z";
     }
+    
+    var notes = d3.select("#historical").append("text")
+        .attr("transform", "translate(100, 0)rotate(0)")
+        .style("text-anchor", "right")
+        .style("font-size", "xx-small")
+        .text("January 1st starts in the upper most left box, each day subsequent follows down the column.  Click each box for more information"); 
 
     var total = d3.select("#total").append("text")
         .attr("transform", "translate(100, 0)rotate(0)")
-        .style("text-anchor", "left")
+        .style("text-anchor", "left")        
         .text("Total Energy Used:  " + totalYear["yearTotal"] + " kWh");     
 }
 
@@ -173,7 +214,6 @@ function lowerBox(date) {
     
     for(d in days)
     {
-        console.log(d);
         var x = d.split('-');
         var d2;
         if (x[1] < 10){
@@ -186,10 +226,9 @@ function lowerBox(date) {
         var t = Math.round(days[d] *10000)/10000;
         var tr = Math.round((parseFloat(days[d])*.00159)*10000)/10000;
         var co = Math.round((parseFloat(days[d])*.6379)*10000)/10000;
-        
-    
+           
         if (c == date || d == date || c2 == date || d2 == date ){
-            str = str +("<br>" + "Total Energy Used : "+ t + " kWh <br>" + "Offset: "+ tr+ " trees <br>" + "CO2 emitted: " + co +" lbs");
+            str = str +("<br>" + "Total Energy Used : "+ t + " kWh <br>" + "Offset fo CO2: "+ tr+ " trees <br>" + "CO2 emitted: " + co +" lbs");
             break;
         }
     }
