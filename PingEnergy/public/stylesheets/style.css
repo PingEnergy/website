@@ -106,6 +106,7 @@ a {
     padding-top: 1%;
     padding-bottom: 1%;
     width: 90%;
+    border-radius: 20px;
 
 }
 .footer-button{
@@ -277,4 +278,7 @@ p {
     margin-right: 10%;
     margin-left: 10%;
     float: right;
+}
+.data-head{
+  padding-top: 20px;
 }
