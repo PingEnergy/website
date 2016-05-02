@@ -30,7 +30,7 @@ function makeSVG(year) {
     var percent = d3.format(".2%"),
         format = d3.time.format("%m-%d-%Y")
       
-    var margin = {top: 20, right: 20, bottom: 0, left: 38};
+    var margin = {top: 20, right: 20, bottom: 0, left: 45};
     
     var S = d3.select("#S").append("text")
         .attr("transform", "translate(-7, 0)rotate(0)")
@@ -81,7 +81,7 @@ function makeSVG(year) {
       .attr('class', 'legend')
       .attr('transform', function(d, i) {
         var height = 16;
-        var x = 960;
+        var x = 956;
         var y = i * height;
         return 'translate(' + x + ',' + y + ')';
     });
