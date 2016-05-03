@@ -200,11 +200,11 @@ function draw(year, svg, svg2) {
           + "H" + (w0 + 1) * cellSize + "Z";
     }
 
-    // var notes = d3.select("#historical").append("text")
-    //     .attr("transform", "translate(100, 0)rotate(0)")
-    //     .style("text-anchor", "right")
-    //     .style("font-size", "xx-small")
-    //     .text("January 1st starts in the upper most left box, each day subsequent follows down the column.  Click each box for more information");
+    var notes = d3.select("#historical").append("text")
+         .attr("transform", "translate(100, 0)rotate(0)")
+         .style("text-anchor", "right")
+         .style("font-size", "xx-small")
+         .text("January 1st starts in the upper most left box, each day subsequent follows down the column.  Click each box for more information");
 
     var total = d3.select("#total").append("text")
         .attr("transform", "translate(100, 0)rotate(0)")
