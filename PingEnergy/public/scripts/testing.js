@@ -1,32 +1,36 @@
 // http://cs.wheatonma.edu/egauge/dorm/dorm.xml
 $(document).ready(function() {
 
-  colorScheme = ["ff0000", "#ff6666",  "#ff9999", "#ffcccc", "#cceacc",  "#99d699", "#66c166", "#3f9b3f"];
-
-  var margin = {top: 20, right: 80, bottom: 30, left: 50},
-      width = 960 - margin.left - margin.right,
-      height = 500 - margin.top - margin.bottom;
-
-  var parseDate = d3.time.format("%Y%m%d").parse;
-
-  var x = d3.time.scale()
-    .range([0, width]);
-
-  var y = d3.scale.linear()
-    .range([height, 0]);
-
-  var color = d3.scale.ordinal()
-    .range(colorScheme);
-
-  var xAxis = d3.svg.axis()
-    .scale(x)
-    .orient("bottom");
-
-  var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left");
-
   function drawGraph(yOption){
+    if ($("#switch-color").attr("val") == 0){
+      colorScheme = ["ff0000", "#ff6666",  "#ff9999", "#ffcccc", "#cceacc",  "#99d699", "#66c166", "#3f9b3f"];
+    }
+    else{
+      colorScheme = ["#006DDB", "#B66D9B", "#6DB6FF", "#B6DBFF", "#FFFF6D", "#24FF24", "#DBD100", "#3f9b3f"];
+    }
+
+    var margin = {top: 20, right: 80, bottom: 30, left: 50},
+        width = 960 - margin.left - margin.right,
+        height = 500 - margin.top - margin.bottom;
+
+    var parseDate = d3.time.format("%Y%m%d").parse;
+
+    var x = d3.time.scale()
+      .range([0, width]);
+
+    var y = d3.scale.linear()
+      .range([height, 0]);
+
+    var color = d3.scale.ordinal()
+      .range(colorScheme);
+
+    var xAxis = d3.svg.axis()
+      .scale(x)
+      .orient("bottom");
+
+    var yAxis = d3.svg.axis()
+      .scale(y)
+      .orient("left");
 
     var line = d3.svg.line()
       .x(function(d) { return x(d[0]); })
@@ -232,7 +236,22 @@ $(document).ready(function() {
     }).mouseout(function(){
       $(this).css("cursor", "auto");
     });
+
+
+
+
   }
+
+
+  $('#switch-color').click(function(){
+     if ($('#switch-color').attr('val') == 1){
+       $('#switch-color').attr('val', "0");
+     }
+     else{
+       $('#switch-color').attr('val', "1");
+     }
+     $('#Apply').click();
+   });
 
 
   drawGraph(0);
