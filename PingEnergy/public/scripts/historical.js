@@ -1,5 +1,4 @@
 $(document).ready(function(){
-    // dayData = {"date_integer": [totalForAllBuildings, CO2, treeOffset}
     makeSVG(2016);
     $(".y").on("click", function() {
         if (parseInt($(this).val()) == 2016) {
