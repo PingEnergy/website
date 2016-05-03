@@ -1,14 +1,58 @@
+$(document).ready(function(){
+    // dayData = {"date_integer": [totalForAllBuildings, CO2, treeOffset}
+    makeSVG(2016);
+    $(".y").on("click", function() {
+        if (parseInt($(this).val()) == 2016) {
+            $( "#historical").hide();
+            location.reload();
+        }
+        $( "#historical" ).empty();
+        $( "#total" ).empty();
+        $( "#yearChosen" ).empty();
+        $( "#S" ).empty();
+        $( "#M" ).empty();
+        $( "#T" ).empty();
+        $( "#W" ).empty();
+        $( "#R" ).empty();
+        $( "#F" ).empty();
+        $( "#s" ).empty();
+        $( ".information" ).empty();
+        $( "#words" ).empty();
+        makeSVG(parseInt($(this).val()));
+    });
+    $('#switch-color').click(function(){
+       if ($('#switch-color').attr('val') == 1){
+         $('#switch-color').attr('val', "0");
+
+       }
+       else{
+         $('#switch-color').attr('val', "1");
+       }
+       $( "#total" ).empty();
+       $( "#yearChosen" ).empty();
+       $( "#S" ).empty();
+       $( "#M" ).empty();
+       $( "#T" ).empty();
+       $( "#W" ).empty();
+       $( "#R" ).empty();
+       $( "#F" ).empty();
+       $( "#s" ).empty();
+       $( "#words" ).empty();
+       d3.select("svg").remove();
+       makeSVG(2016);
+       d3.selectAll(".information")[0][1].remove();
+      //  d3.selectAll(".instruction")[0][0].remove();
+
+     });
+});
 
 function makeSVG(year) {
-  if ($("#switch-color").attr("val") == 0){
-    var colorScheme = ["#3f9b3f", "#66c166", "#99d699", "#cceacc", "#ffcccc", "#ff9999", "#ff6666"];
-
-  }
-  else{
-    var colorScheme = ["#006DDB", "#B66D9B", "#6DB6FF", "#B6DBFF", "#FFFF6D", "#24FF24", "#DBD100"];
-
-  }
-
+    if ($("#switch-color").attr("val") == 0){
+      colorScheme = ["#3f9b3f", "#66c166", "#99d699", "#cceacc", "#ffcccc", "#ff9999", "#ff6666"];
+    }
+    else{
+      colorScheme = ["#006DDB", "#B66D9B", "#6DB6FF", "#B6DBFF", "#FFFF6D", "#24FF24", "#DBD100"];
+    }
     var width = 1000,
         height = 110,
         cellSize = 18; // cell size
@@ -90,12 +134,10 @@ function makeSVG(year) {
 
 function draw(year, svg, svg2) {
   if ($("#switch-color").attr("val") == 0){
-    var colorScheme = ["#3f9b3f", "#66c166", "#99d699", "#cceacc", "#ffcccc", "#ff9999", "#ff6666"];
-
+    colorScheme = ["#3f9b3f", "#66c166", "#99d699", "#cceacc", "#ffcccc", "#ff9999", "#ff6666"];
   }
   else{
-    var colorScheme = ["#006DDB", "#B66D9B", "#6DB6FF", "#B6DBFF", "#FFFF6D", "#24FF24", "#DBD100"];
-
+    colorScheme = ["#006DDB", "#B66D9B", "#6DB6FF", "#B6DBFF", "#FFFF6D", "#24FF24", "#DBD100"];
   }
     var totalSum = 0;
     var daySum = 0;
@@ -159,7 +201,6 @@ function draw(year, svg, svg2) {
     }
 
     // var notes = d3.select("#historical").append("text")
-    //     .attr("class", "instruction")
     //     .attr("transform", "translate(100, 0)rotate(0)")
     //     .style("text-anchor", "right")
     //     .style("font-size", "xx-small")
@@ -173,12 +214,10 @@ function draw(year, svg, svg2) {
 
 function colorDay(data) {
   if ($("#switch-color").attr("val") == 0){
-    var colorScheme = ["#3f9b3f", "#66c166", "#99d699", "#cceacc", "#ffcccc", "#ff9999", "#ff6666"];
-
+    colorScheme = ["#3f9b3f", "#66c166", "#99d699", "#cceacc", "#ffcccc", "#ff9999", "#ff6666"];
   }
   else{
-    var colorScheme = ["#006DDB", "#B66D9B", "#6DB6FF", "#B6DBFF", "#FFFF6D", "#24FF24", "#DBD100"];
-
+    colorScheme = ["#006DDB", "#B66D9B", "#6DB6FF", "#B6DBFF", "#FFFF6D", "#24FF24", "#DBD100"];
   }
     var l = days["low"];
     var differance = (parseFloat(days["high"]) - parseFloat(days["low"]))/6;
@@ -213,12 +252,10 @@ function colorDay(data) {
 
 function lowerBox(date) {
   if ($("#switch-color").attr("val") == 0){
-    var colorScheme = ["#3f9b3f", "#66c166", "#99d699", "#cceacc", "#ffcccc", "#ff9999", "#ff6666"];
-
+    colorScheme = ["#3f9b3f", "#66c166", "#99d699", "#cceacc", "#ffcccc", "#ff9999", "#ff6666"];
   }
   else{
-    var colorScheme = ["#006DDB", "#B66D9B", "#6DB6FF", "#B6DBFF", "#FFFF6D", "#24FF24", "#DBD100"];
-
+    colorScheme = ["#006DDB", "#B66D9B", "#6DB6FF", "#B6DBFF", "#FFFF6D", "#24FF24", "#DBD100"];
   }
     var str = "Date: " + date;
 
@@ -249,59 +286,3 @@ function lowerBox(date) {
     var div = document.getElementById("words");
     div.innerHTML = div.innerHTML + str;
 }
-function drawGraph(){
-
-}
-$(document).ready(function(){
-    // dayData = {"date_integer": [totalForAllBuildings, CO2, treeOffset}
-
-    makeSVG(2016);
-    $(".y").on("click", function() {
-        // if (parseInt($(this).val()) == 2016) {
-        //     $( "#historical").hide();
-        //     location.reload();
-        // }
-
-        if (parseInt($(this).val()) != 2016){
-
-          $( "#historical" ).empty();
-          $( "#total" ).empty();
-          $( "#yearChosen" ).empty();
-          $( "#S" ).empty();
-          $( "#M" ).empty();
-          $( "#T" ).empty();
-          $( "#W" ).empty();
-          $( "#R" ).empty();
-          $( "#F" ).empty();
-          $( "#s" ).empty();
-          $( ".information" ).empty();
-          $( "#words" ).empty();
-          makeSVG(parseInt($(this).attr('val')));
-        }
-
-    });
-    $('#switch-color').click(function(){
-       if ($('#switch-color').attr('val') == 1){
-         $('#switch-color').attr('val', "0");
-
-       }
-       else{
-         $('#switch-color').attr('val', "1");
-       }
-       $( "#total" ).empty();
-       $( "#yearChosen" ).empty();
-       $( "#S" ).empty();
-       $( "#M" ).empty();
-       $( "#T" ).empty();
-       $( "#W" ).empty();
-       $( "#R" ).empty();
-       $( "#F" ).empty();
-       $( "#s" ).empty();
-       $( "#words" ).empty();
-       d3.select("svg").remove();
-       makeSVG(2016);
-       d3.selectAll(".information")[0][1].remove();
-      //  d3.selectAll(".instruction")[0][0].remove();
-
-     });
-});
