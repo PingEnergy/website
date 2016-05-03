@@ -179,15 +179,25 @@ $(document).ready(function() {
       .attr("transform", "translate(0," + height + ")")
       .call(xAxis);
 
+    var yAxisText = null;
+    if (yOption == 0){
+      yAxisText = "Total Kilowatt Hours (kwh) Per Bed";
+    } else if(yOption == 1){
+      yAxisText = "Total Kilowatt Hours (kwh)";
+    }else if(yOption == 1){
+      yAxisText = "Total CO2 Emission";
+    }else{
+      yAxisText = "Total Trees to Offset Carbon Emission";
+    }
     // y-axis
     svg.append("g")
       .attr("class", "y axis")
       .call(yAxis)
       .append("text")
-      .attr("dy", "-30")
+      .attr("dy", "20")
       .style("text-anchor", "end")
       .attr("transform", "rotate(-90)")
-      .text("Total Kilowatt Hours (kwh)");
+      .text(yAxisText);
 
     var toggleLine = null;
     $('.rankingToggle').each(function(){
