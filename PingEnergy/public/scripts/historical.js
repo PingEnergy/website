@@ -46,8 +46,8 @@ function makeSVG(year) {
         .attr("height", height + margin.top + margin.bottom)
         .attr("transform", "translate(" + ((width - cellSize * 53) / 2) + "," + (height - cellSize * 7 - 1) + ")");
 
-    var svg2 = d3.select("#information").append("svg")
-        .attr("id", "information")
+    var svg2 = d3.select(".information").append("svg")
+        .attr("class", "information")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .attr("stroke", "black")
@@ -158,11 +158,12 @@ function draw(year, svg, svg2) {
           + "H" + (w0 + 1) * cellSize + "Z";
     }
 
-    var notes = d3.select("#historical").append("text")
-        .attr("transform", "translate(100, 0)rotate(0)")
-        .style("text-anchor", "right")
-        .style("font-size", "xx-small")
-        .text("January 1st starts in the upper most left box, each day subsequent follows down the column.  Click each box for more information");
+    // var notes = d3.select("#historical").append("text")
+    //     .attr("class", "instruction")
+    //     .attr("transform", "translate(100, 0)rotate(0)")
+    //     .style("text-anchor", "right")
+    //     .style("font-size", "xx-small")
+    //     .text("January 1st starts in the upper most left box, each day subsequent follows down the column.  Click each box for more information");
 
     var total = d3.select("#total").append("text")
         .attr("transform", "translate(100, 0)rotate(0)")
@@ -256,33 +257,51 @@ $(document).ready(function(){
 
     makeSVG(2016);
     $(".y").on("click", function() {
-        if (parseInt($(this).val()) == 2016) {
-            $( "#historical").hide();
-            location.reload();
+        // if (parseInt($(this).val()) == 2016) {
+        //     $( "#historical").hide();
+        //     location.reload();
+        // }
+
+        if (parseInt($(this).val()) != 2016){
+
+          $( "#historical" ).empty();
+          $( "#total" ).empty();
+          $( "#yearChosen" ).empty();
+          $( "#S" ).empty();
+          $( "#M" ).empty();
+          $( "#T" ).empty();
+          $( "#W" ).empty();
+          $( "#R" ).empty();
+          $( "#F" ).empty();
+          $( "#s" ).empty();
+          $( ".information" ).empty();
+          $( "#words" ).empty();
+          makeSVG(parseInt($(this).attr('val')));
         }
-        $( "#historical" ).empty();
-        $( "#total" ).empty();
-        $( "#yearChosen" ).empty();
-        $( "#S" ).empty();
-        $( "#M" ).empty();
-        $( "#T" ).empty();
-        $( "#W" ).empty();
-        $( "#R" ).empty();
-        $( "#F" ).empty();
-        $( "#s" ).empty();
-        $( "#information" ).empty();
-        $( "#words" ).empty();
-        makeSVG(parseInt($(this).attr('val')));
+
     });
     $('#switch-color').click(function(){
        if ($('#switch-color').attr('val') == 1){
          $('#switch-color').attr('val', "0");
-         alert($("#switch-color").attr("val"));
+
        }
        else{
          $('#switch-color').attr('val', "1");
-         alert($("#switch-color").attr("val"));
        }
-       $('.y').click();
+       $( "#total" ).empty();
+       $( "#yearChosen" ).empty();
+       $( "#S" ).empty();
+       $( "#M" ).empty();
+       $( "#T" ).empty();
+       $( "#W" ).empty();
+       $( "#R" ).empty();
+       $( "#F" ).empty();
+       $( "#s" ).empty();
+       $( "#words" ).empty();
+       d3.select("svg").remove();
+       makeSVG(2016);
+       d3.selectAll(".information")[0][1].remove();
+      //  d3.selectAll(".instruction")[0][0].remove();
+
      });
 });

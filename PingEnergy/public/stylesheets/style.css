@@ -191,8 +191,9 @@ svg{
 
 }
 
-#information{
+.information{
     width: 100%;
+    position: relative;
     font-size: 1.5em;
 }
 
@@ -279,4 +280,7 @@ p {
 
 #cheese{
     margin-left: 2%;
+}
+#instruction{
+  margin-left:120px;
 }
