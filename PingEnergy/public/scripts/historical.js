@@ -1,7 +1,11 @@
+var color1 = ["#3f9b3f", "#66c166", "#99d699", "#cceacc", "#ffcccc", "#ff9999", "#ff6666"];
 $(document).ready(function(){
     // dayData = {"date_integer": [totalForAllBuildings, CO2, treeOffset}
+    //
+    changeColor();
     makeSVG(2016);
     $(".y").on("click", function() {
+
         if (parseInt($(this).val()) == 2016) {
             $( "#historical").hide();
             location.reload();
@@ -18,20 +22,37 @@ $(document).ready(function(){
         $( "#s" ).empty();
         $( "#information" ).empty();
         $( "#words" ).empty();
+
+
         makeSVG(parseInt($(this).val()));
     });
 });
-
+function changeColor(){
+  $('#switch-color').click(function(){
+     if ($('#switch-color').attr('val') == 1){
+       color1=["#006DDB", "#B66D9B", "#6DB6FF", "#B6DBFF", "#FFFF6D", "#24FF24", "#DBD100"];
+       $('#switch-color').attr('val', "0");
+      console.log($('#switch-color').attr('val'));
+      console.log(color1);
+     }
+     else{
+       color1 = ["#3f9b3f", "#66c166", "#99d699", "#cceacc", "#ffcccc", "#ff9999", "#ff6666"];
+       $('#switch-color').attr('val', "1");
+       console.log($('#switch-color').attr('val'));
+       console.log(color1);
+     }
+   });
+}
 function makeSVG(year) {
     var width = 1000,
         height = 110,
         cellSize = 18; // cell size
-      
+
     var percent = d3.format(".2%"),
         format = d3.time.format("%m-%d-%Y")
-      
+
     var margin = {top: 20, right: 20, bottom: 0, left: 45};
-    
+
     var S = d3.select("#S").append("text")
         .attr("transform", "translate(-7, 0)rotate(0)")
         .text("S");
@@ -52,14 +73,14 @@ function makeSVG(year) {
         .text("F");
     var s = d3.select("#s").append("text")
         .attr("transform", "translate(-7, 0)rotate(0)")
-        .text("S"); 
-      
+        .text("S");
+
     var svg = d3.select("#historical").append("svg")
         .attr("id", "chart")
         .attr("width", width + margin.left + margin.right )
         .attr("height", height + margin.top + margin.bottom)
         .attr("transform", "translate(" + ((width - cellSize * 53) / 2) + "," + (height - cellSize * 7 - 1) + ")");
-    
+
     var svg2 = d3.select("#information").append("svg")
         .attr("id", "information")
         .attr("width", width + margin.left + margin.right)
@@ -67,10 +88,10 @@ function makeSVG(year) {
         .attr("stroke", "black")
         .attr("stroke-width", "1px")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-        
+
     var color = d3.scale.ordinal()
     .domain(["lowest energy used", "low energy used", "", " average", " ", "high energy used", "highest energy used"])
-    .range(["#3f9b3f", "#66c166", "#99d699", "#cceacc", "#ffcccc", "#ff9999", "#ff6666"]);
+    .range(color1);
 
     var legend = d3.select('#chart')
     .append("g")
@@ -92,7 +113,7 @@ function makeSVG(year) {
         .attr('height', 10)
         .style('fill', color)
         .style('stroke', color);
-     
+
     legend.append('text')
         .attr('x',  15)
         .attr('y', 10)
@@ -109,18 +130,18 @@ function draw(year, svg, svg2) {
     var width = 1018,
         height = 150,
         cellSize = 18; // cell size
-      
+
     var percent = d3.format(".2%"),
       format = d3.time.format("%m-%d-%Y")
-      
+
     var margin = {top: 20, right: 20, bottom: 20, left: 20};
-    
+
     var total = d3.select("#yearChosen").append("text")
         .attr("transform", "translate(45, 0)rotate(-90)")
         .style("text-anchor", "left")
         .style("font-size","34px")
         .text(year);
-    
+
     var rect = svg.selectAll(".day")
         .data(function(d) { return(d3.time.days(new Date(year, 0, 1), new Date(year + 1, 0, 1)));})
       .enter().append("rect")
@@ -145,14 +166,14 @@ function draw(year, svg, svg2) {
             return color;
             })
         .on("click", function(d) {lowerBox(d);})
-        .datum(format);     
+        .datum(format);
 
     svg.selectAll(".month")
         .data(function(d) { return d3.time.months(new Date(year, 0, 1), new Date(year+1, 0, 1)); })
       .enter().append("path")
         .attr("class", "month")
         .attr("d", monthPath);
-     
+
     function monthPath(t0) {
       var t1 = new Date(t0.getFullYear(), t0.getMonth() + 1, 0),
           d0 = t0.getDay(), w0 = d3.time.weekOfYear(t0),
@@ -163,22 +184,23 @@ function draw(year, svg, svg2) {
           + "H" + (w1 + 1) * cellSize + "V" + 0
           + "H" + (w0 + 1) * cellSize + "Z";
     }
-    
+
     var notes = d3.select("#historical").append("text")
         .attr("transform", "translate(100, 0)rotate(0)")
         .style("text-anchor", "right")
         .style("font-size", "xx-small")
-        .text("January 1st starts in the upper most left box, each day subsequent follows down the column.  Click each box for more information"); 
+        .text("January 1st starts in the upper most left box, each day subsequent follows down the column.  Click each box for more information");
 
     var total = d3.select("#total").append("text")
         .attr("transform", "translate(100, 0)rotate(0)")
-        .style("text-anchor", "left")        
-        .text("Total Energy Used:  " + totalYear["yearTotal"] + " kWh");     
+        .style("text-anchor", "left")
+        .text("Total Energy Used:  " + totalYear["yearTotal"] + " kWh");
 }
 
 function colorDay(data) {
     var l = days["low"];
-    var color = ["#3f9b3f", "#66c166", "#99d699", "#cceacc", "#ffcccc", "#ff9999", "#ff6666"];
+    // var color = ["#3f9b3f", "#66c166", "#99d699", "#cceacc", "#ffcccc", "#ff9999", "#ff6666"];
+    // var color=["#006DDB", "#B66D9B", "#6DB6FF", "#B6DBFF", "#FFFF6D", "#24FF24", "#DBD100"];
     var differance = (parseFloat(days["high"]) - parseFloat(days["low"]))/6;
     var one = (l + (differance/2));
     var two = one + differance;
@@ -187,31 +209,31 @@ function colorDay(data) {
     var five = four + differance;
     var six = five + (differance/2);
     if (data < one ){
-            return color[0];
+            return color1[0];
     }
     else if (data < two && data > one) {
-        return color[1];
+        return color1[1];
     }
     else if (data < three && data > two) {
-        return color[2];
+        return color1[2];
     }
     else if (data < four && data > three) {
-        return color[3];
+        return color1[3];
     }
     else if (data < five && data > four) {
-        return color[4];
+        return color1[4];
     }
     else if (data < six && data > five) {
-        return color[5];
+        return color1[5];
     }
     else {
-        return color[6]; 
-    }   
+        return color1[6];
+    }
 }
 
 function lowerBox(date) {
     var str = "Date: " + date;
-    
+
     for(d in days)
     {
         var x = d.split('-');
@@ -220,13 +242,13 @@ function lowerBox(date) {
             x[1] = '0'+x[1];
             d2 = x[0]+'-'+x[1]+'-'+x[2];
         }
-        
+
         var c = '0' + d;
         var c2 = '0' + d2;
         var t = Math.round(days[d] *10000)/10000;
         var tr = Math.round((parseFloat(days[d])*.00159)*10000)/10000;
         var co = Math.round((parseFloat(days[d])*.6379)*10000)/10000;
-           
+
         if (c == date || d == date || c2 == date || d2 == date ){
             str = str +("<br>" + "Total Energy Used : "+ t + " kWh <br>" + "Offset fo CO2: "+ tr+ " trees <br>" + "CO2 emitted: " + co +" lbs");
             break;
@@ -239,7 +261,3 @@ function lowerBox(date) {
     var div = document.getElementById("words");
     div.innerHTML = div.innerHTML + str;
 }
-
-
-
-

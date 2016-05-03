@@ -6,12 +6,7 @@ body {
     background-repeat: no-repeat;
     background-image: url("./../image/background.jpg") ;
     background-size: 100% 100%;
-    /*background: url(images/bg.jpg) no-repeat center center fixed; */
-    /*-webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;*/
-    overflow-x: hidden;
+    /*overflow-x: hidden;*/
 }
 #banner{
     margin: auto;
@@ -145,7 +140,7 @@ a {
 #daylabel{
     display: inline;
     float: left;
-    width: 7%;
+    width: 8%;
     text-align: right;
 }
 #S{
@@ -261,13 +256,10 @@ svg{
 }
 
 #contact{
-    /*margin-top: 2%;*/
     margin: 0 auto;
-    text-align: center;
-    /*margin-right: 3%;*/
-    /*margin-bottom: 30%;*/
-
+    text-align: center
 }
+
 #contact td{
   width: 300px;
 }
@@ -281,16 +273,6 @@ p {
     font-size: larger;
 }
 
-#bryan{
-    /*margin-left: 10%;*/
-    /*float: left;*/
-}
-#gousie{
-    /*margin-top: 3%;
-    margin-right: 10%;
-    margin-left: 10%;*/
-    /*float: right;*/
-}
 .data-head{
   padding-top: 20px;
 }
