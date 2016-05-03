@@ -41,27 +41,12 @@ function generateChart() {
     var nodes = bubble.nodes(classes(buildings))
         .filter(function(d) {return !d.children;});
 
-    var force = d3.layout.force()
-        .gravity(0.02)
-        .alpha(.3)
-        .friction(0.01)
-        .charge(function(d) {
-            return -500 * d.r;
-        })
-        .nodes(nodes)
-        .size([diameter, height])
-        .on("tick", function() {
-            svg.selectAll(".node")
-                .attr("transform", function(d) {
-                    return "translate(" + d.x + "," + d.y + ")";
-                });
-        });
+    console.log(nodes);
 
     var node = svg.selectAll(".node")
         .data(nodes)
     .enter().append("g")
-        .attr("class", "node")
-        .call(force.drag);
+        .attr("class", "node");
 
     node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
@@ -78,24 +63,78 @@ function generateChart() {
 
     //add building name to all nodes
     node.append("text")
+        .attr("class", "nodeText")
         .attr("dy", ".6em")
         .style("text-anchor", "middle")
-        .text(function(d) { return d.className.substring(0, d.r / 3); })
+        .text(function(d) { return d.className; })
         .attr("font-weight", "bold")
         .attr("font-size", function(d) {
-            return convertRange(d.value, extent, [.7, 3]).toString() + "em";
+            if (d.value > nodes[1]["value"]) {
+                return "2.5em";
+            }
+            if (d.value > nodes[3]["value"]) {
+                return "2em";
+            }
+            else if (d.value > nodes[6]["value"]) {
+                return "1.2em";
+            }
+            else if (d.value == nodes[6]["value"]) {
+                return ".7em";
+            }
+            else {
+                return ".5em";
+            }
         })
         .attr("transform", function(d) {
-            if (d.value == extent[1]) {
-                return "translate(0, -30)";
+            if (d.value > nodes[3]["value"]) {
+                return "translate(0, -20)";
             }
-            else if (d.value == extent[0]) {
+            else if (d.value > nodes[6]["value"]) {
+                return "translate(0, -10)";
+            }
+            else if (d.value == nodes[6]["value"]) {
                 return "translate(0, -5)";
             }
             else {
-                return "translate(0, -10)";
+                return "translate(0, -2)";
             }
-        });
+        })
+        .on("mouseover", function(d) {
+            if (d.value > nodes[1]["value"]) {
+                d3.select(this).attr("font-size", "3.5em");
+            }
+            else if (d.value > nodes[3]["value"]) {
+                d3.select(this).attr("font-size", "2.5em");
+            }
+            else if (d.value > nodes[6]["value"]) {
+                d3.select(this).attr("font-size", "2em");
+            }
+            else if (d.value == nodes[6]["value"]) {
+                d3.select(this).attr("font-size", "1.5em");
+            }
+            else {
+                d3.select(this).attr("font-size", "1.5em");
+            }
+        })
+        .on("mouseout", function(d) {
+            d3.select(this).attr("font-size", function(d) {
+                if (d.value > nodes[1]["value"]) {
+                    return "2.5em";
+                }
+                if (d.value > nodes[3]["value"]) {
+                    return "2em";
+                }
+                else if (d.value > nodes[6]["value"]) {
+                    return "1.2em";
+                }
+                else if (d.value == nodes[6]["value"]) {
+                    return ".7em";
+                }
+                else {
+                    return ".5em";
+                }
+            })
+        })
 
     //add money value to all nodes
     node.append("text")
@@ -104,7 +143,14 @@ function generateChart() {
         .style("font-size", function(d) {
             return convertRange(d.value, extent, [.5, 2.5]).toString() + "em";
         })
-        .text(function(d) { return "$" + d.money });
+        .text(function(d) { 
+            if (d.value > nodes[7]["value"]) {
+                return "$" + d.money;
+            }
+            else {
+                return "";
+            }
+        });
 
     node.on("click", function(d) {
         var toSend = classes(buildings);
@@ -123,16 +169,14 @@ function generateChart() {
         $("#bubbles").css("cursor", "default");
     });
 
-    // force.start();
-
     function bubblesTwo(sentBuildings) {
         for (building in sentBuildings["children"]) {
 
             if (sentBuildings["children"][building]["active"] == true) {
-                sentBuildings["children"][building]["value"] = 500;
+                sentBuildings["children"][building]["value"] = 550;
             }
             else {
-                sentBuildings["children"][building]["value"] = Math.log((sentBuildings["children"][building]["value"]));
+                sentBuildings["children"][building]["value"] = 25;
             }
 
             console.log(sentBuildings["children"][building]["value"]);
