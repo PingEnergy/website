@@ -216,30 +216,6 @@ $(document).ready(function() {
         $("#"+toggleLine).attr({"opacity": 0});
       }
     });
-
-    $('.rankingToggle').click(function(){
-      toggleLine = $(this).attr("value");
-
-      if($(this).attr('highlight') == "true") {
-        $("#"+toggleLine).attr({"opacity": 0});
-        $(this).attr('highlight', "false");
-        $(this).css("background-color", "rgba(255,255,240,0)");
-      }else{
-        $("#"+toggleLine).attr({"opacity": 1});
-        $(this).attr('highlight', "true");
-        $(this).css("background-color", "rgba(193, 230, 193, 0.9)");
-      }
-    });
-
-    $('.rankingToggle').mouseover(function(){
-      $(this).css("cursor", "pointer");
-    }).mouseout(function(){
-      $(this).css("cursor", "auto");
-    });
-
-
-
-
   }
 
 
@@ -252,6 +228,29 @@ $(document).ready(function() {
      }
      $('#Apply').click();
    });
+
+  $('.rankingToggle').mouseover(function(){
+    $(this).css("cursor", "pointer");
+  }).mouseout(function(){
+    $(this).css("cursor", "auto");
+  });
+
+  $('.rankingToggle').click(function(){
+      toggleLine = $(this).attr("value");
+      console.log(toggleLine);
+      if($(this).attr('highlight') == "true") {
+        console.log("Turn off");
+        $("#"+toggleLine).attr({"opacity": 0});
+        console.log($("#"+toggleLine).attr("opacity"));
+        $(this).attr('highlight', "false");
+        $(this).css("background-color", "rgba(255,255,240,0)");
+      }else{
+        console.log("Turn on");
+        $("#"+toggleLine).attr({"opacity": 1});
+        $(this).attr('highlight', "true");
+        $(this).css("background-color", "rgba(193, 230, 193, 0.9)");
+      }
+    });
 
 
   drawGraph(0);
