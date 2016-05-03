@@ -10,17 +10,17 @@ body {
 }
 #banner{
     margin: auto;
-    text-align: center;
+    /*text-align: center;*/
     position: relative;
     padding-bottom: 2%;
     background-color: rgba(255,255,240, 0.7);
     width: 90%;
     border-radius: 20px;
-    text-align: center;
+    /*text-align: center;*/
 }
 #banner-title{
     width: 30%;
-    margin: auto;
+    margin-left: 40px;
     padding-top:0.1%;
 }
 h1{
@@ -39,15 +39,19 @@ h1{
     z-index: 1;
 }
 .banner-button{
-    position: relative;
+    float: right;
+    right: 280px;
+    top:-70px;
+    /*position: relative;*/
     border-color: Black;
     border-radius: 10px;
     border: 1px solid;
     padding: 1%;
     text-decoration: none;
     color: black;
+    margin-left: 10px;
     background-color: rgba(229, 245, 224,0.4);
-    padding-top: 5px;
+    /*padding-top: 5px;*/
 }
 .banner-button:hover, .banner-button:visited:hover{
     border-color:#11900d;
@@ -282,5 +286,5 @@ p {
 }
 
 #instruction{
-  margin-left: 5%;
+  margin-left: 5%
 }
