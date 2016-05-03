@@ -286,5 +286,6 @@ p {
 }
 
 #instruction{
-  margin-left: 5%
+  margin-left: 5%;
+  font-size: smaller;
 }
