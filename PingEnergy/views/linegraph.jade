@@ -7,16 +7,18 @@ block content
   script(type='text/javascript').
     var graphData = !{graphData};
     var data2 = !{graphData2};
+    var beds = !{beds};
     var buildings = !{buildings};
     var buildingsSorted = !{JSON.stringify(buildingSorted)}
   script(src="/scripts/testing.js")
   
+  br
   table.centerBlock
     tr
-      select
+      select#cheese
         each choice, i in choices
-          option(value=i, id="Y-option") #{choice}
-      input(type='submit',value='Sign Up',data-transition='fade', data-theme='c')  
+          option(value=i, id="yOption", name="Cheese") #{choice}
+      input(type='submit',value='Apply Change', id='Apply')  
     tr
       td
           #linegraph

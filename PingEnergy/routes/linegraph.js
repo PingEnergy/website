@@ -57,6 +57,7 @@ router.route('/').get(function(req, res) {
         var buildings = [];
         var buildingRanks = [];
         var buildingSorted = [];
+        var beds = [];
         var sumEnergy = 0;
         var sumTime = 0;
         var day = null;
@@ -65,6 +66,7 @@ router.route('/').get(function(req, res) {
             for (day in docs[i]["energyUsage"]) {
                 dataLine.push([day, docs[i]["energyUsage"][day]]);
             }
+            beds.push(docs[i].beds);
             data2.push(dataLine);
             buildings.push(docs[i].building);
         }
@@ -93,12 +95,18 @@ router.route('/').get(function(req, res) {
             buildingSorted.push(buildingRanks[i][0]);
         }
 
-        var choices = ["Energy Usage", "CO2 Consumption"];
+        var choices = ["Energy Usage Per Bed","Energy Usage", "CO2 Consumption", "Tree Offset"];
 
-        res.render('linegraph', {title: 'Ping Energy' , graphData: JSON.stringify(data), graphData2: JSON.stringify(data2), buildings: JSON.stringify(buildings), buildingSorted: buildingSorted, buildingRanks: JSON.stringify(buildingRanks), choices: choices});
+        res.render('linegraph', {title: 'Ping Energy' , graphData: JSON.stringify(data), graphData2: JSON.stringify(data2), beds: JSON.stringify(beds), buildings: JSON.stringify(buildings), buildingSorted: buildingSorted, buildingRanks: JSON.stringify(buildingRanks), choices: choices});
     });
 });
 
+router.post('/', function(req, res) {
+    var button = req.body.Cheese;
+    console.log("button: ", button);
+
+    res.render('linegraph', {});
+});
 
 router.route('/:building').get(function(req, res) {
     res.send("Under Construction");
