@@ -118,9 +118,6 @@ function generateChart() {
             else if (d.value > nodes[6]["value"]) {
                 d3.select(this).attr("font-size", "2em");
             }
-            else if (d.value == nodes[6]["value"]) {
-                d3.select(this).attr("font-size", "1.5em");
-            }
             else {
                 d3.select(this).attr("font-size", "1.5em");
             }
@@ -134,10 +131,16 @@ function generateChart() {
                     return "2em";
                 }
                 else if (d.value > nodes[6]["value"]) {
-                    return "1.2em";
+                    return "1.5em";
                 }
                 else if (d.value == nodes[6]["value"]) {
-                    return ".7em";
+                    return "1em";
+                }
+                else if (d.value > nodes[9]["value"]) {
+                    return ".9em";
+                }
+                else if (d.value > nodes[11]["value"]) {
+                    return ".6em";
                 }
                 else {
                     return ".5em";
