@@ -2,9 +2,21 @@ var express = require('express');
 var router = express.Router();
 
 
-router.route('/').get(function(req, res) {
+router.route('/:time').get(function(req, res) {
+    var time = req.params.time;
+    console.log(time);
+    var getDBTime = null;
+    var dbStart = 0;
+    if(time == 'h'){
+        getDBTime = 'HourlyEnergy';
+    }else if(time == 'w'){
+        getDBTime = 'WeeklyEnergy';
+    }else{
+        getDBTime = 'DailyEnergy';
+        dbStart = 1;
+    }
     var db = req.db;
-    var collection = db.get('DailyEnergy');
+    var collection = db.get(getDBTime);
 
     collection.find({},{},function(e,docs){
 
@@ -14,7 +26,7 @@ router.route('/').get(function(req, res) {
             data.push({});
         }
         //add cumulative energy usage of each building for each day to data array objs
-        for (var i = 1; i < docs.length; i++) {
+        for (var i = dbStart; i < docs.length; i++) {
             var building = docs[i]["building"];
             var arrayIndex = 0;
             for (usage in docs[i]["energyUsage"]) {
@@ -128,15 +140,15 @@ router.route('/').get(function(req, res) {
     });
 });
 
+router.route('/').get(function(req, res) {
+    res.redirect('/linegraph/d');
+});
+
 router.post('/', function(req, res) {
     var button = req.body.Cheese;
     console.log("button: ", button);
 
     res.render('linegraph', {});
-});
-
-router.route('/:building').get(function(req, res) {
-    res.send("Under Construction");
 });
 
 module.exports = router;

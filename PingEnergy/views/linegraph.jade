@@ -16,9 +16,9 @@ block content
   br
   table.centerBlock
     tr
-      select#cheese
+      select
         each choice, i in choices
-          option(value=i, id="yOption", name="Cheese") #{choice}
+          option(value=i, id="yOption", name="selectY") #{choice}
       input(type='submit',value='Apply Change', id='Apply')  
     tr
       td
