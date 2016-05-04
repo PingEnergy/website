@@ -4,7 +4,7 @@ var router = express.Router();
 
 router.route('/').get(function(req, res) {
     var db = req.db;
-    var collection = db.get('DormEnergyPerDay');
+    var collection = db.get('DailyEnergy');
 
     collection.find({},{},function(e,docs){
 
