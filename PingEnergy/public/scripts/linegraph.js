@@ -5,8 +5,7 @@ $(document).ready(function() {
 
   function drawGraph(yOption){
     if ($("#switch-color").attr("val") == 0){
-      colorScheme = ["f00", "f22", "#f44",  "#f66", "#f88", "faa", "fcc"]
-      colorScheme2 = ["cfc", "afa", "#8f8", "#6f6", "#4f4", "#2f2", "0f0"];
+      colorScheme = ["#f00", "#f22", "#f44",  "#f66", "#f88", "#faa", "#fcc", "#cfc", "#afa", "#8f8", "#6f6", "#4f4", "#2f2", "#0f0"];
     }
     else{
       colorScheme = ["#006DDB", "#B66D9B", "#6DB6FF", "#B6DBFF", "#FFFF6D", "#24FF24", "#DBD100", "#3f9b3f"];
@@ -161,10 +160,15 @@ $(document).ready(function() {
         .style("stroke", function() {
           // console.log(buildings[i], buildingsSorted.indexOf(buildings[i]));
           if(yOption == 0){
+            var buildingIndex = buildingSortedPerBed.indexOf(buildings[i]);
             var avgIndex = buildingSortedPerBed.indexOf("Average");
-            return colorScheme[buildingSortedPerBed.indexOf(buildings[i])];
-          }else{
-            return colorScheme[buildingsSorted.indexOf(buildings[i])];
+            if (buildings[i] == "Average"){
+              return "#000";
+            }else if(buildingIndex > avgIndex){
+              return colorScheme[buildingIndex-1];
+            }else {
+              return colorScheme[buildingIndex];
+            }
           }
         })
         .attr("fill", "none");
