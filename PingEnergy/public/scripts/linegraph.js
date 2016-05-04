@@ -158,17 +158,26 @@ $(document).ready(function() {
         .attr("d", line)
         .attr("opacity", 1)
         .style("stroke", function() {
-          // console.log(buildings[i], buildingsSorted.indexOf(buildings[i]));
+          var buildingIndex = 0;
+          var avgIndex = 0;
           if(yOption == 0){
-            var buildingIndex = buildingSortedPerBed.indexOf(buildings[i]);
-            var avgIndex = buildingSortedPerBed.indexOf("Average");
-            if (buildings[i] == "Average"){
-              return "#000";
-            }else if(buildingIndex > avgIndex){
-              return colorScheme[buildingIndex-1];
-            }else {
-              return colorScheme[buildingIndex];
-            }
+            buildingIndex = buildingSortedPerBed.indexOf(buildings[i]);
+            avgIndex = buildingSortedPerBed.indexOf("Average");
+          }else{
+            buildingIndex = buildingsSorted.indexOf(buildings[i]);
+            avgIndex = buildingsSorted.indexOf("Average");
+          }
+          if (buildings[i] == "Average"){
+            return "#000";
+          }else if(buildingIndex > avgIndex){
+            return colorScheme[buildingIndex-1];
+          }else {
+            return colorScheme[buildingIndex];
+          }
+        })
+        .style("stroke-dasharray", function(){
+          if (buildings[i] == "Average"){
+            return "stroke-dasharray", ("3, 3");
           }
         })
         .attr("fill", "none");
@@ -211,7 +220,7 @@ $(document).ready(function() {
       .attr("class", "y axis")
       .call(yAxis)
       .append("text")
-      .attr("dy", "20")
+      .attr("dy", "-30")
       .style("text-anchor", "end")
       .attr("transform", "rotate(-90)")
       .text(yAxisText);
@@ -265,7 +274,6 @@ $(document).ready(function() {
 
   $('.rankingToggle').click(function(){
       toggleLine = $(this).attr("value").replace(/ /g,'');
-      // console.log(toggleLine);
       if($(this).attr('highlight') == "true") {
         // console.log("Turn off");
         $("#"+toggleLine).attr({"opacity": 0});
