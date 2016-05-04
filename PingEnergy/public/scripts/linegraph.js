@@ -8,7 +8,7 @@ $(document).ready(function() {
       colorScheme = ["#f00", "#f22", "#f44",  "#f66", "#f88", "#faa", "#fcc", "#cfc", "#afa", "#8f8", "#6f6", "#4f4", "#2f2", "#0f0"];
     }
     else{
-      colorScheme = ["#006DDB", "#B66D9B", "#6DB6FF", "#B6DBFF", "#FFFF6D", "#24FF24", "#DBD100", "#3f9b3f"];
+      colorScheme = ["#12448a", "#0f3974", "#0c2e5d", "#490092","#006DDB", "#B66D9B", "#6DB6FF", "#B6DBFF", "#FFFF6D", "#24FF24", "#DBD100", "#924900", "#920000", ];
     }
 
     var margin = {top: 20, right: 80, bottom: 30, left: 50},
@@ -118,7 +118,7 @@ $(document).ready(function() {
           .remove();
     };
 
-  
+
     for (i = 0; i < data2.length; i++) {
       svg.append("g").selectAll(".circles")
         .data(data2[i])
@@ -302,7 +302,7 @@ $(document).ready(function() {
 
     d3.select("svg").remove();
     drawGraph(yOption);
-    // yOption: 
+    // yOption:
     // 1 - Energy Usage Per Bed
     // 2 - Energy Usage
     // 3 - CO2 Consumption
