@@ -5,7 +5,7 @@ $(document).ready(function() {
 
   function drawGraph(yOption){
     if ($("#switch-color").attr("val") == 0){
-      colorScheme = ["ff0000", "#ff6666",  "#ff9999", "#ffcccc", "#cceacc", "#99d699", "#66c166", "#3f9b3f" , "00ff00"];
+      colorScheme = ["f00", "f22", "#f44",  "#f66", "#f88", "faa", "fcc", "#000", "cfc", "#8f8", "#6f6", "#4f4", "#2f2", "0f0"];
     }
     else{
       colorScheme = ["#006DDB", "#B66D9B", "#6DB6FF", "#B6DBFF", "#FFFF6D", "#24FF24", "#DBD100", "#3f9b3f"];
@@ -179,7 +179,8 @@ $(document).ready(function() {
             var energyPerBedRound = Math.round(d3.select(this).attr("cUsagePerBed") * 100)/100;
             var co2Round = Math.round(energyRound * 0.6379 * 100)/100;
             var treeOffsetRound = Math.round(energyRound * 0.0274957 * 100)/100;
-            return 'Building: '+ d3.select(this).attr("buildingName") + '<br>' + d + '<br>Building Energy Usage: ' + energyRound + ' (kwh)<br>Total Beds: ' + d3.select(this).attr("cBeds") + '<br>Per Bed Energy Usage: ' + energyPerBedRound + ' (kwh)<br>CO2 Generated: ' + co2Round + ' (pounds)<br>Tree Offset: ' + treeOffsetRound + ' trees to offset the carbon emission';
+            var bedsRound = Math.round(d3.select(this).attr("cBeds"));
+            return 'Building: '+ d3.select(this).attr("buildingName") + '<br>' + d + '<br>Building Energy Usage: ' + energyRound + ' (kwh)<br>Total Beds: ' + bedsRound + '<br>Per Bed Energy Usage: ' + energyPerBedRound + ' (kwh)<br>CO2 Generated: ' + co2Round + ' (pounds)<br>Tree Offset: ' + treeOffsetRound + ' trees to offset the carbon emission';
           }
       });
 
