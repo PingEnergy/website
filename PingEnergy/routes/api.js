@@ -6,6 +6,61 @@ var express = require('express'),
 var router = express.Router();
 var cache = apicache.middleware;
 
+router.get('/weekly', function(req, res, next) {
+
+    var db = req.db;
+    var collection = db.get('DailyEnergy');
+    collection.find({"data": { $exists: 0 }},{},function(e,docs){
+
+        var newJSONS = [];
+
+        for (var i = 0; i < docs.length; i++) {
+            var weeklyJSON = {"building": docs[i]["building"],
+                            "endTime": 5,
+                            "startTime": 1,
+                            "beds": 110,
+                            "energyUsage": {}
+                        };
+
+            var endTime = docs[i]["endTime"];
+            
+            weeklyJSON["endTime"] = endTime;
+
+            var newTime = weeklyJSON["endTime"];
+
+            console.log("energy usage length: ", Object.keys(docs[i]["energyUsage"]).length);
+
+            for (var j = 0; j < Object.keys(docs[i]["energyUsage"]).length-7; j+=7) {
+
+                console.log("week: ", j);
+
+                newTime = newTime.toString();
+                val = 0;
+
+                for (var k=j; k<j+7; k++) {
+                    val += docs[i]["energyUsage"][newTime];
+                    console.log("next val: ", docs[i]["energyUsage"][newTime]);
+                    newTime = parseInt(newTime) - 86400000;
+                }
+
+                var newIndex = (parseInt(newTime) + 7*86400000).toString();
+                weeklyJSON["energyUsage"][newIndex] = val;
+
+                // newTime = parseInt(newTime) - 86400000;
+            }
+
+            weeklyJSON["startTime"] = newTime.toString();
+
+            newJSONS.push(weeklyJSON);
+        }
+
+        console.log(newJSONS);
+
+        res.render('dbtest', {});
+    });
+
+});
+
 router.get('/:building', function(req, res, next) {
 
     var names = ["Beard", "Emerson-Dorm", "Chapin", "Everett-Heights", "Kilham", "Larcom"];
@@ -147,7 +202,6 @@ router.get('/:building', function(req, res, next) {
     
     // });
 });
-   
 
 router.get('/dbtest', function(req, res) {
     var db = req.db;
