@@ -10,23 +10,34 @@ block content
     var beds = !{beds};
     var buildings = !{buildings};
     var buildingsSorted = !{JSON.stringify(buildingSorted)}
-  script(src="/scripts/testing.js")
+    var buildingSortedPerBed = !{JSON.stringify(buildingSortedPerBed)}
+  script(src="/scripts/linegraph.js")
   
   br
   table.centerBlock
     tr
-      select#cheese
-        each choice, i in choices
-          option(value=i, id="yOption", name="Cheese") #{choice}
-      input(type='submit',value='Apply Change', id='Apply')  
+      td
+        select#cheese
+          each choice, i in choices
+            option(value=i, id="yOption", name="selectY") #{choice}
+        input(type='submit',value='Apply Change', id='Apply')  
     tr
       td
-          #linegraph
+        #linegraph
+          div#selectX
+            a(href='/linegraph/h', class="buttonX") Hourly
+            a(href='/linegraph/d', class="buttonX") Daily
+            a(href='/linegraph/w', class="buttonX") Weekly
       td.rankList
-          ol
-            each val, index in buildingSorted
-              li
-                label(name="buildingName", value=val, index=index, class="rankingToggle")=val
+        ol#rankListPerBed
+          each val, index in buildingSortedPerBed
+            li
+              label(name="buildingNamePerBed", value=val, index=index, class="rankingToggle rankListPerBed")=val
+        ol#rankList
+          each val, index in buildingSorted
+            li
+              label(name="buildingName", value=val, index=index+buildingSorted.length, class="rankingToggle rankListEachBuilding")=val
+          
               
 
           

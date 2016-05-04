@@ -61,7 +61,7 @@ function generateChart() {
         .style("stroke", "black")
         .style("stroke-width", 1);
 
-    //add building name to all nodes
+    // add building name to all nodes
     node.append("text")
         .attr("class", "nodeText")
         .attr("dy", ".6em")
@@ -76,10 +76,16 @@ function generateChart() {
                 return "2em";
             }
             else if (d.value > nodes[6]["value"]) {
-                return "1.2em";
+                return "1.5em";
             }
             else if (d.value == nodes[6]["value"]) {
-                return ".7em";
+                return "1em";
+            }
+            else if (d.value > nodes[9]["value"]) {
+                return ".9em";
+            }
+            else if (d.value > nodes[11]["value"]) {
+                return ".6em";
             }
             else {
                 return ".5em";
@@ -90,31 +96,42 @@ function generateChart() {
                 return "translate(0, -20)";
             }
             else if (d.value > nodes[6]["value"]) {
-                return "translate(0, -10)";
+                return "translate(0, -15)";
             }
             else if (d.value == nodes[6]["value"]) {
-                return "translate(0, -5)";
+                return "translate(0, -8)";
+            }
+            else if (d.value > nodes[9]["value"]) {
+                return "translate(0, -8)";
             }
             else {
                 return "translate(0, -2)";
             }
         })
         .on("mouseover", function(d) {
-            if (d.value > nodes[1]["value"]) {
-                d3.select(this).attr("font-size", "3.5em");
-            }
-            else if (d.value > nodes[3]["value"]) {
-                d3.select(this).attr("font-size", "2.5em");
-            }
-            else if (d.value > nodes[6]["value"]) {
-                d3.select(this).attr("font-size", "2em");
-            }
-            else if (d.value == nodes[6]["value"]) {
-                d3.select(this).attr("font-size", "1.5em");
-            }
-            else {
-                d3.select(this).attr("font-size", "1.5em");
-            }
+            d3.select(this).attr("font-size", function(d) {
+                if (d.value > nodes[1]["value"]) {
+                    return "2.8em";
+                }
+                if (d.value > nodes[3]["value"]) {
+                    return "2.2em";
+                }
+                else if (d.value > nodes[6]["value"]) {
+                    return "2em";
+                }
+                else if (d.value == nodes[6]["value"]) {
+                    return "1.8em";
+                }
+                else if (d.value > nodes[9]["value"]) {
+                    return "1.3em";
+                }
+                else if (d.value > nodes[11]["value"]) {
+                    return "1em";
+                }
+                else {
+                    return "1em";
+                }
+            })
         })
         .on("mouseout", function(d) {
             d3.select(this).attr("font-size", function(d) {
@@ -125,26 +142,32 @@ function generateChart() {
                     return "2em";
                 }
                 else if (d.value > nodes[6]["value"]) {
-                    return "1.2em";
+                    return "1.5em";
                 }
                 else if (d.value == nodes[6]["value"]) {
-                    return ".7em";
+                    return "1em";
+                }
+                else if (d.value > nodes[9]["value"]) {
+                    return ".9em";
+                }
+                else if (d.value > nodes[11]["value"]) {
+                    return ".6em";
                 }
                 else {
                     return ".5em";
                 }
             })
-        })
+        });
 
     //add money value to all nodes
     node.append("text")
         .attr("dy", "1.2em")
         .style("text-anchor", "middle")
         .style("font-size", function(d) {
-            return convertRange(d.value, extent, [.5, 2.5]).toString() + "em";
+            return convertRange(d.value, extent, [.7, 2.5]).toString() + "em";
         })
         .text(function(d) { 
-            if (d.value > nodes[7]["value"]) {
+            if (d.value > nodes[9]["value"]) {
                 return "$" + d.money;
             }
             else {
