@@ -19,38 +19,29 @@ router.route('/').get(function(req, res) {
             var arrayIndex = 0;
             for (usage in docs[i]["energyUsage"]) {
                 data[arrayIndex][building] = docs[i]["energyUsage"][usage];
+                data[arrayIndex]["Date"] = usage;
                 arrayIndex += 1;
             }
         }
         //subtract out to get energy usage
-        for (var i = 1; i < docs.length; i++) {
-            var building = docs[i]["building"];
-            for (var j = 0; j<data.length-1; j++) {
-                data[j][building] = data[j][building]-data[j+1][building];
-            }
-        }
+        // for (var i = 1; i < docs.length; i++) {
+        //     var building = docs[i]["building"];
+        //     for (var j = 0; j<data.length-1; j++) {
+        //         data[j][building] = data[j][building]-data[j+1][building];
+        //     }
+        // }
 
         //remove last element which wasn't subtracted for energy usage
-        data.pop();
+        // data.pop();
 
-        //calculate average of each day and add to data array objs
-        for (var j = 0; j < data.length; j++) {
-            var avg = 0;
-            var avgDivisor = 0;
-            for (building in data[j]) {
-                avg += parseFloat(data[j][building]);
-                avgDivisor += 1;
-            }
-            data[j]["Average"] = avg/avgDivisor; 
-        }
         //add in date for each data array obj
-        var arrayIndex = 0;
-        for (day in docs[1]["energyUsage"]) {
-            if (arrayIndex < data.length-1) {
-                data[arrayIndex]["date"] = day;
-                arrayIndex += 1;
-            }
-        }
+        // var arrayIndex = 0;
+        // for (day in docs[1]["energyUsage"]) {
+        //     if (arrayIndex < data.length-1) {
+        //         data[arrayIndex]["date"] = day;
+        //         arrayIndex += 1;
+        //     }
+        // }
 
         //alternate way of storing data (how Lexos Rolling Window does it)
         var data2 = [];
@@ -63,8 +54,10 @@ router.route('/').get(function(req, res) {
         var sumEnergy = 0;
         var sumTime = 0;
         var day = null;
+        var dataLine = [];
+        var totalEnergy = 0;
         for (var i = 1; i < docs.length; i++) {
-            var dataLine = [];
+            dataLine = [];
             sumEnergy = 0;
             sumDay = 0;
             for (day in docs[i]["energyUsage"]) {
@@ -72,6 +65,7 @@ router.route('/').get(function(req, res) {
                 sumEnergy += docs[i]["energyUsage"][day];
                 sumTime += 1;
             }
+            totalEnergy += sumEnergy;
             beds.push(docs[i].beds);
             data2.push(dataLine);
             buildings.push(docs[i].building);
@@ -79,15 +73,31 @@ router.route('/').get(function(req, res) {
             buildingRanksPerBed.push([docs[i].building, sumEnergy/docs[i].beds, sumTime]);
         }
 
+        //calculate average of each day and add to data array objs
+        var averageLine = [];
+        var avg = 0;
+        var avgDivisor = buildings.length;
+        var totalBeds = beds.reduce(add, 0);
+        for (var j = 0; j < data.length; j++) {
+            avg = 0;
+            for (building in data[j]) {
+                avg += parseFloat(data[j][building]);
+            }
+            avg -= parseFloat(data[j]["Date"]);
+            averageLine.push([data[j]["Date"], avg/avgDivisor]);
+        }
+
+        data2.push(averageLine);
+        beds.push(totalBeds/avgDivisor);
+        buildings.push("Average");
+        buildingRanks.push(["Average", totalEnergy/avgDivisor, sumTime]);
+        buildingRanksPerBed.push(["Average", totalEnergy/totalBeds, sumTime]);
+
         // for (var j = 0; j < data2.length; j++) {
         //     for (var k=0; k<data2[j].length-1; k++) {
         //         data2[j][k][1] = data2[j][k][1] - data2[j][k+1][1];
         //     }
         // }
-
-        function compare(a,b) {
-            return parseFloat(b[1]) - parseFloat(a[1]);
-        }
 
         //remove last unusable point
         for (var i = 0; i<data2.length; i++) {
@@ -105,6 +115,14 @@ router.route('/').get(function(req, res) {
         }
 
         var choices = ["Energy Usage Per Bed","Energy Usage", "CO2 Consumption", "Tree Offset"];
+
+        function compare(a,b) {
+            return parseFloat(b[1]) - parseFloat(a[1]);
+        }
+
+        function add(a, b) {
+            return a + b;
+        }
 
         res.render('linegraph', {title: 'Ping Energy' , graphData: JSON.stringify(data), graphData2: JSON.stringify(data2), beds: JSON.stringify(beds), buildings: JSON.stringify(buildings), buildingSorted: buildingSorted, buildingSortedPerBed: buildingSortedPerBed, buildingRanks: JSON.stringify(buildingRanks), choices: choices});
     });
