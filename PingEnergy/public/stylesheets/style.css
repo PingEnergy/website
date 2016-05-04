@@ -3,16 +3,17 @@ body {
     height: auto;
     width: 100%;
     color: black;
+    background-color: #e0edba;
     background-repeat: no-repeat;
     background-image: url("./../image/background.jpg") ;
     background-size: 100% 100%;
-    /*overflow-x: hidden;*/
+    overflow-x: hidden;
 }
 #banner{
     margin: auto;
     /*text-align: center;*/
     position: relative;
-    padding-bottom: 2%;
+    padding-bottom: 1%;
     background-color: rgba(255,255,240, 0.7);
     width: 90%;
     border-radius: 20px;
@@ -75,17 +76,20 @@ a {
     height: 100%;
     position: relative;
     border-radius: 20px;
-    margin-top: 0.5%;
+    /*margin-top: 0.5%;*/
 }
 
 .centerBlock {
     width: 100%;
 }
 #bubblestable{
+
   width: 55%;
   /*padding: auto;*/
 }
+
 #bubbles{
+    text-align: center;
     float: right;
 }
 #linegraph{
@@ -247,7 +251,7 @@ svg{
 #bubbleTitle {
     text-align: center;
     width: 100%;
-    padding-top: 2%;
+    /*padding-top: 2%;*/
 }
 
 .contestLink {

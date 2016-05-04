@@ -5,10 +5,10 @@ $(document).ready(function() {
 
   function drawGraph(yOption){
     if ($("#switch-color").attr("val") == 0){
-      colorScheme = ["f00", "f22", "#f44",  "#f66", "#f88", "faa", "fcc", "#000", "cfc", "#8f8", "#6f6", "#4f4", "#2f2", "0f0"];
+      colorScheme = ["#be3d42", "f00", "#f44",  "#f66", "#f88", "faa", "fcc", "#000","#3efb15","#2ff304", "#2ada03", "#25c103","#20a803","#1b8f02"];
     }
     else{
-      colorScheme = ["#12448a", "#0f3974", "#0c2e5d", "#490092","#006DDB", "#B66D9B", "#6DB6FF", "#B6DBFF", "#FFFF6D", "#24FF24", "#DBD100", "#924900", "#920000", ];
+      colorScheme = ["#12448a", "#0f3974", "#0c2e5d", "#490092","#006DDB", "#B66D9B", "#6DB6FF", "#B6DBFF", "#FFFF6D", "#24FF24", "#DBD100", "#924900", "#920000"];
     }
 
     var margin = {top: 20, right: 80, bottom: 30, left: 50},

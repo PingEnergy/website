@@ -12,15 +12,15 @@ block content
     var buildingsSorted = !{JSON.stringify(buildingSorted)}
     var buildingSortedPerBed = !{JSON.stringify(buildingSortedPerBed)}
   script(src="/scripts/linegraph.js")
-  
-  br
+
+  hr
   table.centerBlock
     tr
       td
         select#cheese
           each choice, i in choices
             option(value=i, id="yOption", name="selectY") #{choice}
-        input(type='submit',value='Apply Change', id='Apply')  
+        input(type='submit',value='Apply Change', id='Apply')
     tr
       td
         #linegraph
@@ -37,7 +37,3 @@ block content
           each val, index in buildingSorted
             li
               label(name="buildingName", value=val, index=index+buildingSorted.length, class="rankingToggle rankListEachBuilding")=val
-          
-              
-
-          
