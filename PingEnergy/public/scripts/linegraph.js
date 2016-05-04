@@ -5,8 +5,8 @@ $(document).ready(function() {
 
   function drawGraph(yOption){
     if ($("#switch-color").attr("val") == 0){
-      colorScheme = ["#be3d42", "f00", "#f44",  "#f66", "#f88", "faa", "fcc", "#000","#3efb15","#2ff304", "#2ada03", "#25c103","#20a803","#1b8f02"];
-    }
+      colorScheme = ["#be3d42", "f00", "#f44",  "#f66", "#f88", "faa", "fcc","#3efb15","#2ff304", "#2ada03", "#25c103","#20a803","#1b8f02"];
+
     else{
       colorScheme = ["#12448a", "#0f3974", "#0c2e5d", "#490092","#006DDB", "#B66D9B", "#6DB6FF", "#B6DBFF", "#FFFF6D", "#24FF24", "#DBD100", "#924900", "#920000"];
     }
@@ -158,11 +158,26 @@ $(document).ready(function() {
         .attr("d", line)
         .attr("opacity", 1)
         .style("stroke", function() {
-          // console.log(buildingsSorted.indexOf(buildings[i]));
+          var buildingIndex = 0;
+          var avgIndex = 0;
           if(yOption == 0){
-            return colorScheme[buildingSortedPerBed.indexOf(buildings[i])];
+            buildingIndex = buildingSortedPerBed.indexOf(buildings[i]);
+            avgIndex = buildingSortedPerBed.indexOf("Average");
           }else{
-            return colorScheme[buildingsSorted.indexOf(buildings[i])];
+            buildingIndex = buildingsSorted.indexOf(buildings[i]);
+            avgIndex = buildingsSorted.indexOf("Average");
+          }
+          if (buildings[i] == "Average"){
+            return "#000";
+          }else if(buildingIndex > avgIndex){
+            return colorScheme[buildingIndex-1];
+          }else {
+            return colorScheme[buildingIndex];
+          }
+        })
+        .style("stroke-dasharray", function(){
+          if (buildings[i] == "Average"){
+            return "stroke-dasharray", ("3, 3");
           }
         })
         .attr("fill", "none");
@@ -205,7 +220,7 @@ $(document).ready(function() {
       .attr("class", "y axis")
       .call(yAxis)
       .append("text")
-      .attr("dy", "20")
+      .attr("dy", "-30")
       .style("text-anchor", "end")
       .attr("transform", "rotate(-90)")
       .text(yAxisText);
@@ -214,7 +229,7 @@ $(document).ready(function() {
     if(yOption == 0){
       $('.rankListPerBed').each(function(){
         toggleLine = $(this).attr("value").replace(/ /g,'');
-        if($(this).attr("index") == 0 || $(this).attr("index") == buildings.length-1){
+        if($(this).attr("index") == 0 || $(this).attr("index") == buildings.length-1 || toggleLine=="Average"){
           $(this).attr('highlight', "true");
           $(this).css("background-color", "rgba(193, 230, 193, 0.9)");
           $("#"+toggleLine).attr({"opacity": 1});
@@ -227,7 +242,7 @@ $(document).ready(function() {
     }else{
       $('.rankListEachBuilding').each(function(){
         toggleLine = $(this).attr("value").replace(/ /g,'');
-        if($(this).attr("index") == buildings.length || $(this).attr("index") == buildings.length*2-1){
+        if($(this).attr("index") == buildings.length || $(this).attr("index") == buildings.length*2-1 || toggleLine=="Average"){
           $(this).attr('highlight', "true");
           $(this).css("background-color", "rgba(193, 230, 193, 0.9)");
           $("#"+toggleLine).attr({"opacity": 1});
@@ -259,7 +274,6 @@ $(document).ready(function() {
 
   $('.rankingToggle').click(function(){
       toggleLine = $(this).attr("value").replace(/ /g,'');
-      // console.log(toggleLine);
       if($(this).attr('highlight') == "true") {
         // console.log("Turn off");
         $("#"+toggleLine).attr({"opacity": 0});
