@@ -5,7 +5,8 @@ $(document).ready(function() {
 
   function drawGraph(yOption){
     if ($("#switch-color").attr("val") == 0){
-      colorScheme = ["f00", "f22", "#f44",  "#f66", "#f88", "faa", "fcc", "#000", "cfc", "#8f8", "#6f6", "#4f4", "#2f2", "0f0"];
+      colorScheme = ["f00", "f22", "#f44",  "#f66", "#f88", "faa", "fcc"]
+      colorScheme2 = ["cfc", "afa", "#8f8", "#6f6", "#4f4", "#2f2", "0f0"];
     }
     else{
       colorScheme = ["#006DDB", "#B66D9B", "#6DB6FF", "#B6DBFF", "#FFFF6D", "#24FF24", "#DBD100", "#3f9b3f"];
@@ -157,9 +158,10 @@ $(document).ready(function() {
         .attr("id", buildings[i].replace(/ /g, ""))
         .attr("d", line)
         .attr("opacity", 1)
-        .style("stroke", function() { 
-          // console.log(buildingsSorted.indexOf(buildings[i]));
+        .style("stroke", function() {
+          // console.log(buildings[i], buildingsSorted.indexOf(buildings[i]));
           if(yOption == 0){
+            var avgIndex = buildingSortedPerBed.indexOf("Average");
             return colorScheme[buildingSortedPerBed.indexOf(buildings[i])];
           }else{
             return colorScheme[buildingsSorted.indexOf(buildings[i])];
@@ -214,7 +216,7 @@ $(document).ready(function() {
     if(yOption == 0){
       $('.rankListPerBed').each(function(){
         toggleLine = $(this).attr("value").replace(/ /g,'');
-        if($(this).attr("index") == 0 || $(this).attr("index") == buildings.length-1){
+        if($(this).attr("index") == 0 || $(this).attr("index") == buildings.length-1 || toggleLine=="Average"){
           $(this).attr('highlight', "true");
           $(this).css("background-color", "rgba(193, 230, 193, 0.9)");
           $("#"+toggleLine).attr({"opacity": 1});
@@ -227,7 +229,7 @@ $(document).ready(function() {
     }else{
       $('.rankListEachBuilding').each(function(){
         toggleLine = $(this).attr("value").replace(/ /g,'');
-        if($(this).attr("index") == buildings.length || $(this).attr("index") == buildings.length*2-1){
+        if($(this).attr("index") == buildings.length || $(this).attr("index") == buildings.length*2-1 || toggleLine=="Average"){
           $(this).attr('highlight', "true");
           $(this).css("background-color", "rgba(193, 230, 193, 0.9)");
           $("#"+toggleLine).attr({"opacity": 1});
