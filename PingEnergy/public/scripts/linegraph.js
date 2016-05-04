@@ -142,7 +142,7 @@ $(document).ready(function() {
           cEnergy: function(d) { return d[1]; },
           cUsagePerBed: function(d) { return d[1]/beds[i]; },
           cBeds: beds[i],
-          buildingName: buildings[i],
+          buildingName: buildings[i].replace(/ /g, ""),
           r: 6
         })
         .style("fill", "transparent")
@@ -154,7 +154,7 @@ $(document).ready(function() {
       svg.append("svg:path")
         .datum(data2[i])
         .attr("class", "line")
-        .attr("id", buildings[i])
+        .attr("id", buildings[i].replace(/ /g, ""))
         .attr("d", line)
         .attr("opacity", 1)
         .style("stroke", function() { 
@@ -207,7 +207,7 @@ $(document).ready(function() {
 
     var toggleLine = null;
     $('.rankingToggle').each(function(){
-      toggleLine = $(this).attr("value");
+      toggleLine = $(this).attr("value").replace(/ /g,'');
       if($(this).attr("index") == 0 || $(this).attr("index") == buildings.length-1){
         $(this).attr('highlight', "true");
         $(this).css("background-color", "rgba(193, 230, 193, 0.9)");
@@ -238,7 +238,8 @@ $(document).ready(function() {
   });
 
   $('.rankingToggle').click(function(){
-      toggleLine = $(this).attr("value");
+      toggleLine = $(this).attr("value").replace(/ /g,'');
+      console.log(toggleLine);
       if($(this).attr('highlight') == "true") {
         console.log("Turn off");
         $("#"+toggleLine).attr({"opacity": 0});
