@@ -1,18 +1,18 @@
 var express = require('express');
 var router = express.Router();
-
-function fixData(docs) {
-    for(var i = 0; i < docs.length; i++)
-    {
-        var k = Object.keys(docs[i]["energyUsage"]);
-        for(var j = 0; j < k.length-1 ; j++){
-            docs[i]["energyUsage"][k[j]] = (parseFloat(docs[i]["energyUsage"][k[j]]) - parseFloat(docs[i]["energyUsage"][k[j+1]]));
-        }
-        
-        delete docs[i]["energyUsage"][k[k.length-1]];       
-    }
-
-}
+//
+//function fixData(docs) {
+//    for(var i = 0; i < docs.length; i++)
+//    {
+//        var k = Object.keys(docs[i]["energyUsage"]);
+//        for(var j = 0; j < k.length-1 ; j++){
+//            docs[i]["energyUsage"][k[j]] = (parseFloat(docs[i]["energyUsage"][k[j]]) - parseFloat(docs[i]["energyUsage"][k[j+1]]));
+//        }
+//        
+//        delete docs[i]["energyUsage"][k[k.length-1]];       
+//    }
+//
+//}
 
 function yearSum(docs) {
     var sum=0;
@@ -77,10 +77,10 @@ function days(docs) {
 
 router.route('/').get(function(req, res) {
     var db = req.db;
-    var collection = db.get('DormEnergyPerDay');
+    var collection = db.get('DailyEnergy');
     collection.find({"data": { $exists: 0 }},{},function(e, docs){
         
-        fixData(docs);
+        //fixData(docs);
         
         var yearTotal = yearSum(docs);
         var dayTotals = days(docs);

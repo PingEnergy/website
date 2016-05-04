@@ -6,79 +6,72 @@ var express = require('express'),
 var router = express.Router();
 var cache = apicache.middleware;
 
-router.get('/:building', cache('10 minutes'), function(req, res, next) {
-    var building = req.params.building;
+router.get('/:building', function(req, res, next) {
 
-    // request('http://egauge-clark-mcintire-young.wheatoncollege.edu/cgi-bin/egauge-show?d&t&n=100' ,
-    //
-    //     function (error, response, body) {
-    //         var parseString = xml2js.parseString;
-    //         var xml = body;
-    //
-    //         parseString(xml,
-    //         function (err, result) {
-    //
-    //             // 1kwh = .6379 pounds of co2
-    //             // 2000 pounds of co2 = 5 trees
-    //             // 400 pounds of co2 = 1 tree
-    //             // 400 / 1 = .6379 / x ~> .00159 tree per kwh
-    //
-    //             var newjson = {"building": "Young",
-    //                         "startTime": 1,
-    //                         "endTime": 5,
-    //                         "energyUsage": {}
-    //                     };
-    //
-    //             //energyUsagePerDay
-    //             newjson["endTime"] = parseInt(result["group"]["data"][0]["$"]["time_stamp"], 16) * 1000;
-    //             // newjson["startTime"] = newjson["endTime"]-2592000000; //minus 100 days
-    //             var newTime = newjson["endTime"];
-    //
-    //             for (var i = 0; i < 100; i++) {
-    //                 newTime = newTime.toString();
-    //                 newjson["energyUsage"][newTime] = (parseInt(result["group"]["data"][0]["r"][i]["c"][2]))/3600000;
-    //
-    //                 newTime = parseInt(newTime) - 86400000;
+    var names = ["Beard", "Emerson-Dorm", "Chapin", "Everett-Heights", "Kilham", "Larcom"];
+
+    var namestwo = ["Young", "McIntire", "Clark"];
+
+    // request('http://egauge-beard.wheatoncollege.edu/cgi-bin/egauge-show?n=64' ,
+    
+    // function (error, response, body) {
+    //     var parseString = xml2js.parseString;
+    //     var xml = body;
+
+    //     parseString(xml,
+    //     function (err, result) {
+
+    //         var newjson = {"building": "Beard",
+    //                     "endTime": 5,
+    //                     "startTime": 1,
+    //                     "beds": 28,
+    //                     "energyUsage": {}
+    //                 };
+
+    //         //energyUsagePerDay
+    //         var endTime = parseInt(result["group"]["data"][0]["$"]["time_stamp"], 16) * 1000;
+            
+    //         newjson["endTime"] = endTime;
+
+    //         console.log("length: ", result["group"]["data"][0]["r"].length-1);
+
+    //         var newTime = newjson["endTime"];
+
+    //         for (var i = 0; i < 61; i++) {
+    //             newTime = newTime.toString();
+
+    //             nextVal = (parseInt(result["group"]["data"][0]["r"][i]["c"][0]) - parseInt(result["group"]["data"][0]["r"][i+1]["c"][0]))/3600000;
+    //             newjson["energyUsage"][newTime] = nextVal;
+
+    //             newTime = parseInt(newTime) - 86400000;
+    //         }
+
+    //         newjson["startTime"] = newTime.toString();
+
+    //         // Set our internal DB variable
+    //         var db = req.db;
+
+    //         // Set our collection
+    //         var collection = db.get('DailyEnergy');
+
+    //         // Submit to the DB
+    //         collection.insert(newjson, function (err, doc) {
+    //             if (err) {
+    //                 // If it failed, return error
+    //                 res.send("There was a problem adding the information to the database.");
+    //                 console.log(err);
     //             }
-    //
-    //             newjson["startTime"] = newTime + 86400000;
-    //
-    //             console.log(newjson["endTime"]);
-    //             console.log(newjson["startTime"]);
-    //
-    //             // for (var i = 99; i>=0; i--) {
-    //             //      newTime = newTime.toString();
-    //             //      newjson["energyUsage"][newTime] = result["group"]["data"][0]["r"][i]["c"][0]/3600000;
-    //             //
-    //             //      console.log("Date: ", newTime);
-    //             //      console.log("Energy: ", result["group"]["data"][0]["r"][i]["c"][0]);
-    //             //
-    //             //      newTime = parseInt(newTime) - 86400000; //increment 24 hours
-    //             // }
-    //
-    //             // Set our internal DB variable
-    //             var db = req.db;
-    //
-    //             // Set our collection
-    //             var collection = db.get('DormEnergyPerDay');
-    //
-    //             // Submit to the DB
-    //             collection.insert(newjson, function (err, doc) {
-    //                 if (err) {
-    //                     // If it failed, return error
-    //                     res.send("There was a problem adding the information to the database.");
-    //                     console.log(err);
-    //                 }
-    //                 else {
-    //                     // And forward to success page
-    //                     console.log("DormEnergyUsagePerDay: success!");
-    //                 }
-    //             });
-    //
+    //             else {
+    //                 // And forward to success page
+    //                 console.log("DormEnergyUsagePerDay: success!");
+    //             }
     //         });
-    //
-    //     });
+    
+    //     });     
+    
+    // });
 });
+   
 
 router.get('/dbtest', function(req, res) {
     var db = req.db;

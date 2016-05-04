@@ -28,7 +28,7 @@ function createBuildingObject(docs, moneyCounts, listBuildings) {
 
         var kwh = math.round(((moneyCounts[building] * beds) / 1000) * 100)/100;
         var money = math.round((moneyCounts[building]) * 100)/100;
-        var size = math.round((moneyCounts[building] * sizeScale) * 100)/100;
+        var size = math.round((moneyCounts[building]) * 100)/100;
         var c02 = math.round((kwh * carbonScale) * 100)/100;
 
         var child = {"name": groupNames[i],
@@ -63,7 +63,7 @@ function createBuildingList(moneyCounts) {
 
 router.get('/', function(req, res) {
     var db = req.db;
-    var collection = db.get('DormEnergyPerDay');
+    var collection = db.get('DailyEnergy');
     collection.find({},{},function(e,docs){
 
         var currentDate = new Date();
@@ -74,11 +74,11 @@ router.get('/', function(req, res) {
             moneyCounts,
             moneySum;
 
-        //ONLY FOR UPDATED DATA (NON-STATIC)
+        // ONLY FOR UPDATED DATA (NON-STATIC)
         // if (currentDate.toDateString() !== last_update_date.toDateString()) {
         //     returned = updateBubbleValues(docs, req, currentDate, last_update_date);
         //     moneyCounts = returned[0];
-        //     moneySum = returned[1];
+        //     moneySum = math.round(returned[1]*100)/100;
         // }
         // else {
         //     moneyCounts = docs[0]["money"];
@@ -91,18 +91,13 @@ router.get('/', function(req, res) {
         var listBuildings = createBuildingList(moneyCounts);
         var jsbObject = createBuildingObject(docs, moneyCounts, listBuildings);
 
-        // console.log(jsbObject);
-        // for (thing in jsbObject["children"]) {
-        //     console.log(jsbObject["children"][thing]);
-        // }
-
         res.render('index', { title: 'Ping Energy', moneySum: moneySum, listBuildings: listBuildings, data: JSON.stringify(jsbObject)});
     });
 });
 
 function updateBubbleValues(docs, req, current_date, last_update_date) {
     var db = req.db;
-    var collection = db.get('DormEnergyPerDay');
+    var collection = db.get('DailyEnergy');
 
     var daysBack = Math.floor((current_date - last_update_date)/86400000);
 
@@ -113,32 +108,37 @@ function updateBubbleValues(docs, req, current_date, last_update_date) {
         var newMoney = docs[0]["money"];
 
         for (var i=1; i<docs.length; i++) {
+
             var beginTime = docs[i]["endTime"] - daysBack*86400000;
 
             var startDate = beginTime - 86400000;
-            var startEnergy = docs[i]["energyUsage"][beginTime] - docs[i]["energyUsage"][startDate];
+            var startEnergy = docs[i]["energyUsage"][beginTime];
 
             var weekBefore = beginTime - 7*86400000;
             var weekBeforeOneMoreDay = weekBefore - 86400000;
-            var weekBeforeEnergy = docs[i]["energyUsage"][weekBefore] - docs[i]["energyUsage"][weekBeforeOneMoreDay];
+            var weekBeforeEnergy = docs[i]["energyUsage"][weekBefore];
 
             var twoWeekBefore = beginTime - 14*86400000;
             var twoWeekBeforeOneMoreDay = twoWeekBefore - 86400000;
-            var twoWeekBeforeEnergy = docs[i]["energyUsage"][twoWeekBefore] - docs[i]["energyUsage"][twoWeekBeforeOneMoreDay];
+            var twoWeekBeforeEnergy = docs[i]["energyUsage"][twoWeekBefore];
 
             var threeWeekBefore = beginTime - 21*86400000;
             var threeWeekBeforeOneMoreDay = threeWeekBefore - 86400000;
-            var threeWeekBeforeEnergy = docs[i]["energyUsage"][threeWeekBefore] - docs[i]["energyUsage"][threeWeekBeforeOneMoreDay];
+            var threeWeekBeforeEnergy = docs[i]["energyUsage"][threeWeekBefore];
 
             var fourWeekBefore = beginTime - 28*86400000;
             var fourWeekBeforeOneMoreDay = fourWeekBefore - 86400000;
-            var fourWeekBeforeEnergy = docs[i]["energyUsage"][fourWeekBefore] - docs[i]["energyUsage"][fourWeekBeforeOneMoreDay];
+            var fourWeekBeforeEnergy = docs[i]["energyUsage"][fourWeekBefore];
+
+            if (docs[i]["building"] == "EverettHeights") {
+                console.log("vals: ", weekBeforeEnergy, twoWeekBeforeEnergy, threeWeekBeforeEnergy, fourWeekBeforeEnergy, startEnergy, docs[i]["beds"]);
+            }
 
             var difference = (((weekBeforeEnergy + twoWeekBeforeEnergy + threeWeekBeforeEnergy + fourWeekBeforeEnergy)/4) - startEnergy)/docs[i]["beds"];
 
             if (difference > 0) {
                 var currentMoney = newMoney[docs[i]["building"]];
-                newMoney[docs[i]["building"]] = currentMoney + (difference * 1000);
+                newMoney[docs[i]["building"]] = currentMoney + (difference * 14);
             }
         }
 
@@ -153,6 +153,8 @@ function updateBubbleValues(docs, req, current_date, last_update_date) {
         newMoneySum += parseFloat(newMoney[mon]);
     }
 
+    console.log(newMoney);
+    console.log(newMoneySum);
     collection.update({"_id": id}, {$set: {"last_update_date": current_date.getTime(), "money": newMoney, "money_sum": newMoneySum}});
 
     return [newMoney, newMoneySum];

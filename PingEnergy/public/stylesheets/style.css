@@ -6,26 +6,21 @@ body {
     background-repeat: no-repeat;
     background-image: url("./../image/background.jpg") ;
     background-size: 100% 100%;
-    /*background: url(images/bg.jpg) no-repeat center center fixed; */
-    /*-webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;*/
-    overflow-x: hidden;
+    /*overflow-x: hidden;*/
 }
 #banner{
     margin: auto;
-    text-align: center;
+    /*text-align: center;*/
     position: relative;
     padding-bottom: 2%;
     background-color: rgba(255,255,240, 0.7);
     width: 90%;
     border-radius: 20px;
-    text-align: center;
+    /*text-align: center;*/
 }
 #banner-title{
     width: 30%;
-    margin: auto;
+    margin-left: 40px;
     padding-top:0.1%;
 }
 h1{
@@ -44,15 +39,19 @@ h1{
     z-index: 1;
 }
 .banner-button{
-    position: relative;
+    float: right;
+    right: 280px;
+    top:-70px;
+    /*position: relative;*/
     border-color: Black;
     border-radius: 10px;
     border: 1px solid;
     padding: 1%;
     text-decoration: none;
     color: black;
+    margin-left: 10px;
     background-color: rgba(229, 245, 224,0.4);
-    padding-top: 5px;
+    /*padding-top: 5px;*/
 }
 .banner-button:hover, .banner-button:visited:hover{
     border-color:#11900d;
@@ -145,7 +144,7 @@ a {
 #daylabel{
     display: inline;
     float: left;
-    width: 7%;
+    width: 8%;
     text-align: right;
 }
 #S{
@@ -196,7 +195,7 @@ svg{
 
 }
 
-#information{
+.information{
     width: 100%;
     font-size: 1.5em;
 }
@@ -204,8 +203,7 @@ svg{
 #words{
     text-align: left;
     width: 50%;
-    margin-top: .4%;
-    padding-left:2%;
+    margin-top: 15%;
     margin-left: 35%;
     margin-right: auto;
     margin-bottom: -10%;
@@ -261,13 +259,10 @@ svg{
 }
 
 #contact{
-    /*margin-top: 2%;*/
     margin: 0 auto;
-    text-align: center;
-    /*margin-right: 3%;*/
-    /*margin-bottom: 30%;*/
-
+    text-align: center
 }
+
 #contact td{
   width: 300px;
 }
@@ -281,20 +276,15 @@ p {
     font-size: larger;
 }
 
-#bryan{
-    /*margin-left: 10%;*/
-    /*float: left;*/
-}
-#gousie{
-    /*margin-top: 3%;
-    margin-right: 10%;
-    margin-left: 10%;*/
-    /*float: right;*/
-}
 .data-head{
   padding-top: 20px;
 }
 
 #cheese{
     margin-left: 2%;
+}
+
+#instruction{
+  margin-left: 5%;
+  font-size: smaller;
 }
