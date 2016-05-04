@@ -61,7 +61,7 @@ function generateChart() {
         .style("stroke", "black")
         .style("stroke-width", 1);
 
-    //add building name to all nodes
+    // add building name to all nodes
     node.append("text")
         .attr("class", "nodeText")
         .attr("dy", ".6em")
@@ -109,18 +109,29 @@ function generateChart() {
             }
         })
         .on("mouseover", function(d) {
-            if (d.value > nodes[1]["value"]) {
-                d3.select(this).attr("font-size", "3.5em");
-            }
-            else if (d.value > nodes[3]["value"]) {
-                d3.select(this).attr("font-size", "2.5em");
-            }
-            else if (d.value > nodes[6]["value"]) {
-                d3.select(this).attr("font-size", "2em");
-            }
-            else {
-                d3.select(this).attr("font-size", "1.5em");
-            }
+            d3.select(this).attr("font-size", function(d) {
+                if (d.value > nodes[1]["value"]) {
+                    return "2.8em";
+                }
+                if (d.value > nodes[3]["value"]) {
+                    return "2.2em";
+                }
+                else if (d.value > nodes[6]["value"]) {
+                    return "2em";
+                }
+                else if (d.value == nodes[6]["value"]) {
+                    return "1.8em";
+                }
+                else if (d.value > nodes[9]["value"]) {
+                    return "1.3em";
+                }
+                else if (d.value > nodes[11]["value"]) {
+                    return "1em";
+                }
+                else {
+                    return "1em";
+                }
+            })
         })
         .on("mouseout", function(d) {
             d3.select(this).attr("font-size", function(d) {
@@ -146,7 +157,7 @@ function generateChart() {
                     return ".5em";
                 }
             })
-        })
+        });
 
     //add money value to all nodes
     node.append("text")
