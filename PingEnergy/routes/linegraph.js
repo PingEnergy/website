@@ -56,36 +56,41 @@ router.route('/').get(function(req, res) {
         var data2 = [];
         var buildings = [];
         var buildingRanks = [];
+        var buildingRanksPerBed = [];
         var buildingSorted = [];
+        var buildingSortedPerBed = []
         var beds = [];
         var sumEnergy = 0;
         var sumTime = 0;
         var day = null;
         for (var i = 1; i < docs.length; i++) {
             var dataLine = [];
+            sumEnergy = 0;
+            sumDay = 0;
             for (day in docs[i]["energyUsage"]) {
                 dataLine.push([day, docs[i]["energyUsage"][day]]);
+                sumEnergy += docs[i]["energyUsage"][day];
+                sumTime += 1;
             }
             beds.push(docs[i].beds);
             data2.push(dataLine);
             buildings.push(docs[i].building);
+            buildingRanks.push([docs[i].building, sumEnergy, sumTime]);
+            buildingRanksPerBed.push([docs[i].building, sumEnergy/docs[i].beds, sumTime]);
         }
 
-        for (var j = 0; j < data2.length; j++) {
-            sumEnergy = 0;
-            sumDay = 0;
-            for (var k=0; k<data2[j].length-1; k++) {
-                data2[j][k][1] = data2[j][k][1] - data2[j][k+1][1];
-                sumEnergy += data2[j][k][1];
-                sumTime += 1;
-            }
-            buildingRanks.push([docs[j+1].building, sumEnergy, sumTime]);
-        }
+        // for (var j = 0; j < data2.length; j++) {
+        //     for (var k=0; k<data2[j].length-1; k++) {
+        //         data2[j][k][1] = data2[j][k][1] - data2[j][k+1][1];
+        //     }
+        // }
+
+        console.log(buildings);
+
         //remove last unusable point
         for (var i = 0; i<data2.length; i++) {
             data2[i].pop();
         }
-        // console.log(buildingRanks);
 
         buildingRanks.sort(function(a, b){
             return a[1] < b[1];
@@ -95,9 +100,17 @@ router.route('/').get(function(req, res) {
             buildingSorted.push(buildingRanks[i][0]);
         }
 
+        buildingRanksPerBed.sort(function(a, b){
+            return a[1] < b[1];
+        });
+
+        for (var i = 0; i < buildingRanksPerBed.length; i++){
+            buildingSortedPerBed.push(buildingRanksPerBed[i][0]);
+        }
+
         var choices = ["Energy Usage Per Bed","Energy Usage", "CO2 Consumption", "Tree Offset"];
 
-        res.render('linegraph', {title: 'Ping Energy' , graphData: JSON.stringify(data), graphData2: JSON.stringify(data2), beds: JSON.stringify(beds), buildings: JSON.stringify(buildings), buildingSorted: buildingSorted, buildingRanks: JSON.stringify(buildingRanks), choices: choices});
+        res.render('linegraph', {title: 'Ping Energy' , graphData: JSON.stringify(data), graphData2: JSON.stringify(data2), beds: JSON.stringify(beds), buildings: JSON.stringify(buildings), buildingSorted: buildingSorted, buildingSortedPerBed: buildingSortedPerBed, buildingRanks: JSON.stringify(buildingRanks), choices: choices});
     });
 });
 

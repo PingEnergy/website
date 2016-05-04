@@ -10,6 +10,7 @@ block content
     var beds = !{beds};
     var buildings = !{buildings};
     var buildingsSorted = !{JSON.stringify(buildingSorted)}
+    var buildingSortedPerBed = !{JSON.stringify(buildingSortedPerBed)}
   script(src="/scripts/linegraph.js")
   
   br
@@ -23,10 +24,15 @@ block content
       td
           #linegraph
       td.rankList
-          ol
+          ol#rankListPerBed
+            each val, index in buildingSortedPerBed
+              li
+                label(name="buildingNamePerBed", value=val, index=index, class="rankingToggle")=val
+          ol#rankList
             each val, index in buildingSorted
               li
                 label(name="buildingName", value=val, index=index, class="rankingToggle")=val
+          
               
 
           

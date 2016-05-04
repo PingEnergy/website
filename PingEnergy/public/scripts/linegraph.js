@@ -1,9 +1,11 @@
 // http://cs.wheatonma.edu/egauge/dorm/dorm.xml
 $(document).ready(function() {
+  $("#rankListPerBed").show();
+  $("#rankList").hide();
 
   function drawGraph(yOption){
     if ($("#switch-color").attr("val") == 0){
-      colorScheme = ["ff0000", "#ff6666",  "#ff9999", "#ffcccc", "#cceacc",  "#99d699", "#66c166", "#3f9b3f"];
+      colorScheme = ["ff0000", "#ff6666",  "#ff9999", "#ffcccc", "#cceacc", "#99d699", "#66c166", "#3f9b3f" , "00ff00"];
     }
     else{
       colorScheme = ["#006DDB", "#B66D9B", "#6DB6FF", "#B6DBFF", "#FFFF6D", "#24FF24", "#DBD100", "#3f9b3f"];
@@ -238,12 +240,12 @@ $(document).ready(function() {
   $('.rankingToggle').click(function(){
       toggleLine = $(this).attr("value");
       if($(this).attr('highlight') == "true") {
-        // console.log("Turn off");
+        console.log("Turn off");
         $("#"+toggleLine).attr({"opacity": 0});
         $(this).attr('highlight', "false");
         $(this).css("background-color", "rgba(255,255,240,0)");
       }else{
-        // console.log("Turn on");
+        console.log("Turn on");
         $("#"+toggleLine).attr({"opacity": 1});
         $(this).attr('highlight', "true");
         $(this).css("background-color", "rgba(193, 230, 193, 0.9)");
@@ -255,6 +257,14 @@ $(document).ready(function() {
 
   $('#Apply').on("click", function(){
     var yOption = $("#cheese").val();
+    if(yOption == 0){
+      $("#rankListPerBed").show();
+      $("#rankList").hide();
+    }else{
+      $("#rankListPerBed").hide();
+      $("#rankList").show();
+    }
+
     d3.select("svg").remove();
     drawGraph(yOption);
     // yOption: 
