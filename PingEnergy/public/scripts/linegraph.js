@@ -159,7 +159,11 @@ $(document).ready(function() {
         .attr("opacity", 1)
         .style("stroke", function() { 
           // console.log(buildingsSorted.indexOf(buildings[i]));
-          return colorScheme[buildingsSorted.indexOf(buildings[i])];
+          if(yOption == 0){
+            return colorScheme[buildingSortedPerBed.indexOf(buildings[i])];
+          }else{
+            return colorScheme[buildingsSorted.indexOf(buildings[i])];
+          }
         })
         .attr("fill", "none");
     }
@@ -206,18 +210,33 @@ $(document).ready(function() {
       .text(yAxisText);
 
     var toggleLine = null;
-    $('.rankingToggle').each(function(){
-      toggleLine = $(this).attr("value").replace(/ /g,'');
-      if($(this).attr("index") == 0 || $(this).attr("index") == buildings.length-1){
-        $(this).attr('highlight', "true");
-        $(this).css("background-color", "rgba(193, 230, 193, 0.9)");
-        $("#"+toggleLine).attr({"opacity": 1});
-      }else{
-        $(this).attr('highlight', "false");
-        $(this).css("background-color", "rgba(255,255,240,0)");
-        $("#"+toggleLine).attr({"opacity": 0});
-      }
-    });
+    if(yOption == 0){
+      $('.rankListPerBed').each(function(){
+        toggleLine = $(this).attr("value").replace(/ /g,'');
+        if($(this).attr("index") == 0 || $(this).attr("index") == buildings.length-1){
+          $(this).attr('highlight', "true");
+          $(this).css("background-color", "rgba(193, 230, 193, 0.9)");
+          $("#"+toggleLine).attr({"opacity": 1});
+        }else{
+          $(this).attr('highlight', "false");
+          $(this).css("background-color", "rgba(255,255,240,0)");
+          $("#"+toggleLine).attr({"opacity": 0});
+        }
+      });
+    }else{
+      $('.rankListEachBuilding').each(function(){
+        toggleLine = $(this).attr("value").replace(/ /g,'');
+        if($(this).attr("index") == buildings.length || $(this).attr("index") == buildings.length*2-1){
+          $(this).attr('highlight', "true");
+          $(this).css("background-color", "rgba(193, 230, 193, 0.9)");
+          $("#"+toggleLine).attr({"opacity": 1});
+        }else{
+          $(this).attr('highlight', "false");
+          $(this).css("background-color", "rgba(255,255,240,0)");
+          $("#"+toggleLine).attr({"opacity": 0});
+        }
+      });
+    }
   }
 
 
@@ -239,14 +258,14 @@ $(document).ready(function() {
 
   $('.rankingToggle').click(function(){
       toggleLine = $(this).attr("value").replace(/ /g,'');
-      console.log(toggleLine);
+      // console.log(toggleLine);
       if($(this).attr('highlight') == "true") {
-        console.log("Turn off");
+        // console.log("Turn off");
         $("#"+toggleLine).attr({"opacity": 0});
         $(this).attr('highlight', "false");
         $(this).css("background-color", "rgba(255,255,240,0)");
       }else{
-        console.log("Turn on");
+        // console.log("Turn on");
         $("#"+toggleLine).attr({"opacity": 1});
         $(this).attr('highlight', "true");
         $(this).css("background-color", "rgba(193, 230, 193, 0.9)");

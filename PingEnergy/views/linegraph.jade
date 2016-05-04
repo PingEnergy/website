@@ -27,11 +27,11 @@ block content
           ol#rankListPerBed
             each val, index in buildingSortedPerBed
               li
-                label(name="buildingNamePerBed", value=val, index=index, class="rankingToggle")=val
+                label(name="buildingNamePerBed", value=val, index=index, class="rankingToggle rankListPerBed")=val
           ol#rankList
             each val, index in buildingSorted
               li
-                label(name="buildingName", value=val, index=index, class="rankingToggle")=val
+                label(name="buildingName", value=val, index=index+buildingSorted.length, class="rankingToggle rankListEachBuilding")=val
           
               
 
