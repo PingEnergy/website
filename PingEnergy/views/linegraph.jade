@@ -16,22 +16,27 @@ block content
   br
   table.centerBlock
     tr
-      select
-        each choice, i in choices
-          option(value=i, id="yOption", name="selectY") #{choice}
-      input(type='submit',value='Apply Change', id='Apply')  
+      td
+        select#cheese
+          each choice, i in choices
+            option(value=i, id="yOption", name="selectY") #{choice}
+        input(type='submit',value='Apply Change', id='Apply')  
     tr
       td
-          #linegraph
+        #linegraph
+          div#selectX
+            a(href='/linegraph/h', class="buttonX") Hourly
+            a(href='/linegraph/d', class="buttonX") Daily
+            a(href='/linegraph/w', class="buttonX") Weekly
       td.rankList
-          ol#rankListPerBed
-            each val, index in buildingSortedPerBed
-              li
-                label(name="buildingNamePerBed", value=val, index=index, class="rankingToggle rankListPerBed")=val
-          ol#rankList
-            each val, index in buildingSorted
-              li
-                label(name="buildingName", value=val, index=index+buildingSorted.length, class="rankingToggle rankListEachBuilding")=val
+        ol#rankListPerBed
+          each val, index in buildingSortedPerBed
+            li
+              label(name="buildingNamePerBed", value=val, index=index, class="rankingToggle rankListPerBed")=val
+        ol#rankList
+          each val, index in buildingSorted
+            li
+              label(name="buildingName", value=val, index=index+buildingSorted.length, class="rankingToggle rankListEachBuilding")=val
           
               
 
