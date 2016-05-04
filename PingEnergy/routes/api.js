@@ -12,62 +12,138 @@ router.get('/:building', function(req, res, next) {
 
     var namestwo = ["Young", "McIntire", "Clark"];
 
-    // request('http://egauge-beard.wheatoncollege.edu/cgi-bin/egauge-show?n=64' ,
+    //Daily data
+    // request('http://egauge-stanton-cragin-everett.wheatoncollege.edu/cgi-bin/egauge-show?d' ,
     
-    // function (error, response, body) {
-    //     var parseString = xml2js.parseString;
-    //     var xml = body;
+    //     function (error, response, body) {
+    //         var parseString = xml2js.parseString;
+    //         var xml = body;
 
-    //     parseString(xml,
-    //     function (err, result) {
+    //         parseString(xml,
+    //         function (err, result) {
 
-    //         var newjson = {"building": "Beard",
-    //                     "endTime": 5,
-    //                     "startTime": 1,
-    //                     "beds": 28,
-    //                     "energyUsage": {}
-    //                 };
+    //             var newjson = {"building": "Everett",
+    //                         "endTime": 5,
+    //                         "startTime": 1,
+    //                         "beds": 174,
+    //                         "energyUsage": {}
+    //                     };
 
-    //         //energyUsagePerDay
-    //         var endTime = parseInt(result["group"]["data"][0]["$"]["time_stamp"], 16) * 1000;
-            
-    //         newjson["endTime"] = endTime;
+    //             //energyUsagePerDay
+    //             var endTime = parseInt(result["group"]["data"][0]["$"]["time_stamp"], 16) * 1000;
+                
+    //             newjson["endTime"] = endTime;
 
-    //         console.log("length: ", result["group"]["data"][0]["r"].length-1);
+    //             console.log("length: ", result["group"]["data"][0]["r"].length-1);
 
-    //         var newTime = newjson["endTime"];
+    //             var newTime = newjson["endTime"];
 
-    //         for (var i = 0; i < 61; i++) {
-    //             newTime = newTime.toString();
+    //             for (var i = 0; i < 61; i++) {
+    //                 newTime = newTime.toString();
 
-    //             nextVal = (parseInt(result["group"]["data"][0]["r"][i]["c"][0]) - parseInt(result["group"]["data"][0]["r"][i+1]["c"][0]))/3600000;
-    //             newjson["energyUsage"][newTime] = nextVal;
+    //                 val1 = 0;
+    //                 val2 = 0;
 
-    //             newTime = parseInt(newTime) - 86400000;
-    //         }
+    //                 for (var j=3; j<4; j++) {
+    //                     val1 = parseInt(result["group"]["data"][0]["r"][i]["c"][j]);
+    //                     val2 = parseInt(result["group"]["data"][0]["r"][i+1]["c"][j]); 
+    //                 }
 
-    //         newjson["startTime"] = newTime.toString();
+    //                 nextVal = (val1-val2)/3600000;
+    //                 newjson["energyUsage"][newTime] = nextVal;
 
-    //         // Set our internal DB variable
-    //         var db = req.db;
-
-    //         // Set our collection
-    //         var collection = db.get('DailyEnergy');
-
-    //         // Submit to the DB
-    //         collection.insert(newjson, function (err, doc) {
-    //             if (err) {
-    //                 // If it failed, return error
-    //                 res.send("There was a problem adding the information to the database.");
-    //                 console.log(err);
+    //                 newTime = parseInt(newTime) - 86400000;
     //             }
-    //             else {
-    //                 // And forward to success page
-    //                 console.log("DormEnergyUsagePerDay: success!");
-    //             }
-    //         });
+
+    //             newjson["startTime"] = newTime.toString();
+
+    //             // Set our internal DB variable
+    //             var db = req.db;
+
+    //             // Set our collection
+    //             var collection = db.get('DailyEnergy');
+
+    //             // Submit to the DB
+    //             collection.insert(newjson, function (err, doc) {
+    //                 if (err) {
+    //                     // If it failed, return error
+    //                     res.send("There was a problem adding the information to the database.");
+    //                     console.log(err);
+    //                 }
+    //                 else {
+    //                     // And forward to success page
+    //                     console.log("DormEnergyUsagePerDay: success!");
+    //                 }
+    //             });
+        
+    //         });     
+        
+    // });
+
+    //Hourly data
+    // request('http://cs.wheatonma.edu/~egauge/stanton-cragin-everett/stanton-cragin-everett.xml' ,
     
-    //     });     
+        // function (error, response, body) {
+        //     var parseString = xml2js.parseString;
+        //     var xml = body;
+
+        //     parseString(xml,
+        //     function (err, result) {
+
+        //         var newjson = {"building": "Everett",
+        //                     "endTime": 5,
+        //                     "startTime": 1,
+        //                     "beds": 174,
+        //                     "energyUsage": {}
+        //                 };
+
+                
+        //         var endTime = parseInt(result["group"]["data"][0]["$"]["time_stamp"], 16) * 1000;
+                
+        //         newjson["endTime"] = endTime;
+
+        //         var newTime = newjson["endTime"];
+
+        //         for (var i = 0; i < result["group"]["data"][0]["r"].length-1; i++) {
+        //             newTime = newTime.toString();
+
+        //             val1 = 0;
+        //             val2 = 0;
+
+        //             //customize loop according to specific data format incoming
+        //             for (var j = 3; j < 4; j++) {
+        //                 val1 += parseInt(result["group"]["data"][0]["r"][i]["c"][j]);
+        //                 val2 += parseInt(result["group"]["data"][0]["r"][i+1]["c"][j]);
+        //             }
+
+        //             nextVal = (val1-val2)/3600000;
+        //             newjson["energyUsage"][newTime] = nextVal;
+
+        //             newTime = parseInt(newTime) - 3600000;
+        //         }
+
+        //         newjson["startTime"] = newTime.toString();
+
+        //         // Set our internal DB variable
+        //         var db = req.db;
+
+        //         // Set our collection
+        //         var collection = db.get('HourlyEnergy');
+
+        //         // Submit to the DB
+        //         collection.insert(newjson, function (err, doc) {
+        //             if (err) {
+        //                 // If it failed, return error
+        //                 res.send("There was a problem adding the information to the database.");
+        //                 console.log(err);
+        //             }
+        //             else {
+        //                 // And forward to success page
+        //                 console.log("DormEnergyUsagePerDay: success!");
+        //             }
+        //         });
+        
+        //     });     
     
     // });
 });
