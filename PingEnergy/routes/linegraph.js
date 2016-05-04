@@ -85,25 +85,21 @@ router.route('/').get(function(req, res) {
         //     }
         // }
 
-        console.log(buildings);
+        function compare(a,b) {
+            return parseFloat(b[1]) - parseFloat(a[1]);
+        }
 
         //remove last unusable point
         for (var i = 0; i<data2.length; i++) {
             data2[i].pop();
         }
 
-        buildingRanks.sort(function(a, b){
-            return a[1] < b[1];
-        });
-
+        buildingRanks.sort(compare);
         for (var i = 0; i < buildingRanks.length; i++){
             buildingSorted.push(buildingRanks[i][0]);
         }
 
-        buildingRanksPerBed.sort(function(a, b){
-            return a[1] < b[1];
-        });
-
+        buildingRanksPerBed.sort(compare);
         for (var i = 0; i < buildingRanksPerBed.length; i++){
             buildingSortedPerBed.push(buildingRanksPerBed[i][0]);
         }
