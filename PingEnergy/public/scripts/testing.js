@@ -116,7 +116,7 @@ $(document).ready(function() {
           .remove();
     };
 
-  
+
     for (i = 0; i < data2.length; i++) {
       svg.append("g").selectAll(".circles")
         .data(data2[i])
@@ -155,7 +155,7 @@ $(document).ready(function() {
         .attr("id", buildings[i])
         .attr("d", line)
         .attr("opacity", 1)
-        .style("stroke", function() { 
+        .style("stroke", function() {
           // console.log(buildingsSorted.indexOf(buildings[i]));
           return colorScheme[buildingsSorted.indexOf(buildings[i])];
         })
@@ -234,7 +234,7 @@ $(document).ready(function() {
   }).mouseout(function(){
     $(this).css("cursor", "auto");
   });
-
+y
   $('.rankingToggle').click(function(){
       toggleLine = $(this).attr("value");
       console.log(toggleLine);
@@ -259,7 +259,7 @@ $(document).ready(function() {
     var yOption = $("#cheese").val();
     d3.select("svg").remove();
     drawGraph(yOption);
-    // yOption: 
+    // yOption:
     // 1 - Energy Usage Per Bed
     // 2 - Energy Usage
     // 3 - CO2 Consumption
