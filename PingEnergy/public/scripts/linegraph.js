@@ -5,10 +5,10 @@ $(document).ready(function() {
 
   function drawGraph(yOption){
     if ($("#switch-color").attr("val") == 0){
-      colorScheme = ["f00", "f22", "#f44",  "#f66", "#f88", "faa", "fcc", "#000", "cfc", "#8f8", "#6f6", "#4f4", "#2f2", "0f0"];
+      colorScheme = ["#be3d42", "f00", "#f44",  "#f66", "#f88", "faa", "fcc","#3efb15","#2ff304", "#2ada03", "#25c103","#20a803","#1b8f02"];
     }
     else{
-      colorScheme = ["#12448a", "#0f3974", "#0c2e5d", "#490092","#006DDB", "#B66D9B", "#6DB6FF", "#B6DBFF", "#FFFF6D", "#24FF24", "#DBD100", "#924900", "#920000", ];
+      colorScheme = ["#12448a", "#0f3974", "#0c2e5d", "#490092","#006DDB", "#B66D9B", "#6DB6FF", "#B6DBFF", "#FFFF6D", "#24FF24", "#DBD100", "#924900", "#920000"];
     }
 
     var margin = {top: 20, right: 80, bottom: 30, left: 50},
@@ -124,7 +124,7 @@ $(document).ready(function() {
         .data(data2[i])
         .enter()
         .append("circle")
-        .attr("class", "circles")
+        .attr("class", "circles c"+buildings[i].replace(/ /g, ""))
         .attr({
           cx: function(d) { return x(d[0]); },
           cy: function(d) {
@@ -145,7 +145,12 @@ $(document).ready(function() {
           buildingName: buildings[i].replace(/ /g, ""),
           r: 6
         })
-        .style("fill", "transparent")
+        .style("fill", function(){
+          if(timeScale == 'w')
+            return "red";
+          else
+            return "transparent";
+        })
         .on("mouseover", mouseOn)
         .on("mouseout", mouseOff);
       }
@@ -158,11 +163,26 @@ $(document).ready(function() {
         .attr("d", line)
         .attr("opacity", 1)
         .style("stroke", function() {
-          // console.log(buildingsSorted.indexOf(buildings[i]));
+          var buildingIndex = 0;
+          var avgIndex = 0;
           if(yOption == 0){
-            return colorScheme[buildingSortedPerBed.indexOf(buildings[i])];
+            buildingIndex = buildingSortedPerBed.indexOf(buildings[i]);
+            avgIndex = buildingSortedPerBed.indexOf("Average");
           }else{
-            return colorScheme[buildingsSorted.indexOf(buildings[i])];
+            buildingIndex = buildingsSorted.indexOf(buildings[i]);
+            avgIndex = buildingsSorted.indexOf("Average");
+          }
+          if (buildings[i] == "Average"){
+            return "#000";
+          }else if(buildingIndex > avgIndex){
+            return colorScheme[buildingIndex-1];
+          }else {
+            return colorScheme[buildingIndex];
+          }
+        })
+        .style("stroke-dasharray", function(){
+          if (buildings[i] == "Average"){
+            return "stroke-dasharray", ("3, 3");
           }
         })
         .attr("fill", "none");
@@ -205,7 +225,7 @@ $(document).ready(function() {
       .attr("class", "y axis")
       .call(yAxis)
       .append("text")
-      .attr("dy", "20")
+      .attr("dy", "-30")
       .style("text-anchor", "end")
       .attr("transform", "rotate(-90)")
       .text(yAxisText);
@@ -214,11 +234,15 @@ $(document).ready(function() {
     if(yOption == 0){
       $('.rankListPerBed').each(function(){
         toggleLine = $(this).attr("value").replace(/ /g,'');
-        if($(this).attr("index") == 0 || $(this).attr("index") == buildings.length-1){
+        if($(this).attr("index") == 0 || $(this).attr("index") == buildings.length-1 || toggleLine=="Average"){
+          // console.log(toggleLine, "Turn on");
+          $(".c"+toggleLine).attr("visibility", "visible");
           $(this).attr('highlight', "true");
           $(this).css("background-color", "rgba(193, 230, 193, 0.9)");
           $("#"+toggleLine).attr({"opacity": 1});
         }else{
+          // console.log(toggleLine, "Turn off");
+          $(".c"+toggleLine).attr("visibility", "hidden");
           $(this).attr('highlight', "false");
           $(this).css("background-color", "rgba(255,255,240,0)");
           $("#"+toggleLine).attr({"opacity": 0});
@@ -227,11 +251,15 @@ $(document).ready(function() {
     }else{
       $('.rankListEachBuilding').each(function(){
         toggleLine = $(this).attr("value").replace(/ /g,'');
-        if($(this).attr("index") == buildings.length || $(this).attr("index") == buildings.length*2-1){
+        if($(this).attr("index") == buildings.length || $(this).attr("index") == buildings.length*2-1 || toggleLine=="Average"){
+          // console.log(toggleLine, "Turn on");
+          $(".c"+toggleLine).attr("visibility", "visible");
           $(this).attr('highlight', "true");
           $(this).css("background-color", "rgba(193, 230, 193, 0.9)");
           $("#"+toggleLine).attr({"opacity": 1});
         }else{
+          // console.log(toggleLine, "Turn off");
+          $(".c"+toggleLine).attr("visibility", "hidden");
           $(this).attr('highlight', "false");
           $(this).css("background-color", "rgba(255,255,240,0)");
           $("#"+toggleLine).attr({"opacity": 0});
@@ -242,13 +270,13 @@ $(document).ready(function() {
 
 
   $('#switch-color').click(function(){
-     if ($('#switch-color').attr('val') == 1){
-       $('#switch-color').attr('val', "0");
-     }
-     else{
-       $('#switch-color').attr('val', "1");
-     }
-     $('#Apply').click();
+    if ($('#switch-color').attr('val') == 1){
+      $('#switch-color').attr('val', "0");
+    }
+    else{
+      $('#switch-color').attr('val', "1");
+    }
+    $('#Apply').click();
    });
 
   $('.rankingToggle').mouseover(function(){
@@ -259,14 +287,15 @@ $(document).ready(function() {
 
   $('.rankingToggle').click(function(){
       toggleLine = $(this).attr("value").replace(/ /g,'');
-      // console.log(toggleLine);
       if($(this).attr('highlight') == "true") {
         // console.log("Turn off");
+        $(".c"+toggleLine).attr("visibility", "hidden");
         $("#"+toggleLine).attr({"opacity": 0});
         $(this).attr('highlight', "false");
         $(this).css("background-color", "rgba(255,255,240,0)");
       }else{
         // console.log("Turn on");
+        $(".c"+toggleLine).attr("visibility", "visible");
         $("#"+toggleLine).attr({"opacity": 1});
         $(this).attr('highlight', "true");
         $(this).css("background-color", "rgba(193, 230, 193, 0.9)");

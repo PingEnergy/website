@@ -4,7 +4,6 @@ var router = express.Router();
 
 router.route('/:time').get(function(req, res) {
     var time = req.params.time;
-    console.log(time);
     var getDBTime = null;
     var dbStart = 0;
     if(time == 'h'){
@@ -61,28 +60,28 @@ router.route('/:time').get(function(req, res) {
         var buildingRanks = [];
         var buildingRanksPerBed = [];
         var buildingSorted = [];
-        var buildingSortedPerBed = []
+        var buildingSortedPerBed = [];
         var beds = [];
         var sumEnergy = 0;
         var sumTime = 0;
         var day = null;
         var dataLine = [];
         var totalEnergy = 0;
-        for (var i = 1; i < docs.length; i++) {
+        for (var i = dbStart; i < docs.length; i++) {
             dataLine = [];
             sumEnergy = 0;
             sumDay = 0;
             for (day in docs[i]["energyUsage"]) {
-                dataLine.push([day, docs[i]["energyUsage"][day]]);
-                sumEnergy += docs[i]["energyUsage"][day];
+                dataLine.push([day, parseFloat(docs[i]["energyUsage"][day])]);
+                sumEnergy += parseFloat(docs[i]["energyUsage"][day]);
                 sumTime += 1;
             }
             totalEnergy += sumEnergy;
-            beds.push(docs[i].beds);
+            beds.push(parseInt(docs[i].beds));
             data2.push(dataLine);
             buildings.push(docs[i].building);
             buildingRanks.push([docs[i].building, sumEnergy, sumTime]);
-            buildingRanksPerBed.push([docs[i].building, sumEnergy/docs[i].beds, sumTime]);
+            buildingRanksPerBed.push([docs[i].building, sumEnergy/parseInt(docs[i].beds), sumTime]);
         }
 
         //calculate average of each day and add to data array objs
@@ -93,7 +92,7 @@ router.route('/:time').get(function(req, res) {
         for (var j = 0; j < data.length; j++) {
             avg = 0;
             for (building in data[j]) {
-                avg += parseFloat(data[j][building]);
+                avg += parseFloat(parseFloat(data[j][building]));
             }
             avg -= parseFloat(data[j]["Date"]);
             averageLine.push([data[j]["Date"], avg/avgDivisor]);
@@ -135,8 +134,9 @@ router.route('/:time').get(function(req, res) {
         function add(a, b) {
             return a + b;
         }
+        console.log(time);
 
-        res.render('linegraph', {title: 'Ping Energy' , graphData: JSON.stringify(data), graphData2: JSON.stringify(data2), beds: JSON.stringify(beds), buildings: JSON.stringify(buildings), buildingSorted: buildingSorted, buildingSortedPerBed: buildingSortedPerBed, buildingRanks: JSON.stringify(buildingRanks), choices: choices});
+        res.render('linegraph', {title: 'Ping Energy' , graphData: JSON.stringify(data), graphData2: JSON.stringify(data2), beds: JSON.stringify(beds), buildings: JSON.stringify(buildings), buildingSorted: buildingSorted, buildingSortedPerBed: buildingSortedPerBed, buildingRanks: JSON.stringify(buildingRanks), choices: choices, time: JSON.stringify(time)});
     });
 });
 
@@ -146,8 +146,6 @@ router.route('/').get(function(req, res) {
 
 router.post('/', function(req, res) {
     var button = req.body.Cheese;
-    console.log("button: ", button);
-
     res.render('linegraph', {});
 });
 
