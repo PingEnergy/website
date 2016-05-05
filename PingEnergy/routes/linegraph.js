@@ -72,16 +72,16 @@ router.route('/:time').get(function(req, res) {
             sumEnergy = 0;
             sumDay = 0;
             for (day in docs[i]["energyUsage"]) {
-                dataLine.push([day, docs[i]["energyUsage"][day]]);
-                sumEnergy += docs[i]["energyUsage"][day];
+                dataLine.push([day, parseFloat(docs[i]["energyUsage"][day])]);
+                sumEnergy += parseFloat(docs[i]["energyUsage"][day]);
                 sumTime += 1;
             }
             totalEnergy += sumEnergy;
-            beds.push(docs[i].beds);
+            beds.push(parseInt(docs[i].beds));
             data2.push(dataLine);
             buildings.push(docs[i].building);
             buildingRanks.push([docs[i].building, sumEnergy, sumTime]);
-            buildingRanksPerBed.push([docs[i].building, sumEnergy/docs[i].beds, sumTime]);
+            buildingRanksPerBed.push([docs[i].building, sumEnergy/parseInt(docs[i].beds), sumTime]);
         }
 
         //calculate average of each day and add to data array objs
@@ -92,7 +92,7 @@ router.route('/:time').get(function(req, res) {
         for (var j = 0; j < data.length; j++) {
             avg = 0;
             for (building in data[j]) {
-                avg += parseFloat(data[j][building]);
+                avg += parseFloat(parseFloat(data[j][building]));
             }
             avg -= parseFloat(data[j]["Date"]);
             averageLine.push([data[j]["Date"], avg/avgDivisor]);
