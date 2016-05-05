@@ -1,5 +1,7 @@
 $(document).ready(function() {
     generateChart();
+
+    $("#switch-color").hide();
 });
 
 function generateChart() {
@@ -60,6 +62,20 @@ function generateChart() {
             return color(d.packageName); })
         .style("stroke", "black")
         .style("stroke-width", 1);
+
+    // function pulse() {
+    //     var circle = svg.selectAll("circle");
+    //     circle = circle.transition()
+    //         .duration(2000)
+    //         .attr("r", 5)
+    //         .transition()
+    //         .duration(2000)
+    //         .attr("r", function(d) {
+    //             console.log(d);
+    //             return d.r;
+    //         })
+    //         .ease('sine');
+    // }
 
     // add building name to all nodes
     node.append("text")

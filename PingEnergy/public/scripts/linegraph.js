@@ -3,6 +3,26 @@ $(document).ready(function() {
   $("#rankListPerBed").show();
   $("#rankList").hide();
 
+  $("#linegraphtoggle").on("click", function() {
+    if ($(this).val() == "off") {
+      $(".rankingToggle").each(function() {
+        if ($(this).attr('highlight') == "true") {
+          $(this).click();
+        } 
+      });
+    $(this).val("on");
+    }
+    else {
+      $(".rankingToggle").each(function() {
+        if ($(this).attr('highlight') != "true") {
+          $(this).click();
+        } 
+      });
+    $(this).val("off");
+    }
+
+  });  
+
   function drawGraph(yOption){
     if ($("#switch-color").attr("val") == 0){
       colorScheme = ["#be3d42", "f00", "#f44",  "#f66", "#f88", "faa", "fcc","#3efb15","#2ff304", "#2ada03", "#25c103","#20a803","#1b8f02"];
@@ -53,6 +73,11 @@ $(document).ready(function() {
       .attr("height", height + margin.top + margin.bottom).append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+    svg.append("rect")
+      .attr("width", width + margin.left + margin.right/2)
+      .attr("height", height + margin.top + margin.bottom).style("fill", "white")
+      .attr("transform", "translate(-50, -10)");
+
     x.domain(d3.extent(data2[0], function(d) { return d[0]; }));
 
     yExtent = [10000000, 0];
@@ -73,9 +98,10 @@ $(document).ready(function() {
         yExtent[0] = newExtent[0] * 0.1;
       }
       if (newExtent[1] > yExtent[1]) {
-        yExtent[1] = newExtent[1] * 1.1;
+        yExtent[1] = newExtent[1];
       }
     }
+    yExtent[0] = 0;
     y.domain(yExtent);
 
 
