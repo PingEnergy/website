@@ -9,7 +9,8 @@ block content
     tr
       td#bubblestable
         #bubbles
-        p Bubbles are scaled according to money earned: Radius = sqrt(Money)
+        p Click a bubble for more information on that building's savings. Click it again to return to the default view.
+        p Bubbles are scaled according to money earned. Buildings earn $14 per kilowatt hour saved per bed.  
       td
         .moneyBox
           h4 Total Money Raised Since March 1st:
@@ -18,4 +19,3 @@ block content
         ol.rankList
           each val in listBuildings
             li=val
-        p Click a bubble for more information on that building's savings. Click it again to return to the default view.
