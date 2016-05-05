@@ -53,6 +53,11 @@ $(document).ready(function() {
       .attr("height", height + margin.top + margin.bottom).append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+    svg.append("rect")
+      .attr("width", width + margin.left + margin.right/2)
+      .attr("height", height + margin.top + margin.bottom).style("fill", "white")
+      .attr("transform", "translate(-50, -10)");
+
     x.domain(d3.extent(data2[0], function(d) { return d[0]; }));
 
     yExtent = [10000000, 0];

@@ -95,7 +95,7 @@ a {
     margin-top: -10%;
 }
 #linegraph{
-    background-color:rgba(255,255,240, 1);
+    /*background-color:rgba(255,255,240, 1);*/
     width: 93%;
     margin-left: 2%;
     border-radius: 20px;
