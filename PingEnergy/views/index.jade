@@ -4,11 +4,13 @@ block content
   script(type='text/javascript').
       var buildings = !{data};
   script(src="/scripts/bubbles.js")
-  hr
-  h2#bubbleTitle Dorm Energy Savings Contest
+
+
   table.centerBlock
     tr
+
       td#bubblestable
+        h2#bubbleTitle Dorm Energy Savings Contest
         #bubbles
         p Bubbles are scaled according to money earned: Radius = sqrt(Money)
       td
