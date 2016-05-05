@@ -179,6 +179,15 @@ function draw(year, svg, svg2) {
             }
             return color;
             })
+        .on('mouseover', function(d){
+            $(this).attr('style', 'outline: 2px solid #bddfeb');
+
+        })
+        .on('mouseout', function(d){
+            $(this).attr('style', 'outline: 0 ');
+            
+
+        })
         .on("click", function(d) {lowerBox(d,  $(this).attr('fill'))})
         .datum(format);
 

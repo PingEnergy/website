@@ -95,9 +95,8 @@ a {
     margin-top: -10%;
 }
 #linegraph{
-    /*background-color:rgba(255,255,240, 1);*/
-    width: 93%;
-    margin-left: 2%;
+    width: 70%;
+    margin: auto;
     border-radius: 20px;
 }
 #linegraphInfo{
@@ -311,7 +310,7 @@ p {
 #selectX{
     position: relative;
     margin-left: 55%;
-    margin-top: -4.5%;
+    margin-top: -4%;
     padding-top:2%;
 
 }
