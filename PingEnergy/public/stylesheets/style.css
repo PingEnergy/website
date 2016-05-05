@@ -3,10 +3,10 @@ body {
     height: auto;
     width: 100%;
     color: black;
-    background-color: #e0edba;
-    background-repeat: no-repeat;
-    background-image: url("./../image/background.jpg") ;
-    background-size: 100% 100%;
+    background-color: #93b7f5;
+    /*background-repeat: no-repeat;*/
+    /*background-image: url("./../image/background.jpg") ;*/
+    /*background-size: 100% 100%;*/
     overflow-x: hidden;
 }
 #banner{
@@ -14,7 +14,7 @@ body {
     /*text-align: center;*/
     position: relative;
     padding-bottom: 1%;
-    background-color: rgba(255,255,240, 0.7);
+    background-color: rgba(255,255,255, 0.7);
     width: 90%;
     border-radius: 20px;
     /*text-align: center;*/
@@ -51,7 +51,7 @@ h1{
     text-decoration: none;
     color: black;
     margin-left: 10px;
-    background-color: rgba(229, 245, 224,0.4);
+    background-color: rgba(229, 245, 255,0.4);
     /*padding-top: 5px;*/
 }
 .banner-button:hover, .banner-button:visited:hover{
@@ -70,13 +70,12 @@ a {
 }
 
 #container{
-    margin: auto;
-    background-color: rgba(255,255,240,0.7);
+    margin:0.5% auto 0 auto;
+    background-color: rgba(255,255,255,0.7);
     width: 90%;
     height: 100%;
     position: relative;
     border-radius: 20px;
-    /*margin-top: 0.5%;*/
 }
 
 .centerBlock {
@@ -92,11 +91,18 @@ a {
     text-align: center;
     float: right;
 }
+#graph{
+    margin-top: -10%;
+}
 #linegraph{
     background-color:rgba(255,255,240, 1);
-    width: 88%;
+    width: 93%;
     margin-left: 2%;
     border-radius: 20px;
+}
+#linegraphInfo{
+  text-align: center;
+  margin: 0 auto;
 }
 .rankingToggle {
   border-radius: 10%;
@@ -111,7 +117,7 @@ a {
 
 #footer{
     margin: auto;
-    background-color: rgba(255,255,240,0.7);
+    background-color: rgba(255,255,255,0.7);
     text-align: center;
     margin-top: 2%;
     margin-left: auto;
@@ -122,7 +128,6 @@ a {
     left:0px;
     bottom:0px;
     height:30px;
-    /*width:100%;*/
     width: 90%;
     border-radius: 20px;
 
@@ -224,7 +229,7 @@ svg{
     padding-left: 7%;
     padding-bottom: 5%;
     padding-top: 5%;
-    border-radius: 20px;   
+    border-radius: 20px;
 }
 
 #yearChosen{
@@ -300,19 +305,24 @@ p {
 
 #cheese{
     margin-left: 2%;
+    margin-bottom: 1%;
 }
 
 #selectX{
     position: relative;
-    margin-left: 78%;
+    margin-left: 55%;
+    margin-top: -4.5%;
+    padding-top:2%;
+
 }
 
 .buttonX{
     text-decoration: none;
-    border-radius: 10%;
+    border-radius: 20px;
     padding: 5px 10px;
     border: 1px solid #f0f0f0;
     background-color: rgba(193, 230, 193, 0.901961);
+
 }
 
 #instruction{

@@ -11,24 +11,23 @@ block content
     var buildings = !{buildings};
     var buildingsSorted = !{JSON.stringify(buildingSorted)}
     var buildingSortedPerBed = !{JSON.stringify(buildingSortedPerBed)}
+    var timeScale = !{time};
   script(src="/scripts/linegraph.js")
 
-  hr
   table.centerBlock
+    tr
+      td
+        p#linegraphInfo Buildings Ranked from most to least overall energy usage. Click a building to toggle its line!
     tr
       td
         select#cheese
           each choice, i in choices
             option(value=i, id="yOption", name="selectY") #{choice}
-        input(type='submit',value='Apply Change', id='Apply')
-    tr
-      td
+        input(type='submit',value='Change y-axis', id='Apply')
         #linegraph
-          div#selectX
-            a(href='/linegraph/h', class="buttonX") Hourly
-            a(href='/linegraph/d', class="buttonX") Daily
-            a(href='/linegraph/w', class="buttonX") Weekly
+
       td.rankList
+
         ol#rankListPerBed
           each val, index in buildingSortedPerBed
             li
@@ -37,3 +36,11 @@ block content
           each val, index in buildingSorted
             li
               label(name="buildingName", value=val, index=index+buildingSorted.length, class="rankingToggle rankListEachBuilding")=val
+
+    tr
+      td
+        div#selectX
+          a Change the x-axis:
+          a(href='/linegraph/h', class="buttonX") Hourly
+          a(href='/linegraph/d', class="buttonX") Daily
+          a(href='/linegraph/w', class="buttonX") Weekly
