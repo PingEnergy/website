@@ -22,7 +22,7 @@ function generateChart() {
         return ( value - r1[0] ) * ( r2[1] - r2[0] ) / ( r1[1] - r1[0] ) + r2[0];
     }
 
-    var color = d3.scale.ordinal().range(["#388938","#46ad46","#54b954","#66c166","#87ce87","99D699","#c1e6c1", "#dbf0db"]);
+    var color = d3.scale.ordinal().range(["#388938","#46ad46","#54b954","#66c166","#87ce87","#99D699","#c1e6c1", "#dbf0db"]);
 
     var diameter = 650,
         height = 500,
