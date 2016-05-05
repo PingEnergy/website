@@ -221,11 +221,15 @@ svg{
 
 #words{
     text-align: left;
-    width: 50%;
+    width: 35%;
     margin-top: 15%;
-    margin-left: 35%;
+    margin-left: 30%;
     margin-right: auto;
     margin-bottom: -10%;
+    padding-left: 7%;
+    padding-bottom: 5%;
+    padding-top: 5%;
+    border-radius: 20px;
 }
 
 #yearChosen{
@@ -323,5 +327,5 @@ p {
 
 #instruction{
   margin-left: 5%;
-  font-size: smaller;
+  font-size: small;
 }
