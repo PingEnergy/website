@@ -3,6 +3,26 @@ $(document).ready(function() {
   $("#rankListPerBed").show();
   $("#rankList").hide();
 
+  $("#linegraphtoggle").on("click", function() {
+    if ($(this).val() == "off") {
+      $(".rankingToggle").each(function() {
+        if ($(this).attr('highlight') == "true") {
+          $(this).click();
+        } 
+      });
+    $(this).val("on");
+    }
+    else {
+      $(".rankingToggle").each(function() {
+        if ($(this).attr('highlight') != "true") {
+          $(this).click();
+        } 
+      });
+    $(this).val("off");
+    }
+
+  });  
+
   function drawGraph(yOption){
     if ($("#switch-color").attr("val") == 0){
       colorScheme = ["#be3d42", "f00", "#f44",  "#f66", "#f88", "faa", "fcc","#3efb15","#2ff304", "#2ada03", "#25c103","#20a803","#1b8f02"];
