@@ -134,8 +134,9 @@ router.route('/:time').get(function(req, res) {
         function add(a, b) {
             return a + b;
         }
+        console.log(time);
 
-        res.render('linegraph', {title: 'Ping Energy' , graphData: JSON.stringify(data), graphData2: JSON.stringify(data2), beds: JSON.stringify(beds), buildings: JSON.stringify(buildings), buildingSorted: buildingSorted, buildingSortedPerBed: buildingSortedPerBed, buildingRanks: JSON.stringify(buildingRanks), choices: choices});
+        res.render('linegraph', {title: 'Ping Energy' , graphData: JSON.stringify(data), graphData2: JSON.stringify(data2), beds: JSON.stringify(beds), buildings: JSON.stringify(buildings), buildingSorted: buildingSorted, buildingSortedPerBed: buildingSortedPerBed, buildingRanks: JSON.stringify(buildingRanks), choices: choices, time: JSON.stringify(time)});
     });
 });
 

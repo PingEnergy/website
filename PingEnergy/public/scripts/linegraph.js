@@ -124,7 +124,7 @@ $(document).ready(function() {
         .data(data2[i])
         .enter()
         .append("circle")
-        .attr("class", "circles")
+        .attr("class", "circles c"+buildings[i].replace(/ /g, ""))
         .attr({
           cx: function(d) { return x(d[0]); },
           cy: function(d) {
@@ -145,7 +145,12 @@ $(document).ready(function() {
           buildingName: buildings[i].replace(/ /g, ""),
           r: 6
         })
-        .style("fill", "transparent")
+        .style("fill", function(){
+          if(timeScale == 'w')
+            return "red";
+          else
+            return "transparent";
+        })
         .on("mouseover", mouseOn)
         .on("mouseout", mouseOff);
       }
@@ -230,10 +235,14 @@ $(document).ready(function() {
       $('.rankListPerBed').each(function(){
         toggleLine = $(this).attr("value").replace(/ /g,'');
         if($(this).attr("index") == 0 || $(this).attr("index") == buildings.length-1 || toggleLine=="Average"){
+          // console.log(toggleLine, "Turn on");
+          $(".c"+toggleLine).attr("visibility", "visible");
           $(this).attr('highlight', "true");
           $(this).css("background-color", "rgba(193, 230, 193, 0.9)");
           $("#"+toggleLine).attr({"opacity": 1});
         }else{
+          // console.log(toggleLine, "Turn off");
+          $(".c"+toggleLine).attr("visibility", "hidden");
           $(this).attr('highlight', "false");
           $(this).css("background-color", "rgba(255,255,240,0)");
           $("#"+toggleLine).attr({"opacity": 0});
@@ -243,10 +252,14 @@ $(document).ready(function() {
       $('.rankListEachBuilding').each(function(){
         toggleLine = $(this).attr("value").replace(/ /g,'');
         if($(this).attr("index") == buildings.length || $(this).attr("index") == buildings.length*2-1 || toggleLine=="Average"){
+          // console.log(toggleLine, "Turn on");
+          $(".c"+toggleLine).attr("visibility", "visible");
           $(this).attr('highlight', "true");
           $(this).css("background-color", "rgba(193, 230, 193, 0.9)");
           $("#"+toggleLine).attr({"opacity": 1});
         }else{
+          // console.log(toggleLine, "Turn off");
+          $(".c"+toggleLine).attr("visibility", "hidden");
           $(this).attr('highlight', "false");
           $(this).css("background-color", "rgba(255,255,240,0)");
           $("#"+toggleLine).attr({"opacity": 0});
@@ -257,13 +270,13 @@ $(document).ready(function() {
 
 
   $('#switch-color').click(function(){
-     if ($('#switch-color').attr('val') == 1){
-       $('#switch-color').attr('val', "0");
-     }
-     else{
-       $('#switch-color').attr('val', "1");
-     }
-     $('#Apply').click();
+    if ($('#switch-color').attr('val') == 1){
+      $('#switch-color').attr('val', "0");
+    }
+    else{
+      $('#switch-color').attr('val', "1");
+    }
+    $('#Apply').click();
    });
 
   $('.rankingToggle').mouseover(function(){
@@ -276,11 +289,13 @@ $(document).ready(function() {
       toggleLine = $(this).attr("value").replace(/ /g,'');
       if($(this).attr('highlight') == "true") {
         // console.log("Turn off");
+        $(".c"+toggleLine).attr("visibility", "hidden");
         $("#"+toggleLine).attr({"opacity": 0});
         $(this).attr('highlight', "false");
         $(this).css("background-color", "rgba(255,255,240,0)");
       }else{
         // console.log("Turn on");
+        $(".c"+toggleLine).attr("visibility", "visible");
         $("#"+toggleLine).attr({"opacity": 1});
         $(this).attr('highlight', "true");
         $(this).css("background-color", "rgba(193, 230, 193, 0.9)");
