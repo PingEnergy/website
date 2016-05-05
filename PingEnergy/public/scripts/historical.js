@@ -174,12 +174,12 @@ function draw(year, svg, svg2) {
             for (x in days) {
                 if (x == date) {
                     color = colorDay(days[x]);
-                    lowerBox(date);
+                    lowerBox(date, color);
                 }
             }
             return color;
             })
-        .on("click", function(d) {lowerBox(d);})
+        .on("click", function(d) {lowerBox(d,  $(this).attr('fill'))})
         .datum(format);
 
     svg.selectAll(".month")
@@ -198,12 +198,6 @@ function draw(year, svg, svg2) {
           + "H" + (w1 + 1) * cellSize + "V" + 0
           + "H" + (w0 + 1) * cellSize + "Z";
     }
-
-    //var notes = d3.select("#historical").append("text")
-    //     .attr("transform", "translate(100, 0)rotate(0)")
-    //     .style("text-anchor", "right")
-    //     .style("font-size", "xx-small")
-    //     .text("January 1st starts in the upper most left box, each day subsequent follows down the column.  Click each box for more information");
 
     var total = d3.select("#total").append("text")
         .attr("transform", "translate(100, 0)rotate(0)")
@@ -249,7 +243,8 @@ function colorDay(data) {
     }
 }
 
-function lowerBox(date) {
+function lowerBox(date, color) {
+    d3.select("#words").style("background-color", color);
   if ($("#switch-color").attr("val") == 0){
     colorScheme = ["#3f9b3f", "#66c166", "#99d699", "#cceacc", "#ffcccc", "#ff9999", "#ff6666"];
   }
