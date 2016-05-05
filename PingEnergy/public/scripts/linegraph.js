@@ -98,9 +98,10 @@ $(document).ready(function() {
         yExtent[0] = newExtent[0] * 0.1;
       }
       if (newExtent[1] > yExtent[1]) {
-        yExtent[1] = newExtent[1] * 1.1;
+        yExtent[1] = newExtent[1];
       }
     }
+    yExtent[0] = 0;
     y.domain(yExtent);
 
 
