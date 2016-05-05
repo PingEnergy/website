@@ -11,7 +11,7 @@ var cache = apicache.middleware;
 function createBuildingObject(docs, moneyCounts, listBuildings) {
     //constants
     var jsb = { "name": "buildings", "children" : []};
-    var groupNames = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
+    var groupNames = ["1", "2", "3", "4", "5", "6", "6", "7", "7", "7", "8", "8", "8"];
     var sizeScale = 4000;
     var carbonScale = .6379;
 
@@ -155,7 +155,7 @@ function updateBubbleValues(docs, req, current_date, last_update_date) {
 
     console.log(newMoney);
     console.log(newMoneySum);
-    collection.update({"_id": id}, {$set: {"last_update_date": current_date.getTime(), "money": newMoney, "money_sum": newMoneySum}});
+    // collection.update({"_id": id}, {$set: {"last_update_date": current_date.getTime(), "money": newMoney, "money_sum": newMoneySum}});
 
     return [newMoney, newMoneySum];
 }
