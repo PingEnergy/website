@@ -300,7 +300,8 @@ p {
 
 #selectX{
     position: relative;
-    margin-left: 78%;
+    margin-left: 77.5%;
+    padding-top: 1.5%;
 }
 
 .buttonX{
